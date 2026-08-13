@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>About Us — Solstice Solar</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg: #0A0D12;
+    --bg-rgba: rgba(10,13,18,0.94);
+    --panel: #131920;
+    --panel-rgba: rgba(19,25,32,0.93);
+    --panel-line: #232B36;
+    --orange: #FF6A1A;
+    --orange-light: #FFB067;
+    --text: #F5F3EE;
+    --muted: #8A93A3;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background-color: var(--bg);
+    background-image:
+      linear-gradient(var(--bg-rgba), var(--bg-rgba)),
+      url('logoo.jpeg');
+    background-size: cover, 200%;
+    background-position: center, center;
+    background-repeat: no-repeat, no-repeat;
+    background-attachment: fixed, fixed;
+    color: var(--text);
+    font-family: 'Inter', sans-serif;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+  h1,h2,h3, .display{
+    font-family: 'Space Grotesk', sans-serif;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+  }
+  .mono{
+    font-family: 'JetBrains Mono', monospace;
+    letter-spacing: 0.02em;
+  }
+  a{color:inherit;}
+  .wrap{
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 0 32px;
+  }
+
+  /* ---------- NAV ---------- */
+  nav{
+    position: sticky; top:0; z-index: 50;
+    background: rgba(10,13,18,0.85);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--panel-line);
+  }
+  nav .wrap{
+    display:flex; align-items:center; justify-content:space-between;
+    height: 72px;
+  }
+  .logo{
+    display:flex; align-items:center; gap:10px;
+    font-family:'Space Grotesk'; font-weight:700; font-size:1.05rem;
+  }
+  .logo-mark{
+    width:22px; height:22px; border-radius:50%;
+    background: radial-gradient(circle at 35% 30%, var(--orange-light), var(--orange) 60%, #b8460c 100%);
+    box-shadow: 0 0 16px rgba(255,106,26,0.55);
+    flex-shrink:0;
+  }
+  nav ul{
+    list-style:none; display:flex; gap:36px;
+    font-size:0.9rem; color: var(--muted);
+  }
+  nav ul a:hover{ color: var(--text); }
+  .cta-btn{
+    background: var(--orange);
+    color: #0A0D12;
+    font-weight:600;
+    font-size:0.88rem;
+    padding:10px 20px;
+    border-radius: 4px;
+    border:none;
+    cursor:pointer;
+    transition: transform .15s ease, box-shadow .15s ease;
+  }
+  .cta-btn:hover{ box-shadow: 0 0 22px rgba(255,106,26,0.45); transform: translateY(-1px); }
+  .cta-ghost{
+    border:1px solid var(--panel-line);
+    background:transparent; color:var(--text);
+    padding:10px 20px; border-radius:4px; font-size:0.88rem; cursor:pointer;
+  }
+  .cta-ghost:hover{ border-color: var(--orange); color: var(--orange-light); }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    position:relative;
+    padding: 120px 0 100px;
+    overflow:hidden;
+    border-bottom: 1px solid var(--panel-line);
+  }
+  .sunrise{
+    position:absolute;
+    right: -180px; top: -180px;
+    width: 640px; height:640px;
+    z-index:0;
+    opacity:0.9;
+  }
+  @media(max-width:900px){ .sunrise{ right:-260px; top:-220px; width:520px; height:520px; } }
+  .eyebrow{
+    display:inline-flex; align-items:center; gap:8px;
+    color: var(--orange-light);
+    font-size:0.8rem;
+    text-transform:uppercase;
+    letter-spacing:0.14em;
+    margin-bottom:22px;
+  }
+  .eyebrow::before{
+    content:""; width:16px; height:1px; background: var(--orange);
+  }
+  .hero h1{
+    font-size: clamp(2.4rem, 5.2vw, 4.4rem);
+    max-width: 780px;
+    line-height:1.06;
+    position:relative; z-index:1;
+  }
+  .hero h1 em{
+    font-style:normal;
+    color: var(--orange);
+  }
+  .hero p{
+    max-width: 520px;
+    color: var(--muted);
+    font-size:1.05rem;
+    margin-top:26px;
+    position:relative; z-index:1;
+  }
+  .hero-actions{ margin-top:36px; display:flex; gap:14px; position:relative; z-index:1;}
+
+  /* ---------- STAT STRIP ---------- */
+  .stats{
+    border-bottom:1px solid var(--panel-line);
+    background: var(--panel-rgba);
+  }
+  .stats .wrap{
+    display:grid;
+    grid-template-columns: repeat(4,1fr);
+    gap: 0;
+  }
+  .stat{
+    padding: 36px 24px;
+    border-right: 1px solid var(--panel-line);
+  }
+  .stat:last-child{ border-right:none; }
+  .stat .num{
+    font-family:'Space Grotesk'; font-weight:700;
+    font-size: 2rem; color: var(--orange-light);
+  }
+  .stat .label{
+    color: var(--muted); font-size:0.82rem; margin-top:6px;
+  }
+  @media(max-width:760px){
+    .stats .wrap{ grid-template-columns: repeat(2,1fr); }
+    .stat{ border-bottom:1px solid var(--panel-line); }
+  }
+
+  /* ---------- SECTION GENERIC ---------- */
+  section{ padding: 96px 0; }
+  .section-head{
+    display:flex; justify-content:space-between; align-items:flex-end;
+    gap: 40px; margin-bottom:56px;
+    border-bottom:1px solid var(--panel-line);
+    padding-bottom: 28px;
+  }
+  .section-head h2{ font-size: clamp(1.7rem, 3vw, 2.3rem); }
+  .section-head .tag{
+    color:var(--muted); font-size:0.85rem; max-width:320px; text-align:right;
+  }
+  @media(max-width:700px){
+    .section-head{ flex-direction:column; align-items:flex-start; gap:14px; }
+    .section-head .tag{ text-align:left; }
+  }
+
+  /* ---------- STORY / TIMELINE ---------- */
+  .timeline{
+    display:flex; flex-direction:column;
+  }
+  .tl-row{
+    display:grid;
+    grid-template-columns: 90px 1px 1fr;
+    gap: 28px;
+    padding: 30px 0;
+    border-bottom: 1px solid var(--panel-line);
+  }
+  .tl-row:last-child{ border-bottom:none; }
+  .tl-year{
+    font-family:'JetBrains Mono'; color: var(--orange); font-size:1rem; padding-top:2px;
+  }
+  .tl-line{ background: var(--panel-line); }
+  .tl-row h3{ font-size:1.1rem; margin-bottom:8px; font-weight:600;}
+  .tl-row p{ color:var(--muted); font-size:0.95rem; max-width: 560px; }
+
+  /* ---------- VALUES ---------- */
+  .values-grid{
+    display:grid; grid-template-columns: repeat(4,1fr); gap:1px;
+    background: var(--panel-line);
+    border:1px solid var(--panel-line);
+  }
+  .value{
+    background: var(--bg);
+    padding: 32px 26px;
+    transition: background .2s ease;
+  }
+  .value:hover{ background: var(--panel); }
+  .value .idx{
+    font-family:'JetBrains Mono'; color: var(--orange); font-size:0.8rem;
+  }
+  .value h3{ font-size:1.05rem; margin: 14px 0 10px; }
+  .value p{ color:var(--muted); font-size:0.9rem; }
+  @media(max-width:900px){ .values-grid{ grid-template-columns: repeat(2,1fr);} }
+  @media(max-width:560px){ .values-grid{ grid-template-columns: 1fr;} }
+
+  /* ---------- CEO MESSAGE ---------- */
+  .ceo-message{
+    position:relative;
+    background: var(--bg-rgba);
+    border-bottom:1px solid var(--panel-line);
+    overflow:hidden;
+  }
+  .ceo-glow{
+    position:absolute; left:-120px; top:50%;
+    width:520px; height:520px;
+    transform:translateY(-50%);
+    background: radial-gradient(circle at center, rgba(255,106,26,0.16), transparent 70%);
+    pointer-events:none;
+  }
+  .ceo-grid{
+    position:relative; z-index:1;
+    display:grid;
+    grid-template-columns: 300px 1fr;
+    gap:56px;
+    align-items:center;
+  }
+  .ceo-portrait{
+    position:relative;
+    width:100%; aspect-ratio: 3/3.6;
+    border-radius:6px;
+    background: linear-gradient(155deg, var(--panel) 0%, #1c2430 55%, rgba(255,106,26,0.22) 100%);
+    border:1px solid var(--panel-line);
+    overflow:hidden;
+    display:flex; align-items:flex-end; justify-content:center;
+  }
+  .ceo-portrait::after{
+    content:""; position:absolute; inset:0;
+    background: radial-gradient(circle at 70% 15%, rgba(255,106,26,0.4), transparent 60%);
+  }
+  .ceo-portrait svg{ position:relative; z-index:1; width:100%; height:100%; }
+  .ceo-caption{ margin-top:14px; }
+  .ceo-caption .name{ font-family:'Space Grotesk'; font-weight:600; font-size:1rem; }
+  .ceo-caption .role{ color:var(--orange-light); font-size:0.82rem; margin-top:2px; }
+  .ceo-copy .quote-mark{
+    font-family:'Space Grotesk'; font-size:3.2rem; color:var(--orange);
+    line-height:1; opacity:0.6; margin-bottom:6px; display:block;
+  }
+  .ceo-copy blockquote{
+    font-size: clamp(1.2rem, 2.2vw, 1.55rem);
+    line-height:1.5; font-weight:500; margin-bottom:20px;
+    max-width:640px;
+  }
+  .ceo-copy p{ color:var(--muted); font-size:0.95rem; max-width:600px; margin-bottom:14px; }
+  .ceo-copy .sig{ font-family:'Space Grotesk'; font-weight:600; color:var(--text); margin-top:22px; }
+  .ceo-copy .sig span{ display:block; font-family:'Inter'; font-weight:400; color:var(--orange-light); font-size:0.82rem; margin-top:2px; }
+  @media(max-width:760px){
+    .ceo-grid{ grid-template-columns: 1fr; }
+    .ceo-portrait{ max-width:260px; margin:0 auto; }
+  }
+
+  /* ---------- TEAM ---------- */
+  .team-grid{
+    display:grid; grid-template-columns: repeat(4,1fr); gap:24px;
+  }
+  .member{ }
+  .avatar{
+    width:100%; aspect-ratio:1/1;
+    border-radius:6px;
+    background: linear-gradient(155deg, var(--panel) 0%, #1c2430 60%, rgba(255,106,26,0.18) 100%);
+    border:1px solid var(--panel-line);
+    margin-bottom:16px;
+    position:relative; overflow:hidden;
+  }
+  .avatar::after{
+    content:""; position:absolute; inset:0;
+    background: radial-gradient(circle at 70% 20%, rgba(255,106,26,0.35), transparent 60%);
+  }
+  .member h3{ font-size:1rem; font-weight:600; }
+  .member .role{ color: var(--orange-light); font-size:0.82rem; margin-top:4px; }
+  .member .bio{ color:var(--muted); font-size:0.85rem; margin-top:10px; }
+  @media(max-width:900px){ .team-grid{ grid-template-columns: repeat(2,1fr);} }
+
+  /* ---------- CTA BAND ---------- */
+  .band{
+    background: var(--panel-rgba);
+    border-top:1px solid var(--panel-line);
+    border-bottom:1px solid var(--panel-line);
+    padding: 90px 0;
+    text-align:center;
+    position:relative;
+    overflow:hidden;
+  }
+  .band h2{ font-size: clamp(1.8rem,4vw,2.6rem); max-width:640px; margin:0 auto 18px; }
+  .band p{ color:var(--muted); max-width:480px; margin:0 auto 34px; }
+  .band-glow{
+    position:absolute; left:50%; top:50%;
+    width:900px; height:300px;
+    transform:translate(-50%,-50%);
+    background: radial-gradient(ellipse at center, rgba(255,106,26,0.18), transparent 70%);
+    pointer-events:none;
+  }
+
+  /* ---------- FOOTER ---------- */
+  footer{ padding: 48px 0; }
+  footer .wrap{
+    display:flex; justify-content:space-between; align-items:center;
+    color:var(--muted); font-size:0.82rem;
+  }
+  footer .flogo{ display:flex; align-items:center; gap:8px; color:var(--text); font-family:'Space Grotesk'; font-weight:600;}
+
+  @media (prefers-reduced-motion: reduce){
+    *{ animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; }
+  }
+
+  :focus-visible{ outline: 2px solid var(--orange); outline-offset: 3px; }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="wrap">
+    <div class="logo"><span class="logo-mark">    </span>Solstice Solar</div>
+    <ul>
+      <li><a href="#story">Our story</a></li>
+      <li><a href="#ceo-message">CEO's note</a></li>
+      <li><a href="#values">Values</a></li>
+      <li><a href="#team">Team</a></li>
+    </ul>
+    <a href="index.html">
+    <button class="cta-btn">Back Home</button></a>
+  </div>
+</nav>
+
+<header class="hero">
+  <svg class="sunrise" viewBox="0 0 640 640" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+    <defs>
+      <radialGradient id="sunGrad" cx="50%" cy="50%" r="50%">
+        <stop offset="0%" stop-color="#FFD8A8"/>
+        <stop offset="45%" stop-color="#FF6A1A"/>
+        <stop offset="100%" stop-color="#0A0D12" stop-opacity="0"/>
+      </radialGradient>
+    </defs>
+    <circle cx="420" cy="220" r="160" fill="url(#sunGrad)"/>
+    <g stroke="#FF6A1A" stroke-width="1.4" fill="none" opacity="0.55">
+      <circle cx="420" cy="220" r="200"/>
+      <circle cx="420" cy="220" r="250"/>
+      <circle cx="420" cy="220" r="300"/>
+    </g>
+    <g id="rays" stroke="#FFB067" stroke-width="2" stroke-linecap="round" opacity="0.8">
+      <line x1="420" y1="20" x2="420" y2="60"/>
+      <line x1="600" y1="70" x2="572" y2="96"/>
+      <line x1="640" y1="220" x2="600" y2="220"/>
+      <line x1="600" y1="370" x2="572" y2="344"/>
+    </g>
+    <animateTransform xlink:href="#rays" attributeName="transform" type="rotate"
+      from="0 420 220" to="360 420 220" dur="40s" repeatCount="indefinite"/>
+  </svg>
+
+  <div class="wrap">
+    <div class="eyebrow">About Solstice Solar</div>
+    <h1>We build with the one resource that&nbsp;<em>never sends an&nbsp;invoice.</em></h1>
+    <p>Solstice designs, installs, and stands behind residential and commercial solar systems — engineered by people who plan to still be answering your calls in twenty-five years.</p>
+    <div class="hero-actions">
+      <button class="cta-btn">Get an assessment</button>
+      <button class="cta-ghost">Meet the crew ↓</button>
+    </div>
+  </div>
+</header>
+
+<section class="stats">
+  <div class="wrap">
+    <div class="stat"><div class="num mono">42,600</div><div class="label">homes powered</div></div>
+    <div class="stat"><div class="num mono">211 MW</div><div class="label">installed capacity</div></div>
+    <div class="stat"><div class="num mono">19</div><div class="label">states served</div></div>
+    <div class="stat"><div class="num mono">25 yr</div><div class="label">workmanship warranty</div></div>
+  </div>
+</section>
+
+
+<section class="ceo-message" id="ceo-message">
+  <div class="ceo-glow"></div>
+  <div class="wrap">
+    <div class="ceo-grid">
+      <div>
+        <div class="ceo-portrait">
+          <!-- Drop the CEO photo in later: save it as priya-desai.jpg next to home.html -->
+          <img src="CEO.jpeg" alt="Priya Desai, Co-founder & CEO" style="width:100%;height:100%;object-fit:cover;position:relative;z-index:1;" onerror="this.style.display=style="width:100%;height:100%;object-fit:cover;position:relative;z-index:1;>
+        </div>
+        <div class="ceo-caption">
+          <div class="name"> <strong> Mr. Shamroz Uddin Khan  </strong></div>
+          <div class="role">Co-founder &amp; CEO</div>
+        </div>
+      </div>
+      <div class="ceo-copy">
+        <span class="quote-mark">"</span>
+        <blockquote>Our Vision</blockquote>
+        <p>
+To become Pakistan's most trusted and innovative renewable energy company by delivering world-class solar engineering solutions, fostering lasting customer relationships, and contributing to a sustainable future powered by clean energy.</p>
+         <blockquote>Our Mission</blockquote>
+        <p>At *New Universal Solar & Trader*, our mission is to transform the way people consume energy by providing reliable, efficient, and cost-effective solar solutions tailored to every customer's needs. We are committed to engineering excellence, uncompromising quality, and continuous innovation.</p>
+<p>
+We believe that our greatest strength lies in the trust of our customers. That's why we focus on building long-term relationships through honesty, transparency, professional expertise, and exceptional after-sales support. Every project we deliver reflects our dedication to customer satisfaction, environmental responsibility, and creating a brighter, greener future for generations to come.</p>
+<p>
+This version has the polished, executive tone commonly seen on the websites of leading engineering and energy companies.</p>
+
+ <blockquote>Message from CEO </blockquote>
+        <p>
+
+Every great achievement begins with trust.</p>
+<p>
+At <b>New Universal Solar & Trader</b>, we believe that our greatest success is not measured by the number of solar systems we install, but by the lasting relationships we build with our customers. Every project is an opportunity to earn confidence, create value, and establish a partnership that extends far beyond installation.</p>
+<p>
+As a <b>BE Energy Engineering Specialist in Solar Engineering, with professional experience at </b><b>Inverex</b>, I have learned that true excellence comes from combining technical expertise with honesty, integrity, and exceptional customer care. These values are the foundation of everything we do.
+</p>
+<p>
+Our commitment is simple—to provide innovative solar solutions, uncompromising quality, and dependable after-sales support while treating every customer with the respect and transparency they deserve. We are passionate about helping families and businesses embrace clean energy with confidence.
+</p>
+<p>
+Thank you for placing your trust in <b>New Universal Solar & Trader</b>. We are honored to be your energy partner and remain committed to delivering excellence, building lasting relationships, and powering a brighter, more sustainable future together.
+</p>
+
+
+</p>
+ 
+
+        <div class="sig">M Shamroz Uddin Khan(BE Energy Engineering)<span>Co-founder &amp; *Chief Executive Officer (CEO),
+  </span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="values" style="background:var(--panel-rgba); border-top:1px solid var(--panel-line); border-bottom:1px solid var(--panel-line);">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>What we hold ourselves to</h2>
+      <div class="tag">Four commitments that show up in every quote, install, and callback.</div>
+    </div>
+    <div class="values-grid">
+      <div class="value"><div class="idx mono">01</div><h3>Straight quotes</h3><p>One price, shown before you sign — no change orders discovered mid-install.</p></div>
+      <div class="value"><div class="idx mono">02</div><h3>Our own crews</h3><p>No subcontractors. The people who design your system are the ones on your roof.</p></div>
+      <div class="value"><div class="idx mono">03</div><h3>Built for decades</h3><p>We spec hardware rated to outlast the loan you took out to pay for it.</p></div>
+      <div class="value"><div class="idx mono">04</div><h3>Answer the phone</h3><p>A 24-hour monitoring desk that calls you before you notice something's off.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="team">
+  <div class="wrap">
+    <div class="section-head">
+      <h2>Who's behind the install</h2>
+      <div class="tag">Leadership with roots in electrical trade work, not just spreadsheets.</div>
+    </div>
+    <div class="team-grid">
+      <div class="member"><div class="avatar"><img src="priya-desai.jpg" alt="Priya Desai" style="width:100%;height:100%;object-fit:cover;position:relative;z-index:1;" onerror="this.style.display=style="width:100%;height:100%;object-fit:cover;position:relative;z-index:1;>apos;nonestyle="width:100%;height:100%;object-fit:cover;position:relative;z-index:1;">apos;"></div><h3>Priya Desai</h3><div class="role">Co-founder & CEO</div><p class="bio">Licensed electrician turned operator; still does ride-alongs with new crews.</p></div>
+      <div class="member"><div class="avatar"><img src="marcus-ojo.jpg" alt="Marcus Ojo" style="width:100%;height:100%;object-fit:cover;position:relative;z-index:1;" onerror="this.style.display=style="width:100%;height:100%;object-fit:cover;position:relative;z-index:1;>apos;nonestyle="width:100%;height:100%;object-fit:cover;position:relative;z-index:1;">apos;"></div><h3>Marcus Ojo</h3><div class="role">Co-founder & Head of Install</div><p class="bio">Built the crew-certification program from a single laminated checklist.</p></div>
+      <div class="member"><div class="avatar"><img src="ines-calderon.jpg" alt="Ines Calderón" style="width:100%;height:100%;object-fit:cover;position:relative;z-index:1;" onerror="this.style.display=style="width:100%;height:100%;object-fit:cover;position:relative;z-index:1;>apos;nonestyle="width:100%;height:100%;object-fit:cover;position:relative;z-index:1;">apos;"></div><h3>Ines Calderón</h3><div class="role">VP of Engineering</div><p class="bio">Leads system design and the storage integration program.</p></div>
+      <div class="member"><div class="avatar"><img src="devon-marsh.jpg" alt="Devon Marsh" style="width:100%;height:100%;object-fit:cover;position:relative;z-index:1;" onerror="this.style.display=style="width:100%;height:100%;object-fit:cover;position:relative;z-index:1;>apos;nonestyle="width:100%;height:100%;object-fit:cover;position:relative;z-index:1;">apos;"></div><h3>Devon Marsh</h3><div class="role">Head of Customer Ops</div><p class="bio">Runs the monitoring desk and the 25-year warranty program.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="band">
+  <div class="band-glow"></div>
+  <div class="wrap">
+    <h2>Ready to see what your roof could earn?</h2>
+    <p>A site assessment takes about twenty minutes and comes with a real quote, not a range.</p>
+    <button class="cta-btn">Get an assessment</button>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="flogo"><span class="logo-mark"></span>Solstice Solar</div>
+    <div>© 2026 Solstice Solar. Licensed & insured in 19 states.</div>
+  </div>
+</footer>
+
+</body>
+</html>

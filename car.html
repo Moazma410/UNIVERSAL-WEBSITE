@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>XIO — Inverex Electric</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ink-0:#080b12;
+    --ink-1:#0d1b2a;
+    --ink-2:#15304a;
+    --line:#274864;
+    --cyan:#4be9d6;
+    --amber:#ffb020;
+    --violet:#9d8cff;
+    --teal:#3ddc97;
+    --paper:#eef2f5;
+    --slate:#7f92a6;
+    --display:'Rajdhani', sans-serif;
+    --body:'Inter', sans-serif;
+    --mono:'JetBrains Mono', monospace;
+  }
+
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--ink-0);
+    color:var(--paper);
+    font-family:var(--body);
+    -webkit-font-smoothing:antialiased;
+  }
+  a{color:inherit;}
+
+  /* ---------- NAV ---------- */
+  .nav{
+    position:sticky; top:0; z-index:50;
+    display:flex; align-items:center; justify-content:space-between;
+    padding:20px 6vw;
+    background:rgba(8,11,18,0.85);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav .mark{
+    font-family:var(--display); font-weight:700; font-size:1.4rem;
+    letter-spacing:0.12em;
+  }
+  .nav .mark span{color:var(--cyan);}
+  .nav .mark small{
+    display:block; font-family:var(--mono); font-size:0.55rem; letter-spacing:0.12em;
+    color:var(--slate); font-weight:400; text-transform:uppercase;
+  }
+  .nav ul{
+    list-style:none; display:flex; gap:32px; margin:0; padding:0;
+    font-family:var(--mono); font-size:0.72rem; letter-spacing:0.08em; text-transform:uppercase;
+    color:var(--slate);
+  }
+  .nav ul a{text-decoration:none; transition:color .2s;}
+  .nav ul a:hover{color:var(--cyan);}
+  .nav .cta{
+    font-family:var(--mono); font-size:0.72rem; letter-spacing:0.05em;
+    color:var(--ink-0); background:var(--cyan);
+    padding:10px 18px; border-radius:2px; text-decoration:none; font-weight:700;
+  }
+  @media (max-width:800px){ .nav ul{display:none;} }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    position:relative;
+    min-height:88vh;
+    display:flex; flex-direction:column; align-items:center; justify-content:center;
+    overflow:hidden;
+    background:
+      radial-gradient(ellipse at 50% 15%, rgba(75,233,214,0.09), transparent 60%),
+      linear-gradient(180deg, var(--ink-0) 0%, var(--ink-1) 60%, var(--ink-0) 100%);
+    padding:120px 6vw 60px;
+    text-align:center;
+  }
+  .blueprint-grid{
+    position:absolute; inset:0;
+    background-image:
+      linear-gradient(var(--line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--line) 1px, transparent 1px);
+    background-size:56px 56px;
+    opacity:0.18;
+    mask-image:radial-gradient(ellipse at 50% 40%, black 10%, transparent 72%);
+  }
+  .eyebrow{
+    position:relative;
+    font-family:var(--mono); font-size:0.75rem; letter-spacing:0.25em; text-transform:uppercase;
+    color:var(--cyan); margin-bottom:22px; display:flex; align-items:center; gap:10px;
+  }
+  .eyebrow::before{
+    content:''; width:8px; height:8px; border-radius:50%; background:var(--cyan);
+    box-shadow:0 0 0 0 rgba(75,233,214,0.6);
+    animation:pulseDot 1.8s infinite;
+  }
+  @keyframes pulseDot{
+    0%{box-shadow:0 0 0 0 rgba(75,233,214,0.55);}
+    70%{box-shadow:0 0 0 10px rgba(75,233,214,0);}
+    100%{box-shadow:0 0 0 0 rgba(75,233,214,0);}
+  }
+  .hero h1{
+    position:relative;
+    font-family:var(--display); font-weight:700;
+    font-size:clamp(2.6rem, 7vw, 5.2rem);
+    line-height:0.98; letter-spacing:0.01em;
+    margin:0 0 20px;
+    text-transform:uppercase;
+  }
+  .hero h1 em{
+    font-style:normal; color:var(--cyan);
+    text-shadow:0 0 30px rgba(75,233,214,0.35);
+  }
+  .hero p{
+    position:relative;
+    max-width:520px; margin:0 auto 40px;
+    color:var(--slate); font-size:1.05rem; line-height:1.6;
+  }
+  .hero-actions{position:relative; display:flex; gap:16px; flex-wrap:wrap; justify-content:center; margin-bottom:56px;}
+  .btn-primary, .btn-ghost{
+    font-family:var(--mono); font-size:0.8rem; letter-spacing:0.05em; text-decoration:none;
+    padding:14px 28px; border-radius:2px; font-weight:500;
+  }
+  .btn-primary{background:var(--cyan); color:var(--ink-0); font-weight:700;}
+  .btn-ghost{border:1px solid var(--line); color:var(--paper);}
+  .btn-ghost:hover{border-color:var(--cyan); color:var(--cyan);}
+
+  /* animated car trace */
+  .trace-wrap{
+    position:relative; width:min(680px, 88vw); margin:0 auto;
+  }
+  .trace-wrap svg{width:100%; height:auto; display:block; overflow:visible;}
+  .car-path{
+    fill:none; stroke:var(--line); stroke-width:2;
+  }
+  .car-path-glow{
+    fill:none; stroke:var(--cyan); stroke-width:2.4;
+    stroke-dasharray:14 900;
+    filter:drop-shadow(0 0 6px rgba(75,233,214,0.8));
+    animation:trace 4.5s linear infinite;
+  }
+  @keyframes trace{
+    0%{stroke-dashoffset:0;}
+    100%{stroke-dashoffset:-914;}
+  }
+  .charge-node{fill:var(--ink-0); stroke:var(--amber); stroke-width:2;}
+  .charge-node.pulse{ animation:nodeGlow 2.4s ease-in-out infinite; }
+  @keyframes nodeGlow{
+    0%,100%{opacity:0.55;}
+    50%{opacity:1;}
+  }
+
+  /* ---------- STAT TICKER ---------- */
+  .ticker{
+    border-top:1px solid var(--line); border-bottom:1px solid var(--line);
+    background:var(--ink-1);
+    overflow:hidden; white-space:nowrap;
+  }
+  .ticker-track{
+    display:inline-flex; gap:60px; padding:16px 0;
+    font-family:var(--mono); font-size:0.8rem; letter-spacing:0.06em; color:var(--slate);
+    animation:scrollTicker 26s linear infinite;
+  }
+  .ticker-track span b{color:var(--teal); font-weight:700;}
+  @keyframes scrollTicker{
+    0%{transform:translateX(0);}
+    100%{transform:translateX(-50%);}
+  }
+
+  /* ---------- LINEUP ---------- */
+  .lineup{padding:100px 6vw 60px; max-width:1280px; margin:0 auto;}
+  .section-head{display:flex; align-items:flex-end; justify-content:space-between; gap:24px; margin-bottom:56px; flex-wrap:wrap;}
+  .section-head .tag{
+    font-family:var(--mono); font-size:0.75rem; letter-spacing:0.2em; text-transform:uppercase;
+    color:var(--cyan); margin-bottom:12px; display:block;
+  }
+  .section-head h2{
+    font-family:var(--display); font-weight:700; text-transform:uppercase;
+    font-size:clamp(1.9rem, 4vw, 2.8rem); margin:0; letter-spacing:0.01em;
+  }
+  .section-head p{color:var(--slate); max-width:360px; margin:0; font-size:0.95rem; line-height:1.6;}
+
+  .grid{
+    display:grid; grid-template-columns:repeat(3, 1fr); gap:24px;
+  }
+  @media (max-width:1000px){ .grid{grid-template-columns:1fr;} }
+
+  .card{
+    position:relative;
+    border:1px solid var(--line);
+    background:linear-gradient(180deg, var(--ink-1), var(--ink-0));
+    border-radius:6px;
+    padding:0 0 28px;
+    overflow:hidden;
+    transition:border-color .25s, transform .25s;
+  }
+  .card:hover{border-color:var(--accent, var(--cyan)); transform:translateY(-4px);}
+  .card .badge{
+    position:absolute; top:16px; left:16px; z-index:2;
+    font-family:var(--mono); font-size:0.66rem; letter-spacing:0.08em; text-transform:uppercase;
+    background:var(--ink-0); border:1px solid var(--accent, var(--cyan)); color:var(--accent, var(--cyan));
+    padding:5px 10px; border-radius:2px;
+  }
+  .card .stage{
+    position:relative;
+    border-bottom:1px solid var(--line);
+    aspect-ratio:4/3;
+    overflow:hidden;
+    background:
+      radial-gradient(ellipse at 50% 100%, rgba(75,233,214,0.10), transparent 65%),
+      var(--ink-1);
+  }
+  .card .stage img{
+    width:100%; height:100%; object-fit:cover; object-position:center 40%;
+    display:block;
+    filter:saturate(1.03) contrast(1.02);
+  }
+  .card .stage::after{
+    content:'';
+    position:absolute; inset:0;
+    background:linear-gradient(180deg, transparent 60%, rgba(8,11,18,0.65) 100%);
+  }
+  .card-body{padding:24px 28px 0;}
+
+  .card h3{
+    font-family:var(--display); font-weight:700; text-transform:uppercase;
+    font-size:1.5rem; margin:0 0 4px; letter-spacing:0.01em;
+  }
+  .card .tagline{color:var(--slate); font-size:0.88rem; margin:0 0 20px;}
+
+  .specs{
+    display:grid; grid-template-columns:repeat(2,1fr); gap:14px 10px;
+    font-family:var(--mono); border-top:1px solid var(--line); padding-top:18px; margin-bottom:20px;
+  }
+  .specs div{display:flex; flex-direction:column; gap:4px;}
+  .specs .val{font-size:1.05rem; font-weight:700; color:var(--paper);}
+  .specs .val em{color:var(--accent, var(--cyan)); font-style:normal;}
+  .specs .lab{font-size:0.62rem; letter-spacing:0.08em; text-transform:uppercase; color:var(--slate);}
+
+  .card-foot{display:flex; align-items:center; justify-content:space-between; padding:0 28px;}
+  .price{font-family:var(--mono); font-size:0.95rem;}
+  .price span{color:var(--slate); font-size:0.66rem; display:block; letter-spacing:0.08em; text-transform:uppercase;}
+  .link{
+    font-family:var(--mono); font-size:0.75rem; letter-spacing:0.05em; text-decoration:none;
+    color:var(--accent, var(--cyan)); border-bottom:1px solid currentColor; padding-bottom:2px;
+  }
+
+  /* ---------- COMPARE STRIP ---------- */
+  .note{
+    max-width:1280px; margin:0 6vw 80px; padding:20px 24px;
+    border:1px dashed var(--line); border-radius:6px; color:var(--slate);
+    font-size:0.85rem; line-height:1.6;
+  }
+  .note b{color:var(--paper);}
+
+  /* ---------- CTA / FOOTER ---------- */
+  .cta-band{
+    margin:0 6vw; padding:70px 6vw; text-align:center;
+    border-top:1px solid var(--line); border-bottom:1px solid var(--line);
+    background:radial-gradient(ellipse at 50% 0%, rgba(75,233,214,0.07), transparent 65%);
+  }
+  .cta-band h2{
+    font-family:var(--display); text-transform:uppercase; font-weight:700;
+    font-size:clamp(1.8rem,4vw,2.6rem); margin:0 0 16px;
+  }
+  .cta-band p{color:var(--slate); margin:0 0 30px;}
+
+  footer{
+    padding:36px 6vw; display:flex; justify-content:space-between; flex-wrap:wrap; gap:12px;
+    font-family:var(--mono); font-size:0.72rem; color:var(--slate); letter-spacing:0.05em;
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation:none !important; transition:none !important;}
+  }
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="mark">X<span>I</span>O<small>By Inverex</small></div>
+  <a href="index.html" class="cta">Back Home</a>
+</nav>
+
+<section class="hero">
+  <div class="blueprint-grid"></div>
+
+  <div class="eyebrow">Pakistan's most affordable EV · 4 doors</div>
+  <h1>Go electric.<br><em>Go Xio.</em></h1>
+  <p>One platform, three ranges. The Inverex Xio is a compact electric hatchback built for the daily commute — pick the battery that matches your drive.</p>
+
+
+  <div class="trace-wrap" aria-hidden="true">
+    <svg viewBox="0 0 700 220" xmlns="http://www.w3.org/2000/svg">
+      <path class="car-path" d="M40 150 C40 128 62 112 92 110 L150 108 C168 84 200 72 240 72 C278 72 305 86 320 108 L500 110 C550 112 590 124 640 148 L650 155 L650 162 L40 162 Z"/>
+      <path class="car-path" d="M150 108 L170 78 L240 76 L275 108" />
+      <circle class="car-path" cx="145" cy="162" r="24"/>
+      <circle class="car-path" cx="510" cy="162" r="24"/>
+      <path class="car-path-glow" d="M40 150 C40 128 62 112 92 110 L150 108 C168 84 200 72 240 72 C278 72 305 86 320 108 L500 110 C550 112 590 124 640 148 L650 155 L650 162 L40 162 Z"/>
+      <circle class="charge-node pulse" cx="650" cy="155" r="6"/>
+      <circle class="charge-node pulse" cx="40" cy="150" r="6" style="animation-delay:1.2s"/>
+    </svg>
+  </div>
+</section>
+
+<div class="ticker">
+  <div class="ticker-track">
+    <span>0–100 KM/H IN <b>3.8S</b></span>
+    <span>UP TO <b>320 KM</b> RANGE</span>
+    <span><b>30–80%</b> CHARGE IN 30 MIN</span>
+    <span>4 COLOURWAYS</span>
+    <span>5-YEAR / 100,000 KM WARRANTY</span>
+    <span>0–100 KM/H IN <b>3.8S</b></span>
+    <span>UP TO <b>320 KM</b> RANGE</span>
+    <span><b>30–80%</b> CHARGE IN 30 MIN</span>
+    <span>4 COLOURWAYS</span>
+    <span>5-YEAR / 100,000 KM WARRANTY</span>
+  </div>
+</div>
+
+<section class="lineup" id="lineup">
+  <div class="section-head">
+    <div>
+      <span class="tag">The lineup</span>
+      <h2>Three ranges.<br>Same hatchback.</h2>
+    </div>
+    <p>All three Xio variants share the same body, front-wheel drive layout, and automatic transmission — the difference is battery size and range.</p>
+  </div>
+
+  <div class="grid">
+
+    <!-- EV-140 -->
+    <article class="card" style="--accent:#4be9d6">
+      <div class="stage">
+        <span class="badge">Base</span>
+        <img src="CAR.jpg" alt="Inverex Xio EV-140 in Morning White">
+      </div>
+      <div class="card-body">
+        <h3>Xio EV-140</h3>
+        <p class="tagline">Shortest hop, lowest entry price.</p>
+        <div class="specs">
+          <div><span class="val">140<em> km</em></span><span class="lab">Range</span></div>
+          <div><span class="val">30<em> hp</em></span><span class="lab">Motor power</span></div>
+          <div><span class="val">~14.7<em> kWh</em></span><span class="lab">Battery</span></div>
+          <div><span class="val">101<em> km/h</em></span><span class="lab">Top speed</span></div>
+        </div>
+      </div>
+      <div class="card-foot">
+        <div class="price">PKR 34.99 lacs<span>Ex-factory</span></div>
+        <a href="120.html" class="link">View details →</a>
+      </div>
+    </article>
+
+    <!-- EV-220 -->
+    <article class="card" style="--accent:#ffb020">
+      <div class="stage">
+        <span class="badge">Mid</span>
+        <img src="carr.jpeg" alt="Inverex Xio EV-220 in Clean Ash Grey">
+      </div>
+      <div class="card-body">
+        <h3>Xio EV-220</h3>
+        <p class="tagline">Balanced daily-driver range.</p>
+        <div class="specs">
+          <div><span class="val">220<em> km</em></span><span class="lab">Range</span></div>
+          <div><span class="val">35<em> hp</em></span><span class="lab">Motor power</span></div>
+          <div><span class="val">~19.1<em> kWh</em></span><span class="lab">Battery</span></div>
+          <div><span class="val">101<em> km/h</em></span><span class="lab">Top speed</span></div>
+        </div>
+      </div>
+      <div class="card-foot">
+        <div class="price">PKR 41.99 lacs<span>Ex-factory</span></div>
+        <a href="220.html" class="link">View details →</a>
+      </div>
+    </article>
+
+    <!-- EV-320 -->
+    <article class="card" style="--accent:#9d8cff">
+      <div class="stage">
+        <span class="badge">Top of the line</span>
+        <img src="carrr.jpg" alt="Inverex Xio EV-320 in Pistachio Green"> 
+      </div>
+      <div class="card-body">
+        <h3>Xio EV-320</h3>
+        <p class="tagline">Longest range in the lineup.</p>
+        <div class="specs">
+          <div><span class="val">320<em> km</em></span><span class="lab">Range</span></div>
+          <div><span class="val">35<em> hp</em></span><span class="lab">Motor power</span></div>
+          <div><span class="val">~31.3<em> kWh</em></span><span class="lab">Battery</span></div>
+          <div><span class="val">101<em> km/h</em></span><span class="lab">Top speed</span></div>
+        </div>
+      </div>
+      <div class="card-foot">
+        <div class="price">PKR 51.99 lacs<span>Ex-factory</span></div>
+        <a href="320.html" class="link">View details →</a>
+      </div>
+    </article>
+
+  </div>
+
+  <p class="note" id="compare">
+    <b>Shared across all variants:</b> 3584 × 1475 × 1666 mm body, 120 mm ground clearance,
+    63 L boot, automatic transmission, front-wheel drive, 4-person seating, 165/55 R15 tyres,
+    10.1" touchscreen with Android Auto, reverse camera, ABS, EBD, electronic stability control,
+    and one driver-side airbag. Available in Morning White, Clean Ash Grey, Prime Rose Pink,
+    and Pistachio Green. Full charge takes roughly 8–11 hours on a home outlet.
+  </p>
+</section>
+
+<div class="cta-band" id="contact">
+  <h2>Ready to plug in?</h2>
+  <p>Book a test drive or talk to a dealer about financing on any Xio variant.</p>
+  <div class="hero-actions" style="margin-bottom:0;">
+    <a href="contact.html" class="btn-primary">Book Now </a>
+  </div>
+</div>
+
+<footer>
+  <div>© 2026 INVEREX XIO</div>
+  <div>SPECS SOURCED FROM MANUFACTURER LISTINGS · CONFIRM WITH YOUR DEALER</div>
+</footer>
+
+</body>
+</html>

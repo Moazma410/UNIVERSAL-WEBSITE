@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Batteries-Inverex</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<style>
+.container {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 60px;
+  overflow: hidden;
+  padding: 20px;
+}
+
+/* IMAGE */
+.box img {
+  width: 400px;
+  height: 300px;
+  object-fit: cover;
+}
+
+/* TEXT */
+.title {
+  font-size: 80px;
+  font-weight: bold;
+  text-align: center;
+  animation: dropAndBounce 1.8s ease forwards;
+  transform: translateY(-300%);
+}
+
+/* LEFT */
+.left {
+  animation: leftJiggle 1.8s ease forwards;
+  transform: translateX(-300%);
+}
+
+/* RIGHT */
+.right {
+  animation: rightJiggle 1.8s ease forwards;
+  transform: translateX(300%);
+}
+
+/* ===== ANIMATIONS ===== */
+@keyframes leftJiggle {
+  0%   { transform: translateX(-300%) rotate(-10deg); }
+  70%  { transform: translateX(20px) rotate(5deg); }
+  85%  { transform: translateX(-10px) rotate(-3deg); }
+  100% { transform: translateX(0) rotate(0); }
+}
+
+@keyframes rightJiggle {
+  0%   { transform: translateX(300%) rotate(10deg); }
+  70%  { transform: translateX(-20px) rotate(-5deg); }
+  85%  { transform: translateX(10px) rotate(3deg); }
+  100% { transform: translateX(0) rotate(0); }
+}
+
+@keyframes dropAndBounce {
+  0%   { transform: translateY(-300%); }
+  60%  { transform: translateY(30px); }
+  75%  { transform: translateY(-15px); }
+  90%  { transform: translateY(10px); }
+  100% { transform: translateY(0); }
+}
+
+/* ===== MOBILE RESPONSIVE ===== */
+@media (max-width: 768px) {
+
+  .container {
+    flex-direction: column;
+    gap: 25px;
+  }
+
+  .box img {
+    width: 280px;
+    height: 200px;
+  }
+
+  .title {
+    font-size: 40px;
+  }
+}
+
+
+
+
+
+
+
+
+</style>
+
+<body>
+<header class="bg-orange-500 text-white fixed top-0 left-0 w-full z-50 shadow-md">
+  
+
+  <div class="max-w-6xl mx-auto px-4 py-3 flex flex-col sm:flex-row justify-between items-center gap-3">
+
+    <h1 class="text-lg sm:text-xl md:text-2xl font-bold text-center sm:text-left">
+      Inverex Solar Batteries
+    </h1>
+
+    <a href="All pro.html"
+       class="bg-white text-orange-600 px-5 py-2 rounded-full text-sm sm:text-base font-semibold
+              hover:bg-gray-100 transition">
+      Back Home
+    </a>
+
+  </div>
+
+</header>
+<br>
+<br>
+<br>
+
+<div class="container">
+
+  <div class="box left">
+    <img src="l.webp" /> 
+  </div>
+
+  <div class="title">
+    Lithium <br>ION<br>Battery
+  </div>
+
+  <div class="box right">
+    <img src="l.webp" />
+  </div>
+
+</div>
+
+
+<br>
+<br>
+<br>
+<div class="w-full text-center mt-12 px-4 " >
+  <h1 class="font-bold 
+             text-2xl sm:text-3xl md:text-5xl lg:text-6xl 
+             text-gray-900">
+
+    POWER WALL
+
+  </h1>
+</div>
+  <!-- PRODUCTS GRID -->
+  <section class="max-w-6xl mx-auto px-6 py-12  ">
+
+    <div class="grid md:grid-cols-3 gap-8">
+
+      <!-- PRODUCT 1 -->
+      <div class="bg-white rounded-xl shadow hover:shadow-lg overflow-hidden transition">
+        <img src="2.webp" class="w-full h-49 object-cover" alt="Power Wall 2.6(24v-100Amp)">
+
+        <div class="p-5">
+          <h3 class="text-lg font-bold">Power Wall 2.6(24v-100Amp)</h3>
+          <p class="text-sm text-gray-600 mt-2">
+            High-performance battery for homes and small businesses.
+          </p>
+          <div class="mt-4 font-bold text-orange-600">Peak Power Generation</div>
+       
+          <span class="text-lg font-bold text-orange-600">
+        Rs. 145,000
+      </span>
+
+      <div class="mt-3 text-sm text-gray-700 border-t pt-2">
+  ⚡ Capacity: 2600W<br>
+  🔋 Battery Type: Lithium IP21<br>
+  🏠 Best for: Homes & small businesses<br>
+  ⏳ Backup Time: Full backup(2340W) per hour <br>
+  🛠 Warranty: 5 years
+</div>
+    <a href="https://wa.me/923103293033?text=Hi%20I%20want%20Power%20Wall%202.6%20quote"
+       target="_blank"
+       class="mt-3 inline-block text-xs px-3 py-1.5 bg-orange-500 hover:bg-orange-600 text-white rounded transition">
+      Get Quote
+    </a>
+    <a href="pw2.6.html">
+    <button onclick="toggleDetails(this)"
+  class="mt-3 inline-block text-xs px-3 py-1.5 bg-gray-700 hover:bg-black text-white rounded transition">
+  Details
+</button>
+</a>
+
+ </div>
+      </div>
+
+      <!-- PRODUCT 2 -->
+      <div class="bg-white rounded-xl shadow hover:shadow-lg  transition">
+        <img src="5.1.png" class="w-full h-49 object-cover" alt="Power Wall 5.1KW IP21">
+
+        <div class="p-5">
+          <h3 class="text-lg font-bold">Power Wall 5.1KW IP21</h3>
+          <p class="text-sm text-gray-600 mt-2">
+            Efficient and compact battery ideal for medium homes.
+          </p>
+          <div class="mt-4 font-bold text-orange-600"> Maximun Energy Output</div>
+
+          <span class="text-lg font-bold text-orange-600">
+        Rs. 145,000
+      </span>
+
+      <div class=" mt-3 text-sm text-gray-700 border-t pt-2">
+  ⚡ Capacity: 5100W<br>
+  🔋 Battery Type: Lithium IP21<br>
+  🏠 Best for: Homes & small businesses<br>
+  ⏳ Backup Time: Full backup(4590W) per Hour<br>
+  🛠 Warranty: 5 years
+</div>
+  
+    <a href="https://wa.me/923103293033?text=Hi%20I%20want%20Power%20Wall%202.6%20quote"
+       target="_blank"
+       class="mt-3 inline-block text-xs px-3 py-1.5 bg-orange-500 hover:bg-orange-600 text-white rounded transition">
+      Get Quote
+    </a>
+    <a href="pw5.1.html">
+     <button onclick="toggleDetails(this)"
+  class="mt-3 inline-block text-xs px-3 py-1.5 bg-gray-700 hover:bg-black text-white rounded transition">
+  Details
+</button>
+</a>
+
+
+    
+        </div>
+      </div>
+
+      <!-- PRODUCT 3 -->
+      <div class="bg-white rounded-xl shadow hover:shadow-lg  transition">
+        <img src="5.3.jpg" class="w-full h-49 object-cover" alt="Power Wall 5.3(48v-100Amp)">
+
+        <div class="p-5">
+          <h3 class="text-lg font-bold">Power Wall 5.3(48v-100Amp)</h3>
+          <p class="text-sm text-gray-600 mt-2">
+            Reliable battery for backup power systems.
+          </p>
+          <div class="mt-4 font-bold text-orange-600">Superior Energy Effiency</div>
+
+          <span class="text-lg font-bold text-orange-600">
+        Rs. 145,000
+      </span>
+
+      <div class=" mt-3 text-sm text-gray-700 border-t pt-2">
+  ⚡ Capacity: 5300W<br>
+  🔋 Battery Type: Lithium IP65<br>
+  🏠 Best for: Homes & small businesses<br>
+  ⏳ Backup Time: Full backup(4770W) per Hour<br>
+  🛠 Warranty: 5 years
+</div>
+    <a href="https://wa.me/923103293033?text=Hi%20I%20want%20Power%20Wall%202.6%20quote"
+       target="_blank"
+       class="mt-3 inline-block text-xs px-3 py-1.5 bg-orange-500 hover:bg-orange-600 text-white rounded transition">
+      Get Quote
+    </a>
+    <a href="pw5.3.html">
+     <button onclick="toggleDetails(this)"
+  class="mt-3 inline-block text-xs px-3 py-1.5 bg-gray-700 hover:bg-black text-white rounded transition">
+  Details
+</button>
+</a>
+
+        </div>
+      </div>
+
+    </div>
+  </section>
+  <br>
+  <br>
+  <br>
+  <br>
+
+
+
+
+  </h1>
+</div>
+ 
+
+  </h1>
+</div>
+  <!-- PRODUCTS GRID -->
+  <section class="max-w-6xl mx-auto px-6 py-12">
+
+    <div class="grid md:grid-cols-3 gap-8">
+
+    
+
+      <!-- PRODUCT 2 -->
+      <div class="bg-white rounded-xl shadow hover:shadow-lg  transition">
+        <img src="11.8.png" class="w-full h-49 object-cover" alt="Power Wall 11.8KW IP21">
+
+        <div class="p-5">
+          <h3 class="text-lg font-bold">Power Wall 11.8KW IP21</h3>
+          <p class="text-sm text-gray-600 mt-2">
+            Efficient and compact battery ideal for medium homes.
+          </p>
+          <div class="mt-4 font-bold text-orange-600"> Maximun Energy Output</div>
+
+          <span class="text-lg font-bold text-orange-600">
+        Rs. 145,000
+      </span>
+
+      <div class=" mt-3 text-sm text-gray-700 border-t pt-2">
+  ⚡ Capacity: 11800W<br>
+  🔋 Battery Type: Lithium IP21<br>
+  🏠 Best for: Homes & small businesses<br>
+  ⏳ Backup Time: Full backup(10620W) per Hour<br>
+  🛠 Warranty: 5 years
+</div>
+    <a href="https://wa.me/923103293033?text=Hi%20I%20want%20Power%20Wall%202.6%20quote"
+       target="_blank"
+       class="mt-3 inline-block text-xs px-3 py-1.5 bg-orange-500 hover:bg-orange-600 text-white rounded transition">
+      Get Quote
+    </a>
+    <a href="pw11.8.html">
+     <button onclick="toggleDetails(this)"
+  class="mt-3 inline-block text-xs px-3 py-1.5 bg-gray-700 hover:bg-black text-white rounded transition">
+  Details
+</button>
+</a>
+
+        </div>
+      </div>
+
+      <!-- PRODUCT 3 -->
+       <div class="bg-white rounded-xl shadow hover:shadow-lg  transition">
+        <img src="16kwh.png" class="w-full h-49 object-cover" alt="Power Wall 11.8KW IP21">
+
+        <div class="p-5">
+          <h3 class="text-lg font-bold">Power Wall 16KW IP21</h3>
+          <p class="text-sm text-gray-600 mt-2">
+            Efficient and compact battery ideal for medium homes.
+          </p>
+          <div class="mt-4 font-bold text-orange-600"> Maximun Energy Output</div>
+
+          <span class="text-lg font-bold text-orange-600">
+        Rs. 145,000
+      </span>
+
+      <div class=" mt-3 text-sm text-gray-700 border-t pt-2">
+  ⚡ Capacity: 16000W<br>
+  🔋 Battery Type: Lithium IP65<br>
+  🏠 Best for: Homes & small businesses<br>
+  ⏳ Backup Time: Full backup(14400W) per Hour<br>
+  🛠 Warranty: 5 years
+</div>
+    
+    <a href="https://wa.me/923103293033?text=Hi%20I%20want%20Power%20Wall%202.6%20quote"
+       target="_blank"
+       class="mt-3 inline-block text-xs px-3 py-1.5 bg-orange-500 hover:bg-orange-600 text-white rounded transition">
+      Get Quote
+    </a>
+    <a href="pw16.html">
+     <button onclick="toggleDetails(this)"
+  class="mt-3 inline-block text-xs px-3 py-1.5 bg-gray-700 hover:bg-black text-white rounded transition">
+  Details
+</button>
+</a>
+    </div>
+      </div>
+    </div>
+  </section>
+
+
+
+
+</body>
+</html>

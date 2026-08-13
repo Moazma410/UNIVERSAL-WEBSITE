@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NUST—Bank Details</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --sky: #EAF1EF;
+    --dusk: #16243F;
+    --gold: #F2A93B;
+    --slate: #5B6B7C;
+    --line: #C9D6D2;
+    --white: #FFFFFF;
+    --emerald: #10B981;
+    --emerald-dark: #059669;
+    --emerald-tint: #ECFDF5;
+  }
+
+  * { font-family: 'Inter', sans-serif; }
+
+  body {
+    margin: 0;
+    background: var(--sky);
+    color: var(--dusk);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  body.watermark {
+    position: relative;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+  body.watermark::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background: url("logo.png") no-repeat center center;
+    background-size: 45%;
+    opacity: 0.06;
+    z-index: -1;
+    pointer-events: none;
+  }
+
+  .wrap {
+    max-width: 860px;
+    margin: 0 auto;
+    padding: 0 24px 80px;
+  }
+
+  /* ---------- Header ---------- */
+  .back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    font-weight: 600;
+    font-size: 13.5px;
+    transition: background 0.15s ease, transform 0.1s ease;
+  }
+  .back-btn:active { transform: scale(0.97); }
+  .back-btn svg { width: 15px; height: 15px; }
+
+  .page-title {
+    font-family: 'Fraunces', serif;
+    font-weight: 700;
+    font-size: 30px;
+    letter-spacing: -0.01em;
+    margin: 0 0 6px;
+    text-align: center;
+  }
+  .sub {
+    font-size: 14.5px;
+    color: var(--slate);
+    margin: 0 0 32px;
+    text-align: center;
+  }
+
+  /* ---------- Bank grid ---------- */
+  .bank-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 28px;
+    row-gap: 20px;
+  }
+  .bank-card {
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 20px 20px 18px;
+    transition: box-shadow 0.2s ease, transform 0.2s ease, border-color 0.2s ease;
+  }
+  .bank-card:hover {
+    box-shadow: 0 10px 26px -14px rgba(22,36,63,0.28);
+    transform: translateY(-1px);
+    border-color: #b7c9c4;
+  }
+  .bank-top {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 14px;
+  }
+  .bank-avatar {
+    flex-shrink: 0;
+    width: 40px; height: 40px;
+    border-radius: 11px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: 14px;
+    color: var(--white);
+  }
+  .bank-name {
+    font-weight: 600;
+    font-size: 15.5px;
+    letter-spacing: -0.005em;
+    margin: 0;
+  }
+  .field-label {
+    font-size: 10.5px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--slate);
+    margin: 0 0 4px;
+  }
+  .acc-title {
+    font-size: 14px;
+    font-weight: 500;
+    margin: 0 0 14px;
+    color: var(--dusk);
+  }
+  .acc-no {
+    font-family: 'IBM Plex Mono', monospace;
+    font-weight: 500;
+    font-size: 14px;
+    letter-spacing: 0.02em;
+    margin: 0 0 10px;
+    word-break: break-all;
+  }
+  .acc-no--last { margin-bottom: 16px; }
+
+  .copy-btn {
+    width: 100%;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    background: linear-gradient(135deg, #10D992, var(--emerald-dark));
+    border: 1px solid var(--emerald-dark);
+    color: var(--white);
+    font-weight: 700;
+    font-size: 13.5px;
+    letter-spacing: 0.01em;
+    padding: 10px 14px;
+    border-radius: 10px;
+    cursor: pointer;
+    box-shadow: 0 6px 16px -6px rgba(5,150,105,0.55);
+    transition: background 0.15s ease, transform 0.1s ease, box-shadow 0.15s ease;
+  }
+  .copy-btn:hover {
+    background: linear-gradient(135deg, #14E89E, #048057);
+    box-shadow: 0 8px 20px -6px rgba(5,150,105,0.65);
+    transform: translateY(-1px);
+  }
+  .copy-btn:active { transform: scale(0.97); }
+  .copy-btn:focus-visible { outline: 2px solid var(--emerald); outline-offset: 2px; }
+  .copy-btn.copied {
+    background: var(--dusk);
+    border-color: var(--dusk);
+    color: var(--white);
+    box-shadow: none;
+  }
+  .copy-btn svg { width: 14px; height: 14px; }
+  .copy-btn .check { display: none; }
+  .copy-btn.copied .clip { display: none; }
+  .copy-btn.copied .check { display: inline-block; }
+
+  /* ---------- Next steps ---------- */
+  .steps-head {
+    margin: 52px 0 20px;
+    text-align: center;
+  }
+  .steps-head h3 {
+    font-family: 'Fraunces', serif;
+    font-weight: 700;
+    font-size: 21px;
+    margin: 0 0 6px;
+  }
+  .steps-head p {
+    font-size: 13.5px;
+    color: var(--slate);
+    margin: 0;
+  }
+  .steps-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+  }
+  .step-card {
+    background: var(--white);
+    border: 1px solid var(--line);
+    border-radius: 16px;
+    padding: 22px 18px;
+    text-align: center;
+    position: relative;
+  }
+  .step-num {
+    width: 34px; height: 34px;
+    margin: 0 auto 14px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #10D992, var(--emerald-dark));
+    color: var(--white);
+    font-family: 'IBM Plex Mono', monospace;
+    font-weight: 600;
+    font-size: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 6px 14px -6px rgba(5,150,105,0.5);
+  }
+  .step-card h4 {
+    font-size: 14.5px;
+    font-weight: 600;
+    margin: 0 0 6px;
+  }
+  .step-card p {
+    font-size: 13px;
+    color: var(--slate);
+    margin: 0;
+    line-height: 1.5;
+  }
+  .step-arrow {
+    display: none;
+  }
+
+  footer {
+    margin-top: 44px;
+    padding-top: 18px;
+    border-top: 1px solid var(--line);
+    font-size: 12.5px;
+    color: var(--slate);
+    text-align: center;
+  }
+
+  @media (max-width: 700px) {
+    .steps-row { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 560px) {
+    .bank-grid { grid-template-columns: 1fr; }
+    .page-title { font-size: 25px; }
+  }
+</style>
+</head>
+<body class="bg-gray-50 text-gray-800 watermark">
+
+<header class="bg-orange-500 text-white fixed top-0 left-0 w-full z-50 shadow-md">
+  <div class="max-w-6xl mx-auto px-4 py-3 flex flex-col sm:flex-row justify-between items-center gap-3">
+    <h1 class="text-lg sm:text-xl md:text-2xl font-bold text-center sm:text-left" style="font-family:'Fraunces',serif;">
+      New Universal Solar and Traders
+    </h1>
+    <a href="index.html" class="back-btn bg-white text-orange-600 px-5 py-2 rounded-full text-sm sm:text-base hover:bg-gray-100 transition">
+      <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 4l-6 6 6 6M6 10h10"/></svg>
+      Back Home
+    </a>
+  </div>
+</header>
+
+<div class="wrap" style="padding-top:96px;">
+
+  <h2 class="page-title">Bank transfer details</h2>
+  <p class="sub">Pay your bill via direct transfer to any of the accounts below.</p>
+
+  <div class="bank-grid" id="bank-grid"></div>
+
+  <div class="steps-head">
+    <h3>After you've paid</h3>
+    <p>Three quick steps to confirm your payment</p>
+  </div>
+  <div class="steps-row">
+    <div class="step-card">
+      <div class="step-num">1</div>
+      <h4>Take a screenshot</h4>
+      <p>Capture a screenshot of the bank transfer receipt or statement.</p>
+    </div>
+    <div class="step-card">
+      <div class="step-num">2</div>
+      <h4>Send it on WhatsApp</h4>
+      <p>Send the screenshot to our WhatsApp number for confirmation.</p>
+    </div>
+    <div class="step-card">
+      <div class="step-num">3</div>
+      <h4>Get confirmation</h4>
+      <p>We'll verify the payment and confirm your account is updated.</p>
+    </div>
+  </div>
+
+  <footer>Transfers can take 1–2 business days to reflect on your account.</footer>
+</div>
+
+<script>
+  const banks = [
+    { name: "HBL Bank",     title: " New Universal Solar and Traders ", acc: "04137901410703", iban: "PK18HABB0004137901410703", color: "linear-gradient(135deg,#16243F,#2c4368)" },
+    { name: "UBL Bank",     title: "New Universal Solar and Traders", acc: "0511-360336555", iban: "PK77UNIL0109000360336555", color: "linear-gradient(135deg,#3D8B85,#5cbdb6)" },
+    { name: "MCB Bank",     title: "New Universal Solar and Traders", acc: "1646 8930 1100 7703", iban: "PK92 MUCB 1646 8930 1100 7703", color: "linear-gradient(135deg,#F2A93B,#d98f1f)" },
+    { name: "Faysal Bank",  title: "New Universal Solar and Traders", acc: "3460-301000002804", iban: "PK21FAYS3460301000002804", color: "linear-gradient(135deg,#5B6B7C,#3d4a58)" },
+    { name: "Allied Bank",  title: "New Universal Solar and Traders", acc: "0010064695230020", iban: "PK74 ABPA 0010 0646 9523 0020", color: "linear-gradient(135deg,#223759,#16243F)" },
+    { name: "Bank Alfalah", title: "New Universal Solar and Traders", acc: "0139-1009130899", iban: "PK34ALFH0139001009130899", color: "linear-gradient(135deg,#d98f1f,#F2A93B)" }
+  ];
+
+  const grid = document.getElementById('bank-grid');
+
+  function initials(name){
+    return name.split(' ').map(w => w[0]).join('').slice(0,2).toUpperCase();
+  }
+
+  banks.forEach((bank) => {
+    const card = document.createElement('div');
+    card.className = 'bank-card';
+    card.innerHTML = `
+      <div class="bank-top">
+        <div class="bank-avatar" style="background:${bank.color}">${initials(bank.name)}</div>
+        <p class="bank-name">${bank.name}</p>
+      </div>
+
+      <p class="field-label">Account title</p>
+      <p class="acc-title">${bank.title}</p>
+
+      <p class="field-label">Account number</p>
+      <p class="acc-no">${bank.acc}</p>
+
+      <p class="field-label">IBAN</p>
+      <p class="acc-no acc-no--last">${bank.iban}</p>
+
+      <button class="copy-btn" data-copy="${bank.acc.replace(/ /g, '')}">
+        <svg class="clip" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6"><rect x="6" y="6" width="10" height="12" rx="1.5"/><path d="M4 13V4.5A1.5 1.5 0 0 1 5.5 3H12"/></svg>
+        <svg class="check" viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 10.5l4 4 8-9"/></svg>
+        <span>Copy account number</span>
+      </button>
+    `;
+    grid.appendChild(card);
+  });
+
+  grid.addEventListener('click', async (e) => {
+    const btn = e.target.closest('.copy-btn');
+    if (!btn) return;
+    try {
+      await navigator.clipboard.writeText(btn.dataset.copy);
+      const span = btn.querySelector('span');
+      const original = span.textContent;
+      btn.classList.add('copied');
+      span.textContent = 'Copied';
+      setTimeout(() => {
+        btn.classList.remove('copied');
+        span.textContent = original;
+      }, 1600);
+    } catch (err) {
+      console.error('Copy failed', err);
+    }
+  });
+</script>
+
+</body>
+</html>

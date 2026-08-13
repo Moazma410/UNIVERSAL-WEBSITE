@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Inverex BOS-B Pro | 125kW–2.5MW C&amp;I ESS Solution</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg-0:#0b0d0f;
+    --bg-1:#15181b;
+    --bg-2:#1d2226;
+    --steel:#262b30;
+    --line:#33393f;
+    --paper:#f1efe9;
+    --paper-2:#e7e4dc;
+    --ink:#15181b;
+    --text:#e9eaea;
+    --text-dim:#9aa1a6;
+    --red:#e2261f;
+    --orange:#f3941d;
+    --grad: linear-gradient(100deg, var(--red), var(--orange));
+    --radius: 2px;
+  }
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    background:var(--bg-0);
+    color:var(--text);
+    font-family:'Inter', sans-serif;
+    line-height:1.5;
+    -webkit-font-smoothing:antialiased;
+  }
+  h1,h2,h3,h4{
+    font-family:'Oswald', sans-serif;
+    text-transform:uppercase;
+    letter-spacing:0.01em;
+    color:var(--text);
+  }
+  .mono{font-family:'IBM Plex Mono', monospace;}
+  a{color:inherit;}
+  img{max-width:100%; display:block;}
+  .wrap{max-width:1180px; margin:0 auto; padding:0 32px;}
+  @media (max-width:700px){ .wrap{padding:0 20px;} }
+
+  /* ===== Header ===== */
+  header.site{
+    position:sticky; top:0; z-index:50;
+    background:rgba(11,13,15,0.92);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav{
+    display:flex; align-items:center; justify-content:space-between;
+    padding:16px 0;
+  }
+  .logo{
+    display:flex; align-items:center; gap:10px;
+    font-family:'Oswald', sans-serif; font-weight:700;
+    font-size:20px; letter-spacing:0.03em;
+  }
+  .logo .mark{
+    width:80px; height:80px;
+    object-fit:contain;
+    display:block;
+  }
+  .logo small{display:block; font-family:'Inter'; font-weight:500; font-size:9px; letter-spacing:0.25em; color:var(--text-dim); text-transform:uppercase;}
+  .nav-links{display:flex; gap:28px; font-size:13px; letter-spacing:0.04em; text-transform:uppercase; color:var(--text-dim);}
+  .nav-links a{text-decoration:none; transition:color .2s;}
+  .nav-links a:hover{color:var(--text);}
+  @media (max-width:760px){ .nav-links{display:none;} }
+
+  /* ===== Hero ===== */
+  .hero{
+    position:relative;
+    padding:96px 0 64px;
+    overflow:hidden;
+    background:
+      radial-gradient(circle at 85% 0%, rgba(226,38,31,0.16), transparent 45%),
+      radial-gradient(circle at 0% 100%, rgba(243,148,29,0.10), transparent 40%),
+      var(--bg-0);
+  }
+  .eyebrow{
+    display:inline-flex; align-items:center; gap:8px;
+    font-family:'IBM Plex Mono'; font-size:12px; letter-spacing:0.12em;
+    color:var(--orange); text-transform:uppercase; margin-bottom:22px;
+  }
+  .eyebrow::before{content:""; width:22px; height:1px; background:var(--orange);}
+  .hero h1{
+    font-size:clamp(42px, 7vw, 84px);
+    line-height:0.95;
+    font-weight:700;
+  }
+  .hero h1 span{
+    background:var(--grad);
+    -webkit-background-clip:text; background-clip:text; color:transparent;
+  }
+  .hero .sub{
+    max-width:640px; margin-top:22px;
+    font-size:18px; color:var(--text-dim); font-weight:400;
+  }
+  .hero-specs{
+    display:grid; grid-template-columns:repeat(4,1fr); gap:1px;
+    margin-top:56px; border:1px solid var(--line); background:var(--line);
+  }
+  .hero-specs .cell{
+    background:var(--bg-0); padding:20px 22px;
+  }
+  .hero-specs .cell .num{font-family:'Oswald'; font-size:28px; font-weight:600; color:var(--text);}
+  .hero-specs .cell .lbl{font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color:var(--text-dim); margin-top:6px;}
+  @media (max-width:700px){ .hero-specs{grid-template-columns:repeat(2,1fr);} }
+
+  /* ===== Signature exploded-stack diagram ===== */
+  .stack-section{ padding:70px 0 30px; background:var(--bg-0); }
+  .stack-diagram{
+    display:flex; align-items:flex-end; gap:0; position:relative;
+    padding:50px 20px 20px;
+    border:1px solid var(--line);
+    background:linear-gradient(180deg, var(--bg-1), var(--bg-0));
+  }
+  .stack-col{display:flex; flex-direction:column; gap:4px; flex:1; position:relative;}
+  .stack-block{
+    background:var(--steel); border:1px solid var(--line);
+    border-radius:2px; position:relative;
+    transition:transform .25s, border-color .25s;
+  }
+  .stack-block:hover{ transform:translateY(-3px); border-color:var(--orange); }
+  .stack-block .tag{
+    position:absolute; left:50%; transform:translateX(-50%); top:-30px;
+    font-family:'IBM Plex Mono'; font-size:10.5px; letter-spacing:0.06em;
+    color:var(--orange); white-space:nowrap; text-transform:uppercase;
+  }
+  .stack-block .tag::after{
+    content:""; position:absolute; left:50%; top:100%; width:1px; height:18px;
+    background:var(--orange);
+  }
+  .h-battery{height:170px;}
+  .h-pcs{height:210px;}
+  .h-mppt{height:130px;}
+  .h-sts{height:230px;}
+  .h-bms{height:60px;}
+  .stack-caption{
+    text-align:center; font-family:'IBM Plex Mono'; font-size:12px;
+    color:var(--text-dim); margin-top:18px; letter-spacing:0.03em;
+  }
+  @media (max-width:760px){
+    .stack-diagram{flex-wrap:wrap; gap:40px 0;}
+    .stack-col{flex:1 1 30%;}
+  }
+
+  /* ===== Section shell ===== */
+  section{padding:80px 0;}
+  .section-head{ margin-bottom:44px; max-width:680px; }
+  .section-head .kicker{
+    font-family:'IBM Plex Mono'; font-size:12px; letter-spacing:0.12em;
+    color:var(--red); text-transform:uppercase; margin-bottom:10px; display:block;
+  }
+  .section-head h2{font-size:clamp(28px,4vw,42px); line-height:1.05;}
+  .section-head p{color:var(--text-dim); margin-top:14px; font-size:15.5px;}
+
+  /* ===== Feature grid ===== */
+  .feature-grid{
+    display:grid; grid-template-columns:repeat(3,1fr); gap:1px;
+    background:var(--line); border:1px solid var(--line);
+  }
+  .feature{ background:var(--bg-0); padding:34px 30px; }
+  .feature .ico{
+    width:38px; height:38px; margin-bottom:20px;
+    border:1px solid var(--orange); border-radius:50%;
+    display:flex; align-items:center; justify-content:center;
+    color:var(--orange); font-family:'Oswald'; font-weight:600; font-size:14px;
+  }
+  .feature h3{font-size:18px; margin-bottom:12px; text-transform:none;}
+  .feature ul{list-style:none; display:flex; flex-direction:column; gap:9px;}
+  .feature li{font-size:14px; color:var(--text-dim); padding-left:14px; position:relative;}
+  .feature li::before{content:"—"; position:absolute; left:0; color:var(--orange);}
+  .feature li b{color:var(--text); font-weight:600;}
+  @media (max-width:900px){ .feature-grid{grid-template-columns:1fr;} }
+
+  /* ===== Module section (light band) ===== */
+  .band-light{ background:var(--paper); color:var(--ink); }
+  .band-light h2, .band-light h3, .band-light h4{color:var(--ink);}
+  .band-light .section-head p{color:#5a5c58;}
+  .band-light .kicker{color:var(--red);}
+
+  .module-block{
+    display:grid; grid-template-columns:1fr 1.15fr; gap:48px; align-items:start;
+    padding:44px 0; border-top:1px solid #d8d4c9;
+  }
+  .module-block:first-of-type{border-top:none;}
+  @media (max-width:860px){ .module-block{grid-template-columns:1fr;} }
+  .module-tag{
+    font-family:'IBM Plex Mono'; font-size:12px; color:var(--red);
+    letter-spacing:0.08em; text-transform:uppercase; margin-bottom:10px; display:block;
+  }
+  .module-block h3{font-size:26px; margin-bottom:14px;}
+  .module-block ul{list-style:none; display:flex; flex-direction:column; gap:10px; margin-top:8px;}
+  .module-block li{font-size:15px; padding-left:16px; position:relative; color:#3a3a38;}
+  .module-block li::before{content:"◎"; position:absolute; left:0; color:var(--red); font-size:11px; top:4px;}
+  .module-block li b{color:var(--ink);}
+
+  table.spec{
+    width:100%; border-collapse:collapse; font-size:13.5px;
+    background:#fff; border:1px solid #d8d4c9;
+  }
+  table.spec caption{
+    text-align:left; font-family:'Oswald'; font-weight:600; text-transform:uppercase;
+    background:var(--ink); color:#fff; padding:11px 14px; font-size:14px; letter-spacing:0.02em;
+    caption-side:top;
+  }
+  table.spec tr{border-top:1px solid #e7e4dc;}
+  table.spec tr:first-child{border-top:none;}
+  table.spec td{padding:9px 14px; vertical-align:top;}
+  table.spec td:first-child{color:#6b6b66; width:52%;}
+  table.spec td:last-child{font-family:'IBM Plex Mono'; font-weight:500; color:var(--ink);}
+  table.spec tr.group td{
+    background:#efece3; font-family:'Inter'; font-weight:600; color:var(--ink);
+    text-transform:uppercase; font-size:11.5px; letter-spacing:0.06em;
+  }
+
+  .table-scroll{overflow-x:auto;}
+
+  /* ===== Scenarios ===== */
+  .scenario-card{
+    border:1px solid var(--line); background:var(--bg-1);
+    padding:28px 30px; margin-bottom:18px;
+  }
+  .scenario-card h4{font-size:15px; color:var(--orange); margin-bottom:10px; text-transform:none; font-family:'Inter'; font-weight:600;}
+  .scenario-card p{font-size:14.5px; color:var(--text-dim);}
+  .flow{
+    display:flex; align-items:center; justify-content:center; gap:10px;
+    flex-wrap:wrap; margin-top:20px; font-family:'IBM Plex Mono'; font-size:12.5px;
+  }
+  .flow .node{
+    border:1px solid var(--line); padding:10px 16px; border-radius:2px; color:var(--text);
+    background:var(--bg-0);
+  }
+  .flow .node.core{border-color:var(--orange); color:var(--orange);}
+  .flow .arrow{color:var(--text-dim);}
+
+  /* ===== Footer ===== */
+  footer{
+    background:var(--bg-0); border-top:1px solid var(--line);
+    padding:44px 0; margin-top:20px;
+  }
+  .foot-row{
+    display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:20px;
+  }
+  .foot-links{display:flex; gap:28px; flex-wrap:wrap; font-size:13.5px; color:var(--text-dim);}
+  .foot-links a{text-decoration:none; display:flex; align-items:center; gap:8px;}
+  .foot-links a:hover{color:var(--orange);}
+  .foot-fine{font-size:12px; color:#5a6066; margin-top:24px;}
+
+  ::selection{ background:var(--red); color:#fff; }
+</style>
+</head>
+<body>
+
+<header class="site">
+  <div class="wrap nav">
+    <div class="logo">
+      <img class="mark" src="logo.png" alt="Inverex Solar Energy logo">
+      <div>New Universal Solar and Traders <small>Solar Energy</small></div>
+    </div>
+    <nav class="nav-links">
+      <a href="#features">Highlights</a>
+      <a href="#modules">Modules</a>
+      <a href="#specs">Specifications</a>
+      <a href="#scenarios">Applications</a>
+      <a href="#contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <span class="eyebrow">C&amp;I Energy Storage System</span>
+    <h1>125kW–2.5MW<br><span>C&amp;I ESS Solution</span></h1>
+    <p class="sub">Featuring PCS, MPPT, and STS modules with integrated EMS functionality — a modular battery storage platform built for commercial &amp; industrial sites that need seamless on-grid, off-grid, and generator switching.</p>
+
+    <div class="hero-specs">
+      <div class="cell"><div class="num">125kW&#8211;2.5MW</div><div class="lbl">Scalable system power</div></div>
+      <div class="cell"><div class="num">&lt;10ms</div><div class="lbl">Grid / off-grid / genset switching</div></div>
+      <div class="cell"><div class="num">98.5%</div><div class="lbl">Max. PCS efficiency</div></div>
+      <div class="cell"><div class="num">IP65</div><div class="lbl">PCS &amp; MPPT protection rating</div></div>
+    </div>
+  </div>
+</section>
+
+<section class="stack-section">
+  <div class="wrap">
+    <div class="stack-diagram">
+     <img src="boss.jpeg">
+    </div>
+    <div class="stack-caption">Rack-mounted architecture — battery, switching, tracking and conversion stages assemble into a single cabinet.</div>
+  </div>
+</section>
+
+<section id="features">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="kicker">Why BOS-B Pro</span>
+      <h2>Six reasons it holds up on site</h2>
+      <p>From switching speed to enclosure rating, every module is engineered for continuous C&amp;I duty.</p>
+    </div>
+
+    <div class="feature-grid">
+      <div class="feature">
+        <div class="ico">01</div>
+        <h3>Fast &amp; Reliable Switching</h3>
+        <ul>
+          <li><b>Seamless switching:</b> STS module can switch between on-grid, off-grid, and diesel modes in &lt;10ms.</li>
+          <li><b>Independent high-power paths:</b> diesel, load, and grid connections each support 500kW.</li>
+        </ul>
+      </div>
+      <div class="feature">
+        <div class="ico">02</div>
+        <h3>Advanced Energy Storage</h3>
+        <ul>
+          <li><b>Extended backup:</b> up to 32 hours of backup with 16 racks per PCS.</li>
+          <li><b>Smart balancing:</b> independent BMS ensures optimal charge distribution and extends battery life.</li>
+        </ul>
+      </div>
+      <div class="feature">
+        <div class="ico">03</div>
+        <h3>Intelligent Control</h3>
+        <ul>
+          <li><b>Integrated EMS:</b> supports zero-export and time-of-use charging/discharging.</li>
+          <li><b>Easy management:</b> colour touchscreen for local or remote cloud adjustments.</li>
+        </ul>
+      </div>
+      <div class="feature">
+        <div class="ico">04</div>
+        <h3>Efficient PV Integration</h3>
+        <ul>
+          <li><b>High PV input:</b> maximum 200kWp PV module connection with 8 MPPT channels, 40A per MPPT.</li>
+        </ul>
+      </div>
+      <div class="feature">
+        <div class="ico">05</div>
+        <h3>Rugged &amp; Reliable</h3>
+        <ul>
+          <li><b>IP65 protection:</b> PCS and MPPT modules feature IP65-rated protection.</li>
+          <li><b>Peak power support:</b> 200% of rated power for 15 seconds.</li>
+          <li><b>LFP battery:</b> INV-16.08kWh-51.2V's robust design enhances system reliability.</li>
+        </ul>
+      </div>
+      <div class="feature">
+        <div class="ico">06</div>
+        <h3>High Performance &amp; Scalability</h3>
+        <ul>
+          <li><b>Powerful capacity:</b> PCS offers 125kW, expandable up to 2.5MW.</li>
+          <li><b>Large energy storage:</b> INV-16.08kWh-51.2V battery supports 257kWh per cluster, up to 16 packs per PCS.</li>
+          <li><b>High efficiency:</b> PCS reaches 98.5% efficiency, MPPT exceeds 99%.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="modules" class="band-light">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="kicker">Module Breakdown</span>
+      <h2>Four modules, one cabinet</h2>
+      <p>Each module handles one job in the power path — switching, harvesting, converting, and storing — and reports back through a shared communication layer.</p>
+    </div>
+
+    <div class="module-block">
+      <div>
+        <span class="module-tag">Switching · INV-STS500L</span>
+        <h3>STS Module</h3>
+        <p>Smoothly switches between on-grid, off-grid, and diesel generator modes with a switching time of less than 10ms. Each diesel, load, and grid connection is independent, with each path supporting 500kW. One STS module can connect to four 125kW PCS modules.</p>
+        <ul>
+          <li><b>Switching capacity</b> of 500kW.</li>
+          <li>Enables smooth switching between on-grid, off-grid, and diesel generator modes.</li>
+          <li><b>Switching time</b> of less than 10ms.</li>
+          <li>Ports: GEN, Load, Grid, PCS connection point, STS AC parallel port.</li>
+        </ul>
+      </div>
+      <div class="table-scroll">
+        <table class="spec">
+          <caption>STS Module — INV-STS500L</caption>
+          <tr class="group"><td colspan="2">Grid / PCS Side Data</td></tr>
+          <tr><td>Rated AC Input/Output Active Power</td><td>500 kW</td></tr>
+          <tr><td>Rated AC Input/Output Current</td><td>758 / 725 A</td></tr>
+          <tr><td>Rated Input/Output Voltage</td><td>220/380, 230/400 (three phase)</td></tr>
+          <tr><td>Grid Connection Form</td><td>3L/N/PE</td></tr>
+          <tr><td>Rated Input/Output Grid Frequency</td><td>50Hz / 60Hz</td></tr>
+          <tr class="group"><td colspan="2">Load Side Data</td></tr>
+          <tr><td>Rated Output Active Power</td><td>500 kW</td></tr>
+          <tr><td>Rated Output Current</td><td>758 / 725 A</td></tr>
+          <tr><td>Rated Output Voltage</td><td>220/380, 230/400 (three phase)</td></tr>
+          <tr class="group"><td colspan="2">GEN Side Data</td></tr>
+          <tr><td>Rated AC Input Active Power</td><td>500 kW</td></tr>
+          <tr><td>Rated AC Input Current</td><td>758 / 725 A</td></tr>
+          <tr class="group"><td colspan="2">General Data</td></tr>
+          <tr><td>Off-grid Switching Time</td><td>&lt;10ms</td></tr>
+          <tr><td>Ingress Protection (IP) Rating</td><td>IP20</td></tr>
+          <tr><td>Over Voltage Category</td><td>OVC III</td></tr>
+          <tr><td>Cabinet Size (W×H×D)</td><td>543×575×671 mm</td></tr>
+          <tr><td>Weight</td><td>108 kg</td></tr>
+          <tr><td>Type of Cooling</td><td>Natural cooling</td></tr>
+          <tr><td>Safety / EMC Standard</td><td>IEC/EN 61439-1/-2</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="module-block">
+      <div>
+        <span class="module-tag">Harvesting · INV-MPPT-L01-EU-AM8</span>
+        <h3>MPPT Module</h3>
+        <p>Eight independent MPP trackers bring PV directly into the storage cabinet, sized for large commercial roof and ground-mount arrays.</p>
+        <ul>
+          <li>Maximum 200kWp PV module connection with <b>8 MPPT channels</b>, 40A per MPPT.</li>
+          <li>MPPT efficiency exceeds 99.9%.</li>
+          <li>Ports: PV input (8 MPPT), CAN/RS485, DC port.</li>
+        </ul>
+      </div>
+      <div class="table-scroll">
+        <table class="spec">
+          <caption>MPPT Module — INV-MPPT-L01-EU-AM8</caption>
+          <tr class="group"><td colspan="2">PV String Input Data</td></tr>
+          <tr><td>Max. PV Input Power</td><td>200 kW</td></tr>
+          <tr><td>Max. PV Input Voltage</td><td>800 V</td></tr>
+          <tr><td>Start-up Voltage</td><td>200 V</td></tr>
+          <tr><td>MPPT Voltage Range</td><td>180–750 V</td></tr>
+          <tr><td>Full Load MPPT Voltage Range</td><td>450–750 V</td></tr>
+          <tr><td>Rated PV Input Voltage</td><td>600 V</td></tr>
+          <tr><td>Max. Operating PV Input Current</td><td>8 × 40 A</td></tr>
+          <tr><td>Max. Input Short-Circuit Current</td><td>8 × 60 A</td></tr>
+          <tr><td>No. of MPP Trackers</td><td>8</td></tr>
+          <tr class="group"><td colspan="2">Efficiency</td></tr>
+          <tr><td>Max. Efficiency</td><td>&gt;99%</td></tr>
+          <tr><td>MPPT Efficiency</td><td>&gt;99.9%</td></tr>
+          <tr class="group"><td colspan="2">Equipment Protection</td></tr>
+          <tr><td>DC Input Reverse Protection</td><td>Yes</td></tr>
+          <tr><td>DC ARC Protection</td><td>Optional</td></tr>
+          <tr><td>Anti-PID</td><td>Optional</td></tr>
+          <tr><td>DC Switch</td><td>Yes</td></tr>
+          <tr><td>Surge Protection Level</td><td>Type II</td></tr>
+          <tr class="group"><td colspan="2">General Data</td></tr>
+          <tr><td>Ingress Protection (IP) Rating</td><td>IP65</td></tr>
+          <tr><td>Over Voltage Category</td><td>OVC II</td></tr>
+          <tr><td>Cabinet Size (W×H×D)</td><td>543×198×700 mm</td></tr>
+          <tr><td>Weight</td><td>41.75 kg</td></tr>
+          <tr><td>Type of Cooling</td><td>Intelligent air cooling</td></tr>
+          <tr><td>Safety / EMC Standard</td><td>IEC/EN 62109-1</td></tr>
+          <tr class="group"><td colspan="2">DC Output Data</td></tr>
+          <tr><td>DC Output Voltage Range</td><td>630–1000 V</td></tr>
+          <tr><td>Max. DC Output Current</td><td>200 A</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="module-block">
+      <div>
+        <span class="module-tag">Conversion · INV-125K-PCS01HP3</span>
+        <h3>PCS Module</h3>
+        <p>The power conversion core — 125kW per unit, expandable to a 2.5MW system, self-adapting to the BMS with WIFI, RS485, CAN and meter communication built in.</p>
+        <ul>
+          <li><b>200A</b> charge and discharge current.</li>
+          <li>Maximum efficiency of <b>98.5%</b>.</li>
+          <li>System rated power up to <b>2.5MW</b>.</li>
+          <li>Supports instantaneous peak power up to 200% of rated power.</li>
+          <li>Integrates zero-export and time-of-use control functions, eliminating the need for additional EMS.</li>
+          <li>Ports: battery, CT/Meter/BMS/MPPT/Parallel, data logger, AC output.</li>
+        </ul>
+      </div>
+      <div class="table-scroll">
+        <table class="spec">
+          <caption>PCS Module — INV-125K-PCS01HP3</caption>
+          <tr class="group"><td colspan="2">Battery Data</td></tr>
+          <tr><td>Battery Type</td><td>Lithium-ion</td></tr>
+          <tr><td>Battery Voltage Range</td><td>630–1000 V</td></tr>
+          <tr><td>Max. Charging Current</td><td>200 A</td></tr>
+          <tr><td>Max. Discharging Current</td><td>200 A</td></tr>
+          <tr><td>Charging Strategy</td><td>Self-adaption to BMS</td></tr>
+          <tr><td>Number of Battery Inputs</td><td>1</td></tr>
+          <tr class="group"><td colspan="2">DC Input Data</td></tr>
+          <tr><td>DC Input Voltage Range</td><td>630–1000 V</td></tr>
+          <tr><td>Max. DC Input Current</td><td>200 A</td></tr>
+          <tr class="group"><td colspan="2">AC Input / Output Data</td></tr>
+          <tr><td>Rated AC Input/Output Active Power</td><td>125 kW</td></tr>
+          <tr><td>Max. AC Input/Output Apparent Power</td><td>125 kVA</td></tr>
+          <tr><td>Rated AC Input/Output Current</td><td>189.4 / 181.2 A</td></tr>
+          <tr><td>Rated Input/Output Voltage Range</td><td>220/380, 230/400V, 0.85Un–1.1Un</td></tr>
+          <tr><td>Grid Connection Form</td><td>3L+N+PE</td></tr>
+          <tr><td>Rated Input/Output Grid Frequency Range</td><td>50Hz/45–55Hz, 60Hz/55–65Hz</td></tr>
+          <tr><td>Power Factor Adjustment Range</td><td>-1 ~ 1</td></tr>
+          <tr><td>Total Current Harmonic Distortion (THDi)</td><td>&lt;3% of nominal power</td></tr>
+          <tr><td>DC Injection Current</td><td>&lt;0.5% In</td></tr>
+          <tr class="group"><td colspan="2">Efficiency</td></tr>
+          <tr><td>Max. Efficiency</td><td>98.5%</td></tr>
+          <tr><td>Euro Efficiency</td><td>97.8%</td></tr>
+          <tr><td>MPPT Efficiency</td><td>&gt;99%</td></tr>
+          <tr class="group"><td colspan="2">Equipment Protection</td></tr>
+          <tr><td>Integrated Protection</td><td>AC overcurrent, AC overvoltage, AC short circuit, thermal, anti-islanding, insulation impedance, residual current detection</td></tr>
+          <tr><td>Surge Protection Level</td><td>Type II (DC), Type II (AC)</td></tr>
+          <tr class="group"><td colspan="2">Interface</td></tr>
+          <tr><td>LCD/LED Display</td><td>LCD</td></tr>
+          <tr><td>Communication Interface</td><td>WIFI, RS485, CAN, Meter</td></tr>
+          <tr class="group"><td colspan="2">General Data</td></tr>
+          <tr><td>Operating Temperature Range</td><td>-40°C to 60°C, &gt;45°C derating</td></tr>
+          <tr><td>Permissible Ambient Humidity</td><td>0–95%</td></tr>
+          <tr><td>Permissible Altitude</td><td>4000 m</td></tr>
+          <tr><td>Noise</td><td>&lt;75dB</td></tr>
+          <tr><td>Ingress Protection (IP) Rating</td><td>IP65 (PCS module)</td></tr>
+          <tr><td>Cabinet Size (W×H×D)</td><td>543×310×775 mm</td></tr>
+          <tr><td>Weight</td><td>70.35 kg</td></tr>
+          <tr><td>Inverter Topology</td><td>Non-isolated</td></tr>
+          <tr><td>Over Voltage Category</td><td>OVC II (DC), OVC III (AC)</td></tr>
+          <tr><td>Type of Cooling</td><td>Intelligent air cooling</td></tr>
+          <tr><td>Warranty</td><td>5 / 10 years — depends on final installation site; refer to warranty policy</td></tr>
+          <tr><td>Grid Regulation</td><td>IEC 61727, IEC 62116, CEI 0-21, EN 50549, NRS 097, RD 140, UNE 217002, OVE-Richtlinie R25, G99, VDE-AR-N 4105</td></tr>
+          <tr><td>Safety / EMC Standard</td><td>IEC/EN 62477-1</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="module-block">
+      <div>
+        <span class="module-tag">Storage · INV-16.08kWh-51.2V-A3</span>
+        <h3>Battery Module &amp; Pack</h3>
+        <p>LFP battery packs stack 5–16 in series into a rack, matched to PCS-only, PCS+MPPT or hybrid-inverter configurations, with the whole rack managed by a shared BMS and PDU.</p>
+        <ul>
+          <li>System energy of <b>257.23kWh</b> per rack, 231.51kWh usable at 90% recommended depth of discharge.</li>
+          <li>Cycle life ≥6000 at 25±2°C, 0.5C/0.5C, EOL70%.</li>
+          <li>10-year warranty; CE / IEC62619 / IEC62040 / UN38.3 certified.</li>
+        </ul>
+      </div>
+      <div class="table-scroll">
+        <table class="spec">
+          <caption>Battery System — INV-16.08kWh-51.2V-A3</caption>
+          <tr class="group"><td colspan="2">Main Parameter</td></tr>
+          <tr><td>Battery Module Energy</td><td>16.08 kWh</td></tr>
+          <tr><td>Battery Module Nominal Voltage</td><td>51.2 V</td></tr>
+          <tr><td>Battery Module Capacity</td><td>314 Ah</td></tr>
+          <tr><td>Module Weight (Approx.)</td><td>123 kg</td></tr>
+          <tr><td>Battery Modules in Series (optional)</td><td>5–16</td></tr>
+          <tr><td>Matching — PCS or Hybrid Inverter</td><td>14–15 units (PCS on-grid), 15 units (PCS off-grid), 5–15 units (hybrid inverter)</td></tr>
+          <tr><td>Matching — PCS + MPPT</td><td>16 units (open-circuit ≤800V), 15 units (≤750V), 14 units on-grid (≤700V)</td></tr>
+          <tr><td>System Nominal Voltage</td><td>819.2 V</td></tr>
+          <tr><td>System Energy</td><td>257.23 kWh</td></tr>
+          <tr><td>System Usable Energy</td><td>231.51 kWh</td></tr>
+          <tr><td>Max. Charge/Discharge Current</td><td>180 A</td></tr>
+          <tr class="group"><td colspan="2">Other Parameters</td></tr>
+          <tr><td>Operating Temperature</td><td>Charge 0–55°C, Discharge -20–55°C</td></tr>
+          <tr><td>Storage Temperature</td><td>0–35°C</td></tr>
+          <tr><td>Thermal Management</td><td>Smart fan cooling</td></tr>
+          <tr><td>Communication Port</td><td>TCP / RS485 / CAN</td></tr>
+          <tr><td>Humidity</td><td>5%–85%</td></tr>
+          <tr><td>Altitude</td><td>≤3000 m</td></tr>
+          <tr><td>IP Rating of Enclosure</td><td>IP20</td></tr>
+          <tr><td>System Dimension (W×H×D)</td><td>2150×1136×800 mm</td></tr>
+          <tr><td>System Weight (Approx.)</td><td>1989 kg</td></tr>
+          <tr><td>Installation Location</td><td>Rack mounted</td></tr>
+          <tr><td>Recommended Depth of Discharge</td><td>90%</td></tr>
+          <tr><td>Cycle Life</td><td>25±2°C, 0.5C/0.5C, EOL70% ≥6000</td></tr>
+          <tr><td>Warranty Period</td><td>10 years</td></tr>
+          <tr><td>Certification</td><td>CE / IEC62619 / IEC62040 / UN38.3</td></tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="module-block">
+      <div>
+        <span class="module-tag">Battery Pack Accessories</span>
+        <h3>PDU &amp; Battery Pack</h3>
+        <p>The power distribution unit (PDU) governs high-voltage switching and comms for the rack; each individual 16.08kWh pack connects into it in series.</p>
+        <ul>
+          <li>PDU: 200~1000Vdc operating range, 180A nominal charge/discharge current.</li>
+          <li>PDU features Bluetooth for mobile-app monitoring and a display for SOC and fault codes.</li>
+          <li>Pack: 314Ah / 51.2Vdc, 16.08kWh, IP20, 126kg.</li>
+        </ul>
+      </div>
+      <div class="table-scroll">
+        <table class="spec">
+          <caption>INV-BOS-B-PDU-2-A</caption>
+          <tr><td>Operating Voltage</td><td>200–1000 Vdc</td></tr>
+          <tr><td>Nominal Charge/Discharge Current</td><td>180 A</td></tr>
+          <tr><td>Operating Temperature</td><td>-20°C to 60°C</td></tr>
+          <tr><td>Ingress Protection</td><td>IP20</td></tr>
+          <tr><td>AC Input Rating</td><td>220±10% VAC / 2A</td></tr>
+          <tr><td>Dimensions (W×H×D)</td><td>788.6×526×167.2 mm, 32 kg</td></tr>
+        </table>
+        <br>
+        <table class="spec">
+          <caption>INV-BOS-B-Pack16-A3</caption>
+          <tr><td>Nominal Capacity</td><td>314 Ah</td></tr>
+          <tr><td>Nominal Energy</td><td>16.08 kWh</td></tr>
+          <tr><td>Nominal Voltage</td><td>51.2 Vdc</td></tr>
+          <tr><td>Nominal Charge/Discharge Current</td><td>180 A</td></tr>
+          <tr><td>Ingress Protection</td><td>IP20</td></tr>
+          <tr><td>Operating Temperature (Charge)</td><td>0–55°C</td></tr>
+          <tr><td>Operating Temperature (Discharge)</td><td>-20–55°C</td></tr>
+          <tr><td>Storage Temperature</td><td>0–35°C</td></tr>
+          <tr><td>Dimensions (W×H×D)</td><td>795.9×526×274.2 mm, 126 kg</td></tr>
+        </table>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<section id="scenarios">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="kicker">System Architecture</span>
+      <h2>Typical application scenarios</h2>
+      <p>The platform scales from a single rack to a full 2.5MW plant using the same three building blocks.</p>
+    </div>
+
+    <div class="scenario-card">
+      <h4>One PCS supports up to 16 racks of batteries in parallel</h4>
+      <p>Each PCS aggregates up to 16 battery clusters into a battery stack; multiple stacks (up to 4 PCS units) connect back to a single STS module.</p>
+    </div>
+
+    <div class="scenario-card">
+      <h4>One STS module connects up to four 125kW PCS modules</h4>
+      <p>Each PCS pairs with its own MPPT stage for PV input, giving a 4×125kW = 500kW block per STS module.</p>
+    </div>
+
+    <div class="scenario-card">
+      <h4>Five STS modules scale the system to 2.5MW</h4>
+      <p>Five STS modules, each supporting four 125kW PCS units, combine for a full twenty-PCS, 2.5MW installation.</p>
+      <div class="flow">
+        <span class="node">PV</span><span class="arrow">→</span>
+        <span class="node">MPPT</span><span class="arrow">→</span>
+        <span class="node core">PCS</span><span class="arrow">↔</span>
+        <span class="node">Battery 257.23kWh</span>
+      </div>
+      <div class="flow">
+        <span class="node core">STS</span><span class="arrow">↔</span>
+        <span class="node">Grid</span>
+        <span class="arrow">·</span>
+        <span class="node">Loads</span>
+        <span class="arrow">·</span>
+        <span class="node">GEN</span>
+        <span class="arrow">·</span>
+        <span class="node">Meter/CT</span>
+        <span class="arrow">·</span>
+        <span class="node">Inverex Cloud</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer id="contact">
+  <div class="wrap">
+    <div class="foot-row">
+      <div class="logo">
+        <img class="mark" src="logo.png" alt="Inverex Solar Energy logo">
+        <div>NEW UNIVERSAL SOLAR AND TRADERS <small>Solar Energy</small></div>
+      </div>
+      <div class="foot-links">
+        <a href="tel:+922111120988">UAN: +92-21-111-209-988</a>
+        <a href="https://www.aptinverex.com" target="_blank" rel="noopener">www.aptinverex.com</a>
+        <a href="mailto:info@aptinverex.com">info@aptinverex.com</a>
+      </div>
+    </div>
+    <div class="foot-fine">125kW–2.5MW C&amp;I ESS Solution — BOS-B Pro. Specifications derived from the Inverex BOS-B Pro brochure; final figures depend on installation site and configuration.</div>
+  </div>
+</footer>
+
+</body>
+</html>

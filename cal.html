@@ -1,0 +1,2109 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Solar System Calculator - Quick Quote</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            font-size: 1.1em;
+            opacity: 0.9;
+        }
+
+        .content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            align-items: start;
+        }
+
+        /* Form Styling */
+        .form-section {
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .form-section h2 {
+            color: #333;
+            margin-bottom: 25px;
+            font-size: 1.5em;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label:not(.appliance-name) {
+            display: block;
+            margin-bottom: 8px;
+            color: #333;
+            font-weight: 600;
+            font-size: 0.95em;
+        }
+
+        label .unit {
+            color: #666;
+            font-weight: 400;
+            font-size: 0.85em;
+        }
+
+        input:not([type="checkbox"]):not(.appliance-qty), textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 6px;
+            font-size: 1em;
+            transition: border-color 0.3s;
+            font-family: inherit;
+            -webkit-appearance: none;
+            appearance: none;
+        }
+
+        input[type="number"]:not(.appliance-qty)::-webkit-outer-spin-button,
+        input[type="number"]:not(.appliance-qty)::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+
+        input[type="number"]:not(.appliance-qty) {
+            -moz-appearance: textfield;
+        }
+
+        input:not([type="checkbox"]):not(.appliance-qty):focus, textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .input-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+
+        .help-text {
+            font-size: 0.85em;
+            color: #999;
+            margin-top: 4px;
+        }
+
+        .button-group {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-top: 30px;
+        }
+
+        /* Appliance selector — fully scoped, no inheritance from global input/label */
+        .appliance-list {
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .appliance-row {
+            display: grid;
+            grid-template-columns: 24px 1fr auto 72px;
+            align-items: center;
+            gap: 10px;
+            padding: 8px 12px;
+            border-bottom: 1px solid #f0f0f0;
+            transition: background 0.15s;
+        }
+
+        .appliance-row:last-child { border-bottom: none; }
+        .appliance-row:hover { background: #f9f9ff; }
+        .appliance-row.checked { background: #eef1ff; }
+
+        /* Checkbox — reset all inherited input styles */
+        .appl-chk {
+            all: revert;
+            width: 17px !important;
+            height: 17px !important;
+            min-width: 17px;
+            padding: 0 !important;
+            margin: 0 !important;
+            border: none !important;
+            border-radius: 3px !important;
+            accent-color: #667eea;
+            cursor: pointer;
+            appearance: auto !important;
+            -webkit-appearance: checkbox !important;
+        }
+
+        .appliance-name {
+            display: inline !important;
+            font-size: 0.88em;
+            font-weight: 500;
+            color: #333;
+            cursor: pointer;
+            margin: 0 !important;
+            padding: 0 !important;
+            line-height: 1.3;
+        }
+
+        .appliance-watt {
+            font-size: 0.75em;
+            color: #999;
+            white-space: nowrap;
+        }
+
+        /* Qty input — scoped styles, don't inherit global input */
+        .appliance-qty {
+            all: revert;
+            width: 64px !important;
+            padding: 5px 6px !important;
+            border: 1.5px solid #ddd !important;
+            border-radius: 5px !important;
+            font-size: 0.9em !important;
+            text-align: center;
+            background: #fff;
+            font-family: inherit;
+            appearance: auto !important;
+            -webkit-appearance: auto !important;
+        }
+
+        .appliance-qty:disabled {
+            background: #f5f5f5 !important;
+            color: #bbb !important;
+            cursor: not-allowed;
+            border-color: #eee !important;
+        }
+
+        .appliance-qty:focus {
+            outline: none;
+            border-color: #667eea !important;
+            box-shadow: 0 0 0 2px rgba(102,126,234,0.15);
+        }
+
+        .load-summary {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 10px;
+            padding: 10px 14px;
+            background: #f0f4ff;
+            border-radius: 7px;
+            font-size: 0.92em;
+            color: #444;
+        }
+
+        .load-summary strong {
+            font-size: 1.1em;
+            color: #667eea;
+        }
+
+        button {
+            padding: 14px 24px;
+            border: none;
+            border-radius: 6px;
+            font-size: 1em;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            -webkit-touch-callout: none;
+            -webkit-user-select: none;
+            user-select: none;
+            min-height: 44px; /* iOS minimum touch target */
+        }
+
+        .btn-calculate {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .btn-calculate:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-reset {
+            background: #f0f0f0;
+            color: #333;
+        }
+
+        .btn-reset:hover {
+            background: #e0e0e0;
+        }
+
+        /* Quote Section */
+        .quote-section {
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            display: block;
+        }
+
+        .quote-placeholder {
+            text-align: center;
+            padding: 60px 20px;
+            color: #aaa;
+        }
+
+        .quote-placeholder .big-icon {
+            font-size: 3.5em;
+            margin-bottom: 14px;
+        }
+
+        .quote-placeholder p {
+            font-size: 1em;
+            color: #bbb;
+        }
+
+        .quote-content { display: none; }
+        .quote-content.active { display: block; }
+
+        .quote-section h2 {
+            color: #333;
+            margin-bottom: 25px;
+            font-size: 1.5em;
+            border-bottom: 3px solid #4caf50;
+            padding-bottom: 10px;
+        }
+
+        .quote-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+        }
+
+        .quote-header h3 {
+            margin-bottom: 10px;
+        }
+
+        .customer-info {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            font-size: 0.95em;
+        }
+
+        .info-item {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .info-label {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.85em;
+            margin-bottom: 3px;
+        }
+
+        .info-value {
+            font-weight: 600;
+            font-size: 1.1em;
+        }
+
+        /* Recommendation Box */
+        .recommendation-box {
+            background: #e3f2fd;
+            border-left: 4px solid #2196f3;
+            padding: 15px;
+            margin-bottom: 25px;
+            border-radius: 4px;
+        }
+
+        .recommendation-box h4 {
+            color: #1976d2;
+            margin-bottom: 8px;
+        }
+
+        .recommendation-box p {
+            color: #555;
+            line-height: 1.6;
+        }
+
+        /* System Specs */
+        .specs-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .spec-card {
+            background: #f9f9f9;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #667eea;
+        }
+
+        .spec-card h4 {
+            color: #667eea;
+            margin-bottom: 8px;
+            font-size: 0.9em;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .spec-card .value {
+            font-size: 1.6em;
+            font-weight: 700;
+            color: #333;
+        }
+
+        .spec-card .details {
+            font-size: 0.85em;
+            color: #666;
+            margin-top: 5px;
+        }
+
+        /* Products Table */
+        .products-section {
+            margin-bottom: 25px;
+        }
+
+        .products-section h3 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 1.1em;
+        }
+
+        .product-item {
+            background: #f9f9f9;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid #e0e0e0;
+        }
+
+        .product-info h5 {
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .product-specs {
+            font-size: 0.85em;
+            color: #666;
+        }
+
+        .product-link {
+            color: #667eea;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.8em;
+        }
+
+        .product-link:hover {
+            text-decoration: underline;
+        }
+
+        .product-price {
+            text-align: right;
+        }
+
+        .product-price .label {
+            font-size: 0.8em;
+            color: #999;
+        }
+
+        .product-price .price {
+            font-size: 1.4em;
+            font-weight: 700;
+            color: #4caf50;
+        }
+
+        /* Total Cost */
+        .total-cost {
+            background: linear-gradient(135deg, #4caf50 0%, #45a049 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 8px;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+
+        .total-cost .label {
+            font-size: 0.95em;
+            opacity: 0.9;
+            margin-bottom: 8px;
+        }
+
+        .total-cost .amount {
+            font-size: 2.2em;
+            font-weight: 700;
+        }
+
+        /* Action Buttons */
+        .quote-actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .btn-email {
+            background: #2196f3;
+            color: white;
+        }
+
+        .btn-email:hover {
+            background: #1976d2;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(33, 150, 243, 0.3);
+        }
+
+        .btn-print {
+            background: #ff9800;
+            color: white;
+        }
+
+        .btn-print:hover {
+            background: #f57c00;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(255, 152, 0, 0.3);
+        }
+
+        .btn-whatsapp {
+            background: #25D366;
+            color: white;
+        }
+
+        .btn-whatsapp:hover {
+            background: #1da851;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(37, 211, 102, 0.3);
+        }
+
+        /* Messages */
+        .message {
+            padding: 15px;
+            border-radius: 6px;
+            margin-bottom: 15px;
+            display: none;
+        }
+
+        .message.show {
+            display: block;
+        }
+
+        .message.success {
+            background: #c8e6c9;
+            color: #2e7d32;
+            border: 1px solid #81c784;
+        }
+
+        .message.error {
+            background: #ffcdd2;
+            color: #c62828;
+            border: 1px solid #ef5350;
+        }
+
+        .message.info {
+            background: #bbdefb;
+            color: #1565c0;
+            border: 1px solid #64b5f6;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .content {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+
+            .form-section,
+            .quote-section {
+                padding: 30px;
+            }
+
+            .header h1 {
+                font-size: 2em;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .content {
+                grid-template-columns: 1fr;
+            }
+
+            .form-section,
+            .quote-section {
+                padding: 25px;
+                border-radius: 10px;
+            }
+
+            .input-row {
+                grid-template-columns: 1fr;
+            }
+
+            .button-group {
+                grid-template-columns: 1fr;
+            }
+
+            .specs-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .quote-actions {
+                grid-template-columns: 1fr;
+            }
+
+            .header h1 {
+                font-size: 1.8em;
+                margin-bottom: 8px;
+            }
+
+            .header p {
+                font-size: 0.95em;
+            }
+
+            .form-section h2,
+            .quote-section h2 {
+                font-size: 1.3em;
+            }
+
+            .customer-info {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+
+            .product-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .product-price {
+                width: 100%;
+                text-align: left;
+                margin-top: 12px;
+            }
+
+            .spec-card {
+                padding: 12px;
+            }
+
+            .spec-card .value {
+                font-size: 1.4em;
+            }
+
+            button {
+                padding: 12px 20px;
+                font-size: 0.95em;
+            }
+
+            label {
+                font-size: 0.9em;
+            }
+
+            input, textarea {
+                padding: 10px;
+                font-size: 16px; /* Prevents zoom on iOS */
+            }
+        }
+
+        @media (max-width: 480px) {
+            .container {
+                max-width: 100%;
+            }
+
+            body {
+                padding: 10px;
+            }
+
+            .form-section,
+            .quote-section {
+                padding: 20px;
+                border-radius: 8px;
+                box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+            }
+
+            .header {
+                margin-bottom: 25px;
+            }
+
+            .header h1 {
+                font-size: 1.5em;
+                margin-bottom: 5px;
+            }
+
+            .header p {
+                font-size: 0.9em;
+            }
+
+            .form-section h2,
+            .quote-section h2 {
+                font-size: 1.2em;
+                margin-bottom: 20px;
+                padding-bottom: 8px;
+            }
+
+            .form-group {
+                margin-bottom: 15px;
+            }
+
+            label {
+                font-size: 0.85em;
+                margin-bottom: 6px;
+            }
+
+            .help-text {
+                font-size: 0.8em;
+                margin-top: 3px;
+            }
+
+            input, textarea {
+                padding: 10px;
+                font-size: 16px;
+                border-radius: 5px;
+            }
+
+            .button-group {
+                grid-template-columns: 1fr;
+                gap: 10px;
+                margin-top: 20px;
+            }
+
+            button {
+                padding: 12px 16px;
+                font-size: 0.9em;
+                border-radius: 5px;
+            }
+
+            .quote-header {
+                padding: 15px;
+                margin-bottom: 20px;
+            }
+
+            .quote-header h3 {
+                font-size: 1em;
+                margin-bottom: 12px;
+            }
+
+            .customer-info {
+                grid-template-columns: 1fr;
+                gap: 10px;
+                font-size: 0.85em;
+            }
+
+            .info-item {
+                flex-direction: column;
+            }
+
+            .info-label {
+                font-size: 0.75em;
+                margin-bottom: 2px;
+            }
+
+            .info-value {
+                font-size: 0.95em;
+            }
+
+            .recommendation-box {
+                padding: 12px;
+                margin-bottom: 20px;
+                border-left-width: 3px;
+            }
+
+            .recommendation-box h4 {
+                font-size: 0.95em;
+                margin-bottom: 8px;
+            }
+
+            .recommendation-box p {
+                font-size: 0.85em;
+                line-height: 1.5;
+            }
+
+            .specs-grid {
+                grid-template-columns: 1fr;
+                gap: 12px;
+                margin-bottom: 20px;
+            }
+
+            .spec-card {
+                padding: 12px;
+                border-left-width: 3px;
+            }
+
+            .spec-card h4 {
+                font-size: 0.8em;
+                margin-bottom: 6px;
+            }
+
+            .spec-card .value {
+                font-size: 1.3em;
+            }
+
+            .spec-card .details {
+                font-size: 0.8em;
+                margin-top: 4px;
+            }
+
+            .products-section h3 {
+                font-size: 1em;
+                margin-bottom: 12px;
+            }
+
+            .product-item {
+                padding: 12px;
+                margin-bottom: 10px;
+                border-radius: 6px;
+            }
+
+            .product-info h5 {
+                font-size: 0.9em;
+                margin-bottom: 4px;
+            }
+
+            .product-specs {
+                font-size: 0.8em;
+            }
+
+            .product-link {
+                font-size: 0.75em;
+                margin-top: 4px;
+            }
+
+            .product-price .label {
+                font-size: 0.75em;
+            }
+
+            .product-price .price {
+                font-size: 1.2em;
+            }
+
+            .total-cost {
+                padding: 20px;
+                margin-bottom: 20px;
+            }
+
+            .total-cost .label {
+                font-size: 0.9em;
+            }
+
+            .total-cost .amount {
+                font-size: 1.8em;
+            }
+
+            .quote-actions {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+
+            .quote-actions button {
+                width: 100%;
+            }
+
+            /* Product selection cards responsive */
+            div[style*="margin-bottom: 30px"] h4 {
+                font-size: 1em !important;
+            }
+
+            div[style*="margin-bottom: 30px"] p {
+                font-size: 0.8em !important;
+            }
+
+            /* Product card styling for mobile */
+            div[onclick*="selectProduct"] {
+                padding: 12px !important;
+                gap: 10px;
+            }
+
+            div[onclick*="selectProduct"] h5 {
+                font-size: 0.9em;
+            }
+
+            div[onclick*="selectProduct"] div[style*="display: flex"] {
+                flex-direction: column !important;
+                min-width: auto !important;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .header h1 {
+                font-size: 1.3em;
+            }
+
+            .form-section h2,
+            .quote-section h2 {
+                font-size: 1.1em;
+            }
+
+            button {
+                padding: 10px 14px;
+                font-size: 0.85em;
+            }
+
+            .spec-card .value {
+                font-size: 1.2em;
+            }
+
+            .total-cost .amount {
+                font-size: 1.6em;
+            }
+
+            input:not([type="checkbox"]):not(.appliance-qty), textarea {
+                font-size: 16px;
+                padding: 9px;
+            }
+        }
+
+        /* Print / PDF Styles */
+        @media print {
+            body {
+                background: white !important;
+                padding: 0 !important;
+                margin: 0 !important;
+            }
+            .form-section { display: none !important; }
+            .content { grid-template-columns: 1fr !important; }
+            .quote-actions { display: none !important; }
+            .quote-section {
+                display: block !important;
+                box-shadow: none !important;
+                border-radius: 0 !important;
+                padding: 0 !important;
+            }
+            .header { display: none !important; }
+            .container { max-width: 100% !important; }
+            /* Show PDF header only when printing */
+            .pdf-header { display: block !important; }
+            /* Hide the normal quote h2 when printing */
+            .quote-section > h2 { display: none !important; }
+        }
+
+        /* PDF header — hidden on screen, shown on print */
+        .pdf-header {
+            display: none;
+            margin-bottom: 20px;
+            border-bottom: 3px solid #667eea;
+            padding-bottom: 15px;
+        }
+
+        .pdf-header-inner {
+            display: flex;
+            align-items: center;
+            gap: 18px;
+            margin-bottom: 10px;
+        }
+
+        .pdf-header-inner img {
+            width: 70px;
+            height: 70px;
+            object-fit: contain;
+        }
+
+        .pdf-company-info h1 {
+            font-size: 1.2em;
+            color: #333;
+            margin-bottom: 4px;
+        }
+
+        .pdf-company-info p {
+            font-size: 0.85em;
+            color: #555;
+            margin: 1px 0;
+        }
+
+        .pdf-doc-title {
+            text-align: center;
+            font-size: 1.3em;
+            font-weight: 700;
+            color: #667eea;
+            letter-spacing: 1px;
+            margin-top: 10px;
+            text-transform: uppercase;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>☀️ Solar System Calculator</h1>
+            <p>Get an instant quote for your custom solar installation</p>
+        </div>
+
+        <!-- Main Content -->
+        <div class="content">
+            <!-- Form Section -->
+            <div class="form-section">
+                <h2>System Details</h2>
+
+                <div id="formMessage" class="message"></div>
+
+                <form id="solarForm">
+                    <!-- Customer Info -->
+                    <div class="form-group">
+                        <label for="name">Full Name *</label>
+                        <input type="text" id="name" name="name" required placeholder="John Doe">
+                    </div>
+
+                    <div class="input-row">
+                        <div class="form-group">
+                            <label for="email">Email Address *</label>
+                            <input type="email" id="email" name="email" required placeholder="john@example.com">
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Phone Number *</label>
+                            <input type="tel" id="phone" name="phone" required placeholder="+92 300 1234567">
+                        </div>
+                    </div>
+
+                    <!-- System Parameters -->
+                    <div class="form-group">
+                        <label for="monthlyBill">Monthly Electricity Bill <span class="unit">(PKR)</span> *</label>
+                        <input type="number" id="monthlyBill" name="monthlyBill" required placeholder="5000" min="0">
+                        <div class="help-text">Enter your average monthly electricity bill</div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Select Appliances &amp; Quantities</label>
+                        <div class="help-text" style="margin-bottom:10px;">Tick each appliance you have and enter the quantity. Load is calculated automatically.</div>
+                        <div class="appliance-list" id="applianceList">
+                            <!-- rows injected by JS -->
+                        </div>
+                        <div class="load-summary">
+                            <span>Estimated Load:</span>
+                            <strong id="liveMonthlyLoad">0 kW</strong>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="roofArea">Available Roof Area <span class="unit">(sqft)</span> *</label>
+                        <input type="number" id="roofArea" name="roofArea" required placeholder="600" min="0" step="1">
+                        <div class="help-text">Total usable rooftop area in square feet (e.g. 600 sqft)</div>
+                    </div>
+
+                    <!-- Buttons -->
+                    <div class="button-group">
+                        <button type="submit" class="btn-calculate">Calculate Quote</button>
+                        <button type="reset" class="btn-reset">Clear Form</button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Quote Section -->
+            <div class="quote-section" id="quoteSection">
+                <h2>Your Solar Quote</h2>
+
+                <!-- Placeholder shown before calculation -->
+                <div class="quote-placeholder" id="quotePlaceholder">
+                    <div class="big-icon">☀️</div>
+                    <p>Select your appliances and fill the form,<br>your live quote will appear here.</p>
+                </div>
+
+                <!-- Actual quote content -->
+                <div class="quote-content" id="quoteContent">
+
+                <!-- PDF-only header (hidden on screen) -->
+                <div class="pdf-header" id="pdfHeader">
+                    <div class="pdf-header-inner">
+                        <img src="https://lookaside.fbsbx.com/lookaside/crawler/media/?media_id=100095210325986" alt="New Universal Solar Logo" onerror="this.style.display='none'">
+                        <div class="pdf-company-info">
+                            <h1>NEW UNIVERSAL SOLAR AND TRADERS</h1>
+                            <p>📍 Qadeerzia Plaza, College Road, Rawalpindi</p>
+                            <p>📞 0333-7592249</p>
+                        </div>
+                    </div>
+                    <div class="pdf-doc-title">Solar System Quotation</div>
+                </div>
+
+                <!-- Customer Info Header -->
+                <div class="quote-header">
+                    <h3>Customer Information</h3>
+                    <div class="customer-info">
+                        <div class="info-item">
+                            <span class="info-label">Name</span>
+                            <span class="info-value" id="quoteName">-</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Email</span>
+                            <span class="info-value" id="quoteEmail">-</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Phone</span>
+                            <span class="info-value" id="quotePhone">-</span>
+                        </div>
+                        <div class="info-item">
+                            <span class="info-label">Date</span>
+                            <span class="info-value" id="quoteDate">-</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recommendation -->
+                <div class="recommendation-box">
+                    <h4>🏗️ System Type Recommendation</h4>
+                    <p id="recommendationText">-</p>
+                </div>
+
+                <!-- System Specifications -->
+                <div class="specs-grid">
+                    <div class="spec-card">
+                        <h4>Solar Panels</h4>
+                        <div class="value" id="panelsKw">-</div>
+                        <div class="details" id="panelsDetails">-</div>
+                    </div>
+                    <div class="spec-card">
+                        <h4>Inverter Capacity</h4>
+                        <div class="value" id="inverterKw">-</div>
+                        <div class="details" id="inverterDetails">-</div>
+                    </div>
+                    <div class="spec-card">
+                        <h4>Battery Storage</h4>
+                        <div class="value" id="batteryKw">-</div>
+                        <div class="details" id="batteryDetails">-</div>
+                    </div>
+                    <div class="spec-card">
+                        <h4>Total System Cost</h4>
+                        <div class="value" id="systemCost">-</div>
+                        <div class="details">Inclusive of all components</div>
+                    </div>
+                </div>
+
+                <!-- Products Selected -->
+                <div class="products-section">
+                    <h3>📦 Selected Products</h3>
+                    <div id="productsContainer">-</div>
+                </div>
+
+                <!-- Total Cost -->
+                <div class="total-cost">
+                    <div class="label">Total System Cost</div>
+                    <div class="amount" id="totalCostDisplay">PKR 0</div>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="quote-actions" style="grid-template-columns:1fr 1fr 1fr;">
+                    <button class="btn-email" onclick="emailQuote()">📧 Email Quote</button>
+                    <button class="btn-print" onclick="generatePDF()">📄 Download PDF</button>
+                    <button class="btn-whatsapp" onclick="sendToAdmin()">💬 Send to Admin</button>
+                </div>
+                </div><!-- end .quote-content -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ==================== APPLIANCE DATABASE ====================
+        // watts = average running watts per unit
+        // hours = avg hours used per day
+        const APPLIANCES = [
+            { id: 'ac1',    name: '1 Ton AC',              watts: 1100, hours: 8,   icon: '❄️' },
+            { id: 'ac15',   name: '1.5 Ton AC',            watts: 1600, hours: 8,   icon: '❄️' },
+            { id: 'ac2',    name: '2 Ton AC',              watts: 2200, hours: 8,   icon: '❄️' },
+            { id: 'wm',     name: 'Washing Machine',       watts: 500,  hours: 1,   icon: '🫧'  },
+            { id: 'led',    name: 'LED Light (15W)',        watts: 15,   hours: 8,   icon: '💡' },
+            { id: 'esl',    name: 'Energy Saver Light',    watts: 20,   hours: 8,   icon: '💡' },
+            { id: 'tube',   name: 'Tube Light (40W)',       watts: 40,   hours: 8,   icon: '🔆'},
+            { id: 'fan',    name: 'Ceiling Fan',           watts: 75,   hours: 12,  icon: '🌀' },
+            { id: 'wm07',   name: 'Water Motor 0.7HP',     watts: 522,  hours: 2,   icon: '💧' },
+            { id: 'wm1',    name: 'Water Motor 1HP',       watts: 746,  hours: 2,   icon: '💧' },
+            { id: 'wm15',   name: 'Water Motor 1.5HP',     watts: 1119, hours: 2,   icon: '💧' },
+            { id: 'df',     name: 'Deep Freezer',          watts: 200,  hours: 12,  icon: '🧊' },
+            { id: 'fridge', name: 'Refrigerator / Fridge', watts: 150,  hours: 12,  icon: '🧊' },
+            { id: 'iron',   name: 'Iron',                  watts: 1000, hours: 0.5, icon: '👔' },
+        ];
+
+        // Build appliance rows on page load
+        function buildApplianceList() {
+            const container = document.getElementById('applianceList');
+            container.innerHTML = APPLIANCES.map(a => `
+                <div class="appliance-row" id="row_${a.id}">
+                    <input type="checkbox" id="chk_${a.id}" class="appl-chk" onchange="onCheckboxChange('${a.id}')">
+                    <label for="chk_${a.id}" class="appliance-name">${a.icon} ${a.name}</label>
+                    <span class="appliance-watt">${a.watts}W</span>
+                    <input type="number" class="appliance-qty" id="qty_${a.id}"
+                        min="1" max="99" value="1" disabled
+                        oninput="updateLiveLoad()">
+                </div>
+            `).join('');
+        }
+
+        function onCheckboxChange(id) {
+            const chk = document.getElementById('chk_' + id);
+            const qty = document.getElementById('qty_' + id);
+            const row = document.getElementById('row_' + id);
+            qty.disabled = !chk.checked;
+            if (chk.checked && (!qty.value || qty.value < 1)) qty.value = 1;
+            row.classList.toggle('checked', chk.checked);
+            updateLiveLoad();
+        }
+
+        function computeMonthlyLoad() {
+            // Returns total running load in kW (sum of watts × qty for all checked appliances)
+            let totalW = 0;
+            APPLIANCES.forEach(a => {
+                const chk = document.getElementById('chk_' + a.id);
+                const qty = document.getElementById('qty_' + a.id);
+                if (chk && chk.checked) {
+                    const q = parseFloat(qty.value) || 0;
+                    totalW += a.watts * q;
+                }
+            });
+            return parseFloat((totalW / 1000).toFixed(2)); // kW
+        }
+
+        function updateLiveLoad() {
+            const kW = computeMonthlyLoad();
+            document.getElementById('liveMonthlyLoad').textContent = kW.toFixed(2) + ' kW';
+        }
+
+        function getSelectedAppliancesSummary() {
+            const lines = [];
+            APPLIANCES.forEach(a => {
+                const chk = document.getElementById('chk_' + a.id);
+                const qty = document.getElementById('qty_' + a.id);
+                if (chk && chk.checked) {
+                    const q = parseFloat(qty.value) || 0;
+                    if (q > 0) lines.push({ name: a.name, qty: q, watts: a.watts, kw: parseFloat(((a.watts * q) / 1000).toFixed(3)) });
+                }
+            });
+            return lines;
+        }
+
+        // ==================== PRODUCT DATABASE ====================
+        const PRODUCTS = {
+            panels: [
+                // capacity = per-panel kWp; pricePerPanel = price of ONE panel
+                { id: 1, name: "Jollywood 595W Panel", capacity: 0.595, pricePerPanel: 21000, brand: "Jollywood", specs: "595W Monocrystalline, Tier-1", url: "panels.html#0.595kw" },
+                { id: 2, name: "Jollywood 620W Panel", capacity: 0.620, pricePerPanel: 25000, brand: "Jollywood", specs: "620W Monocrystalline, Tier-1", url: "panels.html#0.62kw" },
+                { id: 3, name: "Jollywood 625W Panel", capacity: 0.625, pricePerPanel: 22000, brand: "Jollywood", specs: "625W Monocrystalline, Tier-1", url: "panels.html#0.625kw" },
+                { id: 4, name: "Jollywood 630W Panel", capacity: 0.630, pricePerPanel: 30000, brand: "Jollywood", specs: "630W Monocrystalline, Tier-1", url: "panels.html#0.63kw" },
+                { id: 5, name: "Mustang 585W Panel",   capacity: 0.585, pricePerPanel: 25000, brand: "Mustang",  specs: "585W Monocrystalline, Tier-1", url: "panels.html#0.585kw" },
+                { id: 6, name: "Mustang 610W Panel",   capacity: 0.610, pricePerPanel: 18000, brand: "Mustang",  specs: "610W Monocrystalline, Tier-1", url: "panels.html#0.61kw" },
+                { id: 7, name: "Mustang 620W Panel",   capacity: 0.620, pricePerPanel: 28000, brand: "Mustang",  specs: "620W Monocrystalline, Tier-1", url: "panels.html#0.62kw" },
+                { id: 8, name: "Mustang 720W Panel",   capacity: 0.720, pricePerPanel: 31000, brand: "Mustang",  specs: "720W Monocrystalline, Tier-1", url: "panels.html#0.72kw" },
+            ],
+            inverters: [
+                // 5kW Options
+                { id: 1, name: "5kW Hybrid Inverter", capacity: 5, price: 250000, brand: "Hybrid", specs: "MPPT Controller, 98% Efficiency", url: "/products/inverters/hybrid/5kw", maxInputCurrent: 125, maxStrings: 2, recommendedPanels: 13, derating: 0.95 },
+                { id: 2, name: "5kW Veyron Inverter", capacity: 5, price: 280000, brand: "Veyron", specs: "Advanced Control, WiFi Monitoring", url: "/products/inverters/veyron/5kw", maxInputCurrent: 135, maxStrings: 2, recommendedPanels: 14, derating: 0.96 },
+                { id: 3, name: "5kW On-Grid Inverter", capacity: 5, price: 220000, brand: "On-Grid", specs: "Grid-tie, 97% Efficiency", url: "/products/inverters/ongrid/5kw", maxInputCurrent: 120, maxStrings: 2, recommendedPanels: 12, derating: 0.94 },
+                
+                // 3kW Options (NEW - for your 3.6kW Nitrox & 4.2kW Veyron example)
+                { id: 19, name: "3.6kW Nitrox Inverter", capacity: 3.6, price: 180000, brand: "Nitrox", specs: "MPPT 80A, Dual String", url: "/products/inverters/nitrox/3.6kw", maxInputCurrent: 80, maxStrings: 2, recommendedPanels: 8, derating: 0.92 },
+                { id: 20, name: "4.2kW Veyron Inverter", capacity: 4.2, price: 210000, brand: "Veyron", specs: "MPPT 100A, Dual String", url: "/products/inverters/veyron/4.2kw", maxInputCurrent: 100, maxStrings: 2, recommendedPanels: 10, derating: 0.95 },
+                
+                // 6kW Options
+                { id: 4, name: "6kW Hybrid Inverter", capacity: 6, price: 300000, brand: "Hybrid", specs: "MPPT Controller, 98% Efficiency", url: "/products/inverters/hybrid/6kw", maxInputCurrent: 150, maxStrings: 3, recommendedPanels: 16, derating: 0.95 },
+                { id: 5, name: "6kW Veyron Inverter", capacity: 6, price: 340000, brand: "Veyron", specs: "Advanced Control, WiFi Monitoring", url: "/products/inverters/veyron/6kw", maxInputCurrent: 160, maxStrings: 3, recommendedPanels: 17, derating: 0.96 },
+                { id: 6, name: "6kW On-Grid Inverter", capacity: 6, price: 270000, brand: "On-Grid", specs: "Grid-tie, 97% Efficiency", url: "/products/inverters/ongrid/6kw", maxInputCurrent: 145, maxStrings: 3, recommendedPanels: 15, derating: 0.94 },
+                
+                // 7.5kW Options
+                { id: 7, name: "7.5kW Hybrid Inverter", capacity: 7.5, price: 375000, brand: "Hybrid", specs: "MPPT Controller, 98% Efficiency", url: "/products/inverters/hybrid/7.5kw", maxInputCurrent: 180, maxStrings: 3, recommendedPanels: 20, derating: 0.95 },
+                { id: 8, name: "7.5kW Veyron Inverter", capacity: 7.5, price: 420000, brand: "Veyron", specs: "Advanced Control, WiFi Monitoring", url: "/products/inverters/veyron/7.5kw", maxInputCurrent: 190, maxStrings: 3, recommendedPanels: 21, derating: 0.96 },
+                { id: 9, name: "7.5kW On-Grid Inverter", capacity: 7.5, price: 340000, brand: "On-Grid", specs: "Grid-tie, 97% Efficiency", url: "/products/inverters/ongrid/7.5kw", maxInputCurrent: 175, maxStrings: 3, recommendedPanels: 19, derating: 0.94 },
+                
+                // 10kW Options
+                { id: 10, name: "10kW Hybrid Inverter", capacity: 10, price: 500000, brand: "Hybrid", specs: "MPPT Controller, 98% Efficiency", url: "/products/inverters/hybrid/10kw", maxInputCurrent: 220, maxStrings: 4, recommendedPanels: 24, derating: 0.95 },
+                { id: 11, name: "10kW Veyron Inverter", capacity: 10, price: 560000, brand: "Veyron", specs: "Advanced Control, WiFi Monitoring", url: "/products/inverters/veyron/10kw", maxInputCurrent: 240, maxStrings: 4, recommendedPanels: 26, derating: 0.96 },
+                { id: 12, name: "10kW On-Grid Inverter", capacity: 10, price: 450000, brand: "On-Grid", specs: "Grid-tie, 97% Efficiency", url: "/products/inverters/ongrid/10kw", maxInputCurrent: 210, maxStrings: 4, recommendedPanels: 23, derating: 0.94 },
+                
+                // 12.5kW Options
+                { id: 13, name: "12.5kW Hybrid Inverter", capacity: 12.5, price: 625000, brand: "Hybrid", specs: "MPPT Controller, 98% Efficiency", url: "/products/inverters/hybrid/12.5kw", maxInputCurrent: 260, maxStrings: 4, recommendedPanels: 30, derating: 0.95 },
+                { id: 14, name: "12.5kW Veyron Inverter", capacity: 12.5, price: 700000, brand: "Veyron", specs: "Advanced Control, WiFi Monitoring", url: "/products/inverters/veyron/12.5kw", maxInputCurrent: 280, maxStrings: 4, recommendedPanels: 32, derating: 0.96 },
+                { id: 15, name: "12.5kW On-Grid Inverter", capacity: 12.5, price: 560000, brand: "On-Grid", specs: "Grid-tie, 97% Efficiency", url: "/products/inverters/ongrid/12.5kw", maxInputCurrent: 250, maxStrings: 4, recommendedPanels: 28, derating: 0.94 },
+                
+                // 15kW Options
+                { id: 16, name: "15kW Hybrid Inverter", capacity: 15, price: 750000, brand: "Hybrid", specs: "MPPT Controller, 98% Efficiency", url: "/products/inverters/hybrid/15kw", maxInputCurrent: 300, maxStrings: 5, recommendedPanels: 35, derating: 0.95 },
+                { id: 17, name: "15kW Veyron Inverter", capacity: 15, price: 840000, brand: "Veyron", specs: "Advanced Control, WiFi Monitoring", url: "/products/inverters/veyron/15kw", maxInputCurrent: 320, maxStrings: 5, recommendedPanels: 37, derating: 0.96 },
+                { id: 18, name: "15kW On-Grid Inverter", capacity: 15, price: 675000, brand: "On-Grid", specs: "Grid-tie, 97% Efficiency", url: "/products/inverters/ongrid/15kw", maxInputCurrent: 290, maxStrings: 5, recommendedPanels: 33, derating: 0.94 }
+            ],
+
+
+            batteries: [
+                // 10kWh Options
+                { id: 1, name: "2.6kWh Lithium Battery", capacity: 2.6, price: 500000, brand: "INVEREX", specs: "Inverex, 6000 Cycles, BMS", url: "batteries.html#2.6kwh" },
+                {  id: 1, name: "5.1kWh Lithium Battery", capacity: 5.1, price: 500000, brand: "INVEREX", specs: "Inverex, 6000 Cycles, BMS", url: "batteries.html#5.1kwh" },
+                { id: 1, name: "5.3kWh Lithium Battery", capacity: 5.3, price: 500000, brand: "INVEREX", specs: "Inverex, 6000 Cycles, BMS", url: "batteries.html#5.3kwh" },
+                
+                // 15kWh Options
+                {  id: 1, name: "10.6kWh Lithium Battery", capacity: 10.6, price: 500000, brand: "INVEREX", specs: "Inverex, 6000 Cycles, BMS", url: "batteries.html#10.6kwh" },
+                {  id: 1, name: "11.8kWh Lithium Battery", capacity: 11.8, price: 500000, brand: "INVEREX", specs: "Inverex, 6000 Cycles, BMS", url: "batteries.html#11.8kwh" },
+                {  id: 1, name: "16kWh Lithium Battery", capacity: 16, price: 500000, brand: "INVEREX", specs: "Inverex, 6000 Cycles, BMS", url: "batteries.html#16kwh" },
+                
+                // 20kWh Options
+                {  id: 1, name: "1.2kWh Lithium Battery", capacity: 1.2, price: 500000, brand: "INVEREX", specs: "Inverex, 6000 Cycles, BMS", url: "batteries.html#1.2kwh" }
+               
+            ]
+        };
+           
+              
+
+        // ==================== CONSTANTS ====================
+        const AVG_PANEL_SIZE = 1.65; // m² per panel
+        const EFFICIENCY_LOSS = 0.75; // 25% loss factor
+        const INVERTER_MULTIPLIER = 1.2; // 20% oversizing
+        const BATTERY_DAYS_AUTONOMY = 2; // 2 days backup
+        const KWH_TO_KWP_RATIO = 0.8; // Rough conversion
+        const PLATE_RATE = 17; // PKR per unit (electricity rate estimate)
+
+        // ==================== FORM SUBMISSION ====================
+        document.getElementById('solarForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            calculateQuote();
+        });
+
+        function calculateQuote() {
+            // Get form values
+            const name = document.getElementById('name').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const phone = document.getElementById('phone').value.trim();
+            const monthlyBill = parseFloat(document.getElementById('monthlyBill').value);
+            const roofArea = parseFloat(document.getElementById('roofArea').value);
+            const monthlyLoad = computeMonthlyLoad(); // computed from appliances
+
+            // Validation
+            if (!name || !email || !phone || !monthlyBill || !roofArea) {
+                showMessage('Please fill in all fields', 'error', 'formMessage');
+                return;
+            }
+
+            if (monthlyBill < 0 || roofArea < 0) {
+                showMessage('Values cannot be negative', 'error', 'formMessage');
+                return;
+            }
+
+            if (monthlyLoad <= 0) {
+                showMessage('Please select at least one appliance with a quantity.', 'error', 'formMessage');
+                return;
+            }
+
+            // ==================== CALCULATIONS ====================
+            // monthlyLoad is now peak load in kW (sum of all appliance watts / 1000)
+
+            const peakLoadKw = monthlyLoad; // kW peak demand
+            const peakSunHours = 4.5;       // Average for Pakistan
+
+            // Panel capacity needed = peak load ÷ efficiency loss
+            const loadBasedCapacity = peakLoadKw / EFFICIENCY_LOSS; // kWp
+
+            // Inverter capacity = peak load × safety multiplier
+            const inverterCapacity = peakLoadKw * INVERTER_MULTIPLIER; // kW
+
+            // Battery capacity = peak load × 4 hours backup (kWh)
+            const batteryCapacity = peakLoadKw * 4;
+
+            // kW available from roof area under each mounting type
+            const l2Capacity       = roofArea / 120;  // L2 Stand: 120 sqft per kW
+            const elevatedCapacity = roofArea / 60;   // Elevated: 60 sqft per kW
+
+            // Determine system recommendation and effective capacity
+            let systemRecommendation, panelCapacityNeeded;
+            if (l2Capacity >= loadBasedCapacity) {
+                panelCapacityNeeded = loadBasedCapacity;
+                systemRecommendation = {
+                    type: "L2 Ground Stand",
+                    kwFromArea: parseFloat(l2Capacity.toFixed(2)),
+                    description: `Your roof area of ${roofArea} sqft supports up to ${l2Capacity.toFixed(1)} kW on an L2 stand (120 sqft/kW). System sized to your ${loadBasedCapacity.toFixed(2)} kWp load requirement.`,
+                    icon: "🌱"
+                };
+            } else if (elevatedCapacity >= loadBasedCapacity) {
+                panelCapacityNeeded = loadBasedCapacity;
+                systemRecommendation = {
+                    type: "Elevated (Terrace Mounted)",
+                    kwFromArea: parseFloat(elevatedCapacity.toFixed(2)),
+                    description: `Your roof area of ${roofArea} sqft supports up to ${elevatedCapacity.toFixed(1)} kW elevated (60 sqft/kW). L2 stand would need ${(loadBasedCapacity * 120).toFixed(0)} sqft. System sized to your ${loadBasedCapacity.toFixed(2)} kWp load requirement.`,
+                    icon: "🏗️"
+                };
+            } else {
+                panelCapacityNeeded = elevatedCapacity;
+                systemRecommendation = {
+                    type: "Hybrid On-Grid (Area Limited)",
+                    kwFromArea: parseFloat(elevatedCapacity.toFixed(2)),
+                    description: `Your roof area of ${roofArea} sqft can only support ${elevatedCapacity.toFixed(1)} kW (elevated, 60 sqft/kW). Your load needs ${loadBasedCapacity.toFixed(2)} kWp — a grid-tied hybrid system will cover the shortfall.`,
+                    icon: "⚡"
+                };
+            }
+
+            // Panel count based on selected panel wattage (620W avg)
+            const AVG_PANEL_WATTS = 620;
+            const panelsCount = Math.ceil((panelCapacityNeeded * 1000) / AVG_PANEL_WATTS);
+            const roofAreaNeededSqft = roofArea;
+
+            // 5. Store data for quote display
+            window.quoteData = {
+                name: escapeHTML(name),
+                email: escapeHTML(email),
+                phone: escapeHTML(phone),
+                monthlyBill,
+                monthlyLoad,
+                roofArea,
+                panelCapacityNeeded: panelCapacityNeeded.toFixed(2),
+                inverterCapacity: inverterCapacity.toFixed(2),
+                batteryCapacity: batteryCapacity.toFixed(2),
+                selectedPanel: null,
+                selectedInverter: null,
+                selectedBattery: null,
+                totalCost: 0,
+                systemRecommendation,
+                roofAreaNeeded: roofAreaNeededSqft,
+                panelsCount,
+                date: new Date().toLocaleDateString(),
+                appliances: getSelectedAppliancesSummary()
+            };
+
+            // Display quote with product options
+            displayQuote();
+            showMessage('✅ System calculated! Now select your preferred products below.', 'success', 'formMessage');
+        }
+
+        // ==================== XSS PROTECTION ====================
+        function escapeHTML(str) {
+            return String(str)
+                .replace(/&/g, '&amp;')
+                .replace(/</g, '&lt;')
+                .replace(/>/g, '&gt;')
+                .replace(/"/g, '&quot;')
+                .replace(/'/g, '&#39;');
+        }
+
+        // ==================== DISPLAY QUOTE WITH PRODUCT SELECTION ====================
+        function displayQuote() {
+            const data = window.quoteData;
+            const section = document.getElementById('quoteSection');
+
+            // Customer info
+            document.getElementById('quoteName').textContent = data.name;
+            document.getElementById('quoteEmail').textContent = data.email;
+            document.getElementById('quotePhone').textContent = data.phone;
+            document.getElementById('quoteDate').textContent = data.date;
+
+            // Recommendation
+            document.getElementById('recommendationText').innerHTML = 
+                `<strong>${data.systemRecommendation.icon} ${data.systemRecommendation.type}</strong><br>${data.systemRecommendation.description}`;
+
+            // System specs — derive panel count from MPPT if inverter+panel already selected
+            let actualPanelCount    = data.panelsCount;
+            let panelCapacityDisplay = data.panelCapacityNeeded;
+
+            if (data.selectedInverter && data.selectedPanel) {
+                const mppt = getMpptPanelCount(data.selectedInverter, data.selectedPanel);
+                actualPanelCount     = mppt.actual;
+                panelCapacityDisplay = (mppt.actual * data.selectedPanel.capacity).toFixed(2);
+            } else if (data.selectedInverter && data.selectedInverter.recommendedPanels) {
+                actualPanelCount     = data.selectedInverter.recommendedPanels;
+                panelCapacityDisplay = (actualPanelCount * 0.62).toFixed(2); // avg panel kWp fallback
+            }
+
+            document.getElementById('panelsKw').textContent = `${panelCapacityDisplay} kWp`;
+            const panelWatts = data.selectedPanel ? (data.selectedPanel.capacity * 1000).toFixed(0) : '620';
+            const roofSqft   = data.roofArea;
+            document.getElementById('panelsDetails').textContent = `${actualPanelCount} panels × ${panelWatts}W | Roof: ${roofSqft} sqft | ${data.systemRecommendation.type}`;
+
+            document.getElementById('inverterKw').textContent = `${data.inverterCapacity} kW`;
+            document.getElementById('inverterDetails').textContent = `Max Current: ${data.selectedInverter && data.selectedInverter.maxInputCurrent ? data.selectedInverter.maxInputCurrent + 'A' : '-'} | MPPT Strings: ${data.selectedInverter && data.selectedInverter.maxStrings ? data.selectedInverter.maxStrings : '-'}`;
+
+            document.getElementById('batteryKw').textContent = `${data.batteryCapacity} kWh`;
+            document.getElementById('batteryDetails').textContent = `Select your preferred battery option below`;
+
+            // Show product selection
+            displayProductSelection();
+            
+            // Show quote content, hide placeholder
+            document.getElementById('quotePlaceholder').style.display = 'none';
+            document.getElementById('quoteContent').classList.add('active');
+
+            // Scroll to quote on mobile
+            if (window.innerWidth <= 1024) {
+                setTimeout(() => {
+                    document.getElementById('quoteSection').scrollIntoView({ behavior: 'smooth' });
+                }, 100);
+            }
+        }
+
+        // ==================== DISPLAY PRODUCT SELECTION CARDS ====================
+        function displayProductSelection() {
+            const data = window.quoteData;
+
+            // Get suitable products
+            const suitablePanels    = getSuitableProducts(PRODUCTS.panels,    data.panelCapacityNeeded, true);
+            const suitableInverters = getSuitableProducts(PRODUCTS.inverters, data.inverterCapacity,    false);
+            const suitableBatteries = getSuitableProducts(PRODUCTS.batteries, data.batteryCapacity,     false);
+
+            // Set default selections BEFORE rendering so first render shows them highlighted
+            if (!data.selectedPanel    && suitablePanels.length)    data.selectedPanel    = suitablePanels[0];
+            if (!data.selectedInverter && suitableInverters.length) data.selectedInverter = suitableInverters[0];
+            if (!data.selectedBattery  && suitableBatteries.length) data.selectedBattery  = suitableBatteries[0];
+
+            let productsHTML = `
+                <div style="margin-bottom: 30px;">
+                    <h4 style="color: #333; margin-bottom: 15px; font-weight: 600;">Solar Panels — ${data.panelsCount} panels required (${data.panelCapacityNeeded} kWp total)</h4>
+                    <p style="font-size: 0.9em; color: #666; margin-bottom: 10px;">Price shown = per-panel price × number of panels needed</p>
+                    <div style="display: grid; gap: 10px;">
+            `;
+
+            suitablePanels.forEach(product => {
+                const isSelected = data.selectedPanel && data.selectedPanel.id === product.id;
+                productsHTML += createProductCard(product, 'panel', isSelected);
+            });
+
+            productsHTML += `
+                    </div>
+                </div>
+
+                <div style="margin-bottom: 30px;">
+                    <h4 style="color: #333; margin-bottom: 15px; font-weight: 600;">Inverters — Calculated: ${data.inverterCapacity} kW</h4>
+                    <p style="font-size: 0.9em; color: #666; margin-bottom: 10px;">Choose from different brands: Hybrid, Veyron, On-Grid</p>
+                    <div style="display: grid; gap: 10px;">
+            `;
+
+            suitableInverters.forEach(product => {
+                const isSelected = data.selectedInverter && data.selectedInverter.id === product.id;
+                productsHTML += createProductCard(product, 'inverter', isSelected);
+            });
+
+            productsHTML += `
+                    </div>
+                </div>
+
+                <div style="margin-bottom: 30px;">
+                    <h4 style="color: #333; margin-bottom: 15px; font-weight: 600;">Battery Storage — Calculated: ${data.batteryCapacity} kWh</h4>
+                    <p style="font-size: 0.9em; color: #666; margin-bottom: 10px;">Select your preferred battery brand and capacity</p>
+                    <div style="display: grid; gap: 10px;">
+            `;
+
+            suitableBatteries.forEach(product => {
+                const isSelected = data.selectedBattery && data.selectedBattery.id === product.id;
+                productsHTML += createProductCard(product, 'battery', isSelected);
+            });
+
+            productsHTML += `
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('productsContainer').innerHTML = productsHTML;
+
+            // Sync radio buttons after DOM update
+            setTimeout(() => {
+                if (data.selectedPanel) {
+                    const r = document.getElementById(`panel-${data.selectedPanel.id}`);
+                    if (r) r.checked = true;
+                }
+                if (data.selectedInverter) {
+                    const r = document.getElementById(`inverter-${data.selectedInverter.id}`);
+                    if (r) r.checked = true;
+                }
+                if (data.selectedBattery) {
+                    const r = document.getElementById(`battery-${data.selectedBattery.id}`);
+                    if (r) r.checked = true;
+                }
+            }, 50);
+
+            // Update the total cost now that all products are set
+            updateQuoteSummary();
+        }
+
+        // ==================== CREATE PRODUCT CARD ====================
+        function createProductCard(product, type, isSelected) {
+            const bgColor     = isSelected ? '#e8f5e9' : '#f9f9f9';
+            const borderColor = isSelected ? '#4caf50' : '#e0e0e0';
+            const borderWidth = isSelected ? '3px'    : '1px';
+            const uniqueId    = `${type}-${product.id}`;
+            const data        = window.quoteData;
+
+            // ---- Panel count & price (panel cards use selected inverter MPPT) ----
+            let panelCount = data.panelsCount; // fallback: load-based count
+            if (type === 'panel') {
+                if (data.selectedInverter) {
+                    const mppt = getMpptPanelCount(data.selectedInverter, product);
+                    panelCount = mppt.actual;
+                }
+            }
+
+            // ---- Price display ----
+            let priceDisplay = '';
+            if (type === 'panel') {
+                const totalPanelCost = product.pricePerPanel * panelCount;
+                priceDisplay = `
+                    <div style="font-size:0.75em;color:#888;margin-bottom:3px;">
+                        PKR ${product.pricePerPanel.toLocaleString()} × ${panelCount} panels
+                    </div>
+                    <div style="font-size:1.3em;font-weight:700;color:#4caf50;">
+                        PKR ${totalPanelCost.toLocaleString()}
+                    </div>`;
+            } else {
+                priceDisplay = `<div style="font-size:1.3em;font-weight:700;color:#4caf50;">PKR ${product.price.toLocaleString()}</div>`;
+            }
+
+            // ---- Undersized badge (inverters/batteries) ----
+            const undersizedBadge = product.undersized
+                ? `<div style="font-size:0.78em;color:#e65100;background:#fff3e0;padding:4px 8px;border-radius:4px;margin-top:6px;">⚠️ Largest available — may be undersized for your load</div>`
+                : '';
+
+            // ---- Additional specs block ----
+            let additionalDetails = '';
+
+            if (type === 'inverter') {
+                // Compute MPPT panel count for the currently selected panel
+                const selPanel = data.selectedPanel;
+                let mpptBlock  = '';
+
+                if (selPanel) {
+                    const mppt = getMpptPanelCount(product, selPanel);
+                    const panelWatts = (selPanel.capacity * 1000).toFixed(0);
+                    mpptBlock = `
+                        <div style="margin-top:10px;padding:10px;background:#e3f2fd;border-radius:6px;border-left:3px solid #1976d2;">
+                            <div style="font-size:0.82em;font-weight:700;color:#1565c0;margin-bottom:6px;">
+                                🔌 MPPT Panel Compatibility (${selPanel.name})
+                            </div>
+                            <div style="font-size:0.8em;color:#333;line-height:1.7;">
+                                • Panel Isc ≈ <strong>${mppt.panelIsc.toFixed(1)}A</strong>
+                                  &nbsp;(${panelWatts}W ÷ ${PANEL_VMP}V Vmp)<br>
+                                • By current limit (${product.maxInputCurrent}A ÷ ${mppt.panelIsc.toFixed(1)}A):
+                                  <strong>${mppt.byCurrentLimit} panels max</strong><br>
+                                • By DC power (${product.capacity}kW × ${DC_AC_RATIO} ÷ ${selPanel.capacity}kWp):
+                                  <strong>${mppt.byPowerLimit} panels max</strong><br>
+                                • System requires: <strong>${mppt.systemRequired} panels</strong>
+                            </div>
+                            <div style="margin-top:8px;font-size:0.82em;font-weight:700;
+                                        padding:6px 10px;border-radius:4px;
+                                        background:${mppt.fitColor === '#2e7d32' ? '#c8e6c9' : '#fff3e0'};
+                                        color:${mppt.fitColor};">
+                                ${mppt.fitStatus}<br>
+                                ➡️ This inverter will connect <strong>${mppt.actual} panels</strong>
+                                   (${(mppt.actual * selPanel.capacity).toFixed(2)} kWp)
+                            </div>
+                        </div>`;
+                } else {
+                    mpptBlock = `
+                        <div style="margin-top:8px;font-size:0.8em;color:#888;font-style:italic;">
+                            ← Select a panel above to see MPPT compatibility
+                        </div>`;
+                }
+
+                additionalDetails = `
+                    <div style="font-size:0.85em;color:#555;margin-top:8px;
+                                padding-top:8px;border-top:1px solid rgba(0,0,0,0.05);">
+                        <strong>MPPT Specs:</strong>&nbsp;
+                        Max Input: ${product.maxInputCurrent}A &nbsp;|&nbsp;
+                        Strings: ${product.maxStrings} &nbsp;|&nbsp;
+                        Derating: ${(product.derating * 100).toFixed(0)}%
+                    </div>
+                    ${mpptBlock}`;
+            }
+
+            return `
+                <div style="
+                    background:${bgColor};
+                    padding:15px;
+                    border-radius:8px;
+                    border:${borderWidth} solid ${borderColor};
+                    cursor:pointer;
+                    transition:all 0.3s;
+                    display:flex;
+                    flex-direction:column;
+                    gap:12px;
+                " onclick="selectProduct('${type}', ${product.id}); document.getElementById('${uniqueId}').checked=true;"
+                   onmouseover="this.style.boxShadow='0 4px 12px rgba(0,0,0,0.1)'"
+                   onmouseout="this.style.boxShadow='none'">
+                    <div style="display:flex;gap:12px;align-items:flex-start;">
+                        <input type="radio" id="${uniqueId}" name="${type}" value="${product.id}"
+                               ${isSelected ? 'checked' : ''}
+                               style="margin-top:4px;cursor:pointer;min-width:20px;width:20px;height:20px;"
+                               onclick="selectProduct('${type}', ${product.id})">
+                        <div style="flex:1;">
+                            <h5 style="color:#333;margin:0 0 5px 0;word-break:break-word;">${product.name}</h5>
+                            <div style="font-size:0.85em;color:#666;line-height:1.4;">
+                                <strong>Brand:</strong> ${product.brand} &nbsp;|&nbsp;
+                                <strong>Capacity:</strong> ${product.capacity}
+                                ${type === 'panel' ? 'kWp/panel' : type === 'inverter' ? 'kW' : 'kWh'}
+                            </div>
+                            <div style="font-size:0.85em;color:#666;margin-top:5px;">${product.specs}</div>
+                            ${additionalDetails}
+                            ${undersizedBadge}
+                            <a href="${product.url}" target="_blank"
+                               style="color:#667eea;text-decoration:none;font-size:0.8em;margin-top:5px;display:inline-block;">
+                                View Details →
+                            </a>
+                        </div>
+                    </div>
+                    <div style="text-align:right;padding-top:10px;border-top:1px solid rgba(0,0,0,0.05);">
+                        <div style="font-size:0.8em;color:#999;margin-bottom:5px;">
+                            ${type === 'panel' ? 'Total Panel Cost' : 'Price'}
+                        </div>
+                        ${priceDisplay}
+                    </div>
+                </div>
+            `;
+        }
+
+        // ==================== MPPT PANEL COUNT CALCULATOR ====================
+        // Computes how many panels this inverter can handle for the selected panel type,
+        // constrained by:
+        //   1. MPPT current limit: maxInputCurrent / panelIsc
+        //   2. DC power limit: inverterKW × 1000 × DC_AC_RATIO / panelWatts
+        //   3. System demand: panelsNeeded (what the load actually requires)
+        // Returns an object with the count and a breakdown for display.
+        const PANEL_VMP   = 40;    // Typical Vmp (V) for mono panels ~500-700W
+        const DC_AC_RATIO = 1.25;  // Standard DC oversizing ratio
+
+        function getMpptPanelCount(inverter, panel) {
+            const panelWatts = panel.capacity * 1000;                        // e.g. 620W
+            const panelIsc   = panelWatts / PANEL_VMP;                       // e.g. 15.5A
+
+            // 1. Current limit across all MPPT strings
+            const byCurrentLimit = Math.floor(inverter.maxInputCurrent / panelIsc);
+
+            // 2. DC power limit (inverter kW × DC:AC ratio)
+            const dcCapacityW    = inverter.capacity * 1000 * DC_AC_RATIO;
+            const byPowerLimit   = Math.floor(dcCapacityW / panelWatts);
+
+            // 3. System-required panels (from the load calculation)
+            const systemRequired = window.quoteData ? window.quoteData.panelsCount : Infinity;
+
+            // Final: what the inverter can handle vs what the system needs
+            const inverterMax    = Math.min(byCurrentLimit, byPowerLimit);
+            const actual         = Math.min(inverterMax, systemRequired);
+
+            // Fit status
+            let fitStatus, fitColor;
+            if (inverterMax >= systemRequired) {
+                fitStatus = `✅ Fits system (needs ${systemRequired}, handles ${inverterMax})`;
+                fitColor  = '#2e7d32';
+            } else {
+                fitStatus = `⚠️ Undersized — handles ${inverterMax}, system needs ${systemRequired}`;
+                fitColor  = '#e65100';
+            }
+
+            return { actual, inverterMax, byCurrentLimit, byPowerLimit, panelIsc, fitStatus, fitColor, systemRequired };
+        }
+
+        // ==================== GET SUITABLE PRODUCTS ====================
+        // For panels: productArray holds per-panel kWp; returns all panels (user picks any)
+        // For inverters/batteries: finds best capacity match
+        function getSuitableProducts(productArray, requiredCapacity, isPanel) {
+            if (isPanel) {
+                // All panels are valid options — user picks brand/wattage
+                // Sort by per-panel capacity descending so higher-watt panels show first
+                return [...productArray].sort((a, b) => b.capacity - a.capacity);
+            }
+
+            // Inverters & batteries: find products >= required, within 30% oversizing
+            const sorted = [...productArray].sort((a, b) => a.capacity - b.capacity);
+            const suitable = sorted.filter(p => p.capacity >= requiredCapacity);
+
+            if (suitable.length === 0) {
+                // Nothing meets requirement — return the largest available with a warning flag
+                return [{ ...sorted[sorted.length - 1], undersized: true }];
+            }
+
+            // Group by capacity tier, return up to 2 lowest tiers (brand choices)
+            const lowestTier = suitable[0].capacity;
+            const nextTier = suitable.find(p => p.capacity > lowestTier)?.capacity;
+            return suitable.filter(p => p.capacity === lowestTier || p.capacity === nextTier);
+        }
+
+        // ==================== SELECT PRODUCT ====================
+        function selectProduct(type, productId) {
+            const typeMap = {
+                'panel': 'panels',
+                'inverter': 'inverters',
+                'battery': 'batteries'
+            };
+
+            const product = PRODUCTS[typeMap[type]].find(p => p.id === productId);
+
+            if (product) {
+                // Update data
+                const key = `selected${type.charAt(0).toUpperCase() + type.slice(1)}`;
+                window.quoteData[key] = product;
+                
+                // Update total cost immediately
+                updateQuoteSummary();
+                
+                // Re-render product cards to show selection
+                setTimeout(() => {
+                    displayProductSelection();
+                }, 100);
+            }
+        }
+
+        // ==================== UPDATE QUOTE SUMMARY ====================
+        function updateQuoteSummary() {
+            const data = window.quoteData;
+
+            if (data.selectedPanel && data.selectedInverter && data.selectedBattery) {
+                const mppt       = getMpptPanelCount(data.selectedInverter, data.selectedPanel);
+                const panelCount = mppt.actual;
+                data.mpptResult  = mppt; // store for email/display use
+
+                const panelTotalCost = data.selectedPanel.pricePerPanel * panelCount;
+                const totalCost      = panelTotalCost + data.selectedInverter.price + data.selectedBattery.price;
+                data.totalCost       = Math.round(totalCost);
+                data.panelTotalCost  = Math.round(panelTotalCost);
+
+                document.getElementById('systemCost').textContent      = `PKR ${data.totalCost.toLocaleString()}`;
+                document.getElementById('totalCostDisplay').textContent = `PKR ${data.totalCost.toLocaleString()}`;
+            }
+        }
+
+        // ==================== EMAIL QUOTE ====================
+        function emailQuote() {
+            const data = window.quoteData;
+
+            // Check if products are selected
+            if (!data.selectedPanel || !data.selectedInverter || !data.selectedBattery) {
+                showMessageGlobal('Please select all products before emailing the quote.', 'error');
+                return;
+            }
+
+            // Calculate actual panel count from MPPT logic
+            const mppt = getMpptPanelCount(data.selectedInverter, data.selectedPanel);
+            const actualPanelCount    = mppt.actual;
+            const actualPanelCapacity = (actualPanelCount * data.selectedPanel.capacity).toFixed(2);
+            const panelTotalPrice     = data.selectedPanel.pricePerPanel * actualPanelCount;
+
+            // Create email content
+            const emailContent = `
+Hello ${data.name},
+
+Thank you for using our Solar System Calculator. Here's your personalized solar system quote:
+
+=== SYSTEM SPECIFICATIONS ===
+Solar Panel Capacity: ${actualPanelCapacity} kWp (${actualPanelCount} × ${(data.selectedPanel.capacity*1000).toFixed(0)}W panels)
+Inverter Capacity: ${data.inverterCapacity} kW
+Battery Storage: ${data.batteryCapacity} kWh
+System Type: ${data.systemRecommendation.type}
+
+=== SELECTED PRODUCTS & SPECIFICATIONS ===
+
+1. SOLAR PANELS: ${actualPanelCount} × ${data.selectedPanel.name}
+   Total Capacity: ${actualPanelCapacity} kWp
+   Price per Panel: PKR ${data.selectedPanel.pricePerPanel.toLocaleString()}
+   Total Panel Cost: PKR ${panelTotalPrice.toLocaleString()}
+   Roof Area: ${data.roofArea} sqft
+
+2. INVERTER: ${data.selectedInverter.name} (${data.selectedInverter.brand})
+   Price: PKR ${data.selectedInverter.price.toLocaleString()}
+   
+   MPPT Specifications:
+   • Rated Capacity: ${data.selectedInverter.capacity} kW
+   • Max Input Current: ${data.selectedInverter.maxInputCurrent}A
+   • Number of MPPT Strings: ${data.selectedInverter.maxStrings}
+   • Derating Factor: ${(data.selectedInverter.derating * 100).toFixed(0)}%
+   • Efficiency: ${data.selectedInverter.specs}
+   
+   This inverter is optimized for ${data.selectedInverter.recommendedPanels} panels
+   Product Page: ${data.selectedInverter.url}
+
+3. BATTERY STORAGE: ${data.selectedBattery.name} (${data.selectedBattery.brand})
+   Price: PKR ${data.selectedBattery.price.toLocaleString()}
+   Capacity: ${data.selectedBattery.capacity} kWh
+   Specs: ${data.selectedBattery.specs}
+   Product Page: ${data.selectedBattery.url}
+
+=== TOTAL SYSTEM COST ===
+PKR ${data.totalCost.toLocaleString()}
+
+System Design Details:
+- Monthly Energy Load: ${data.monthlyLoad} kWh
+- Roof Area: ${data.roofArea} sqft
+- Installation Type: ${data.systemRecommendation.type}
+- Battery Autonomy: 2 days (${data.batteryCapacity} kWh)
+
+System Recommendation:
+${data.systemRecommendation.description}
+
+IMPORTANT NOTE:
+The inverter's MPPT specifications determine the maximum panels it can handle. This quote is sized specifically for the selected inverter model to ensure optimal performance and maximum efficiency.
+
+For more information about our products, visit our website or contact us directly.
+
+Best regards,
+Solar Solutions Team
+            `;
+
+            // Create mailto link
+            const subject = encodeURIComponent(`Your Solar System Quote - ${data.totalCost.toLocaleString()} PKR (${actualPanelCount} Panels + ${data.selectedInverter.capacity}kW)`);
+            const body = encodeURIComponent(emailContent);
+            const mailtoLink = `mailto:${data.email}?subject=${subject}&body=${body}`;
+
+            // Try to open email client
+            window.location.href = mailtoLink;
+
+            // Note: For production, implement backend email service
+            showMessageGlobal('Email client opened. If you prefer we send it, please contact support.', 'info');
+        }
+
+        // ==================== UTILITY FUNCTIONS ====================
+        function showMessage(message, type, elementId) {
+            const element = document.getElementById(elementId);
+            element.textContent = message;
+            element.className = `message show ${type}`;
+
+            setTimeout(() => {
+                element.classList.remove('show');
+            }, 5000);
+        }
+
+        function showMessageGlobal(message, type) {
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message show ${type}`;
+            messageDiv.textContent = message;
+            messageDiv.style.position = 'fixed';
+            messageDiv.style.top = '20px';
+            messageDiv.style.right = '20px';
+            messageDiv.style.zIndex = '9999';
+            messageDiv.style.maxWidth = '400px';
+
+            document.body.appendChild(messageDiv);
+
+            setTimeout(() => {
+                messageDiv.remove();
+            }, 4000);
+        }
+
+        // Format numbers with commas
+        function formatNumber(num) {
+            return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+        }
+
+        // ==================== GENERATE PDF ====================
+        function generatePDF() {
+            const data = window.quoteData;
+            if (!data) {
+                showMessageGlobal('Please calculate a quote first.', 'error');
+                return;
+            }
+            if (!data.selectedPanel || !data.selectedInverter || !data.selectedBattery) {
+                showMessageGlobal('Please select all products before downloading PDF.', 'error');
+                return;
+            }
+
+            const mppt = getMpptPanelCount(data.selectedInverter, data.selectedPanel);
+            const actualPanels = mppt.actual;
+            const actualKwp    = (actualPanels * data.selectedPanel.capacity).toFixed(2);
+            const panelTotal   = data.selectedPanel.pricePerPanel * actualPanels;
+
+            const printWin = window.open('', '_blank', 'width=900,height=700');
+            printWin.document.write(`<!DOCTYPE html>
+<html><head>
+<meta charset="UTF-8">
+<title>Solar Quotation - ${data.name}</title>
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  body { font-family: 'Segoe UI', Arial, sans-serif; color: #222; background: #fff; padding: 30px; font-size: 13px; }
+  .header { display:flex; align-items:center; gap:18px; border-bottom:3px solid #667eea; padding-bottom:14px; margin-bottom:18px; }
+  .header img { width:65px; height:65px; object-fit:contain; }
+  .company h1 { font-size:1.15em; color:#222; margin-bottom:3px; }
+  .company p { font-size:0.82em; color:#555; margin:1px 0; }
+  .doc-title { text-align:center; font-size:1.3em; font-weight:700; color:#667eea; letter-spacing:1px; text-transform:uppercase; margin-bottom:18px; }
+  .section { margin-bottom:16px; }
+  .section-title { font-size:0.78em; text-transform:uppercase; font-weight:700; letter-spacing:0.8px; color:#667eea; border-bottom:1px solid #e0e0e0; padding-bottom:4px; margin-bottom:10px; }
+  .info-grid { display:grid; grid-template-columns:1fr 1fr; gap:6px 20px; }
+  .info-row { display:flex; gap:6px; font-size:0.88em; }
+  .info-label { color:#777; min-width:120px; }
+  .info-value { font-weight:600; color:#222; }
+  table { width:100%; border-collapse:collapse; margin-top:6px; }
+  th { background:#667eea; color:#fff; padding:8px 10px; text-align:left; font-size:0.82em; font-weight:600; }
+  td { padding:7px 10px; border-bottom:1px solid #f0f0f0; font-size:0.85em; }
+  tr:nth-child(even) td { background:#f9f9f9; }
+  .total-row td { font-weight:700; background:#e8f5e9 !important; color:#2e7d32; font-size:0.95em; }
+  .grand-total { background:linear-gradient(135deg,#667eea,#764ba2); color:#fff; text-align:center; padding:16px; border-radius:8px; margin:16px 0; }
+  .grand-total .label { font-size:0.85em; opacity:0.9; margin-bottom:4px; }
+  .grand-total .amount { font-size:1.8em; font-weight:700; }
+  .system-badge { display:inline-block; background:#e3f2fd; color:#1565c0; padding:4px 10px; border-radius:4px; font-size:0.82em; font-weight:600; margin-bottom:8px; }
+  .footer { border-top:1px solid #e0e0e0; padding-top:10px; font-size:0.78em; color:#888; text-align:center; margin-top:10px; }
+  .note { background:#fff8e1; border-left:3px solid #ffc107; padding:8px 12px; font-size:0.82em; color:#555; margin-top:10px; border-radius:3px; }
+</style>
+</head><body>
+<div class="header">
+  <img src="https://lookaside.fbsbx.com/lookaside/crawler/media/?media_id=100095210325986" alt="Logo" onerror="this.style.display='none'">
+  <div class="company">
+    <h1>NEW UNIVERSAL SOLAR AND TRADERS</h1>
+    <p>📍 Qadeerzia Plaza, College Road, Rawalpindi</p>
+    <p>📞 0333-7592249</p>
+  </div>
+</div>
+
+<div class="doc-title">Solar System Quotation</div>
+
+<div class="section">
+  <div class="section-title">Customer Information</div>
+  <div class="info-grid">
+    <div class="info-row"><span class="info-label">Name:</span><span class="info-value">${data.name}</span></div>
+    <div class="info-row"><span class="info-label">Email:</span><span class="info-value">${data.email}</span></div>
+    <div class="info-row"><span class="info-label">Phone:</span><span class="info-value">${data.phone}</span></div>
+    <div class="info-row"><span class="info-label">Quote Date:</span><span class="info-value">${data.date}</span></div>
+    <div class="info-row"><span class="info-label">Monthly Bill:</span><span class="info-value">PKR ${parseFloat(data.monthlyBill).toLocaleString()}</span></div>
+    <div class="info-row"><span class="info-label">Monthly Load:</span><span class="info-value">${data.monthlyLoad} kWh</span></div>
+    <div class="info-row"><span class="info-label">Roof Area:</span><span class="info-value">${data.roofArea} sqft</span></div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">System Recommendation</div>
+  <span class="system-badge">${data.systemRecommendation.icon} ${data.systemRecommendation.type}</span>
+  <p style="font-size:0.85em;color:#555;">${data.systemRecommendation.description}</p>
+</div>
+
+<div class="section">
+  <div class="section-title">Appliance Load Breakdown</div>
+  <table>
+    <thead><tr><th>Appliance</th><th>Watts</th><th>Qty</th><th>Load (kW)</th></tr></thead>
+    <tbody>
+      ${(data.appliances || []).map(a => `<tr>
+        <td>${a.name}</td>
+        <td>${a.watts}W</td>
+        <td>${a.qty}</td>
+        <td>${a.kw} kW</td>
+      </tr>`).join('')}
+      <tr class="total-row">
+        <td colspan="3" style="text-align:right;padding-right:12px;">Total Peak Load</td>
+        <td>${data.monthlyLoad} kW</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="section">
+  <div class="section-title">System Specifications &amp; Pricing</div>
+  <table>
+    <thead>
+      <tr><th>#</th><th>Item</th><th>Specification</th><th>Qty</th><th>Unit Price</th><th>Total</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>1</td>
+        <td><strong>${data.selectedPanel.name}</strong><br><span style="color:#888;font-size:0.85em;">${data.selectedPanel.brand} | ${data.selectedPanel.specs}</span></td>
+        <td>${(data.selectedPanel.capacity * 1000).toFixed(0)}W per panel<br>${actualKwp} kWp total</td>
+        <td>${actualPanels}</td>
+        <td>PKR ${data.selectedPanel.pricePerPanel.toLocaleString()}</td>
+        <td>PKR ${panelTotal.toLocaleString()}</td>
+      </tr>
+      <tr>
+        <td>2</td>
+        <td><strong>${data.selectedInverter.name}</strong><br><span style="color:#888;font-size:0.85em;">${data.selectedInverter.brand} | ${data.selectedInverter.specs}</span></td>
+        <td>${data.selectedInverter.capacity} kW | MPPT ${data.selectedInverter.maxInputCurrent}A | ${data.selectedInverter.maxStrings} Strings</td>
+        <td>1</td>
+        <td>PKR ${data.selectedInverter.price.toLocaleString()}</td>
+        <td>PKR ${data.selectedInverter.price.toLocaleString()}</td>
+      </tr>
+      <tr>
+        <td>3</td>
+        <td><strong>${data.selectedBattery.name}</strong><br><span style="color:#888;font-size:0.85em;">${data.selectedBattery.brand} | ${data.selectedBattery.specs}</span></td>
+        <td>${data.selectedBattery.capacity} kWh | 2-Day Backup</td>
+        <td>1</td>
+        <td>PKR ${data.selectedBattery.price.toLocaleString()}</td>
+        <td>PKR ${data.selectedBattery.price.toLocaleString()}</td>
+      </tr>
+      <tr class="total-row">
+        <td colspan="5" style="text-align:right;padding-right:14px;">GRAND TOTAL</td>
+        <td>PKR ${data.totalCost.toLocaleString()}</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="grand-total">
+  <div class="label">Total System Cost (All Inclusive)</div>
+  <div class="amount">PKR ${data.totalCost.toLocaleString()}</div>
+</div>
+
+<div class="note">
+  ⚠️ This is a preliminary quote. Final pricing may vary based on site inspection, installation complexity, and current market rates. Valid for 30 days from quote date.
+</div>
+
+<div class="footer">
+  New Universal Solar and Traders | Qadeerzia Plaza, College Road, Rawalpindi | 0333-7592249<br>
+  Quote generated on ${data.date}
+</div>
+
+<script>window.onload = function(){ window.print(); }<\/script>
+</body></html>`);
+            printWin.document.close();
+        }
+
+        // ==================== SEND TO ADMIN (WHATSAPP) ====================
+        function sendToAdmin() {
+            const data = window.quoteData;
+            if (!data) {
+                showMessageGlobal('Please calculate a quote first.', 'error');
+                return;
+            }
+            if (!data.selectedPanel || !data.selectedInverter || !data.selectedBattery) {
+                showMessageGlobal('Please select all products before sending to admin.', 'error');
+                return;
+            }
+
+            const mppt = getMpptPanelCount(data.selectedInverter, data.selectedPanel);
+            const actualPanels = mppt.actual;
+            const actualKwp    = (actualPanels * data.selectedPanel.capacity).toFixed(2);
+            const panelTotal   = data.selectedPanel.pricePerPanel * actualPanels;
+
+            const msg = `🌞 *NEW SOLAR QUOTE — New Universal Solar & Traders*
+
+👤 *Customer Details*
+• Name: ${data.name}
+• Email: ${data.email}
+• Phone: ${data.phone}
+• Date: ${data.date}
+
+📊 *Load & Site*
+• Monthly Bill: PKR ${parseFloat(data.monthlyBill).toLocaleString()}
+• Monthly Load: ${data.monthlyLoad} kWh
+• Roof Area: ${data.roofArea} sqft
+• System Type: ${data.systemRecommendation.icon} ${data.systemRecommendation.type}
+
+🏠 *Appliances*
+${(data.appliances||[]).map(a=>`• ${a.name} × ${a.qty}`).join('\n')}
+
+🔋 *Selected Products*
+1. *Panels:* ${data.selectedPanel.name}
+   └ ${actualPanels} panels × PKR ${data.selectedPanel.pricePerPanel.toLocaleString()} = PKR ${panelTotal.toLocaleString()}
+2. *Inverter:* ${data.selectedInverter.name} (${data.selectedInverter.capacity}kW)
+   └ PKR ${data.selectedInverter.price.toLocaleString()}
+3. *Battery:* ${data.selectedBattery.name} (${data.selectedBattery.capacity}kWh)
+   └ PKR ${data.selectedBattery.price.toLocaleString()}
+
+💰 *TOTAL COST: PKR ${data.totalCost.toLocaleString()}*
+
+_Sent via Solar Calculator_`;
+
+            const adminNumber = '923103293033'; // +92 310 3293033
+            const waUrl = `https://wa.me/${adminNumber}?text=${encodeURIComponent(msg)}`;
+            window.open(waUrl, '_blank');
+            showMessageGlobal('Opening WhatsApp to send quote to admin...', 'info');
+        }
+
+        // ==================== INIT ====================
+        document.addEventListener('DOMContentLoaded', function () {
+            buildApplianceList();
+        });
+    </script>
+</body>
+</html>
