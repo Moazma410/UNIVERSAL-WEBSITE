@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Solar Services</title>
+<script src="https://cdn.tailwindcss.com"></script>
+</head>
+<style>
+  
+body.watermark {
+    position: relative;
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+body.watermark::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+
+    background: url("logo.png") no-repeat center center;
+    background-size: 45%;   /* Adjust logo size */
+
+    opacity: 0.08;          /* Watermark effect */
+    z-index: -1;
+
+    pointer-events: none;
+}
+</style>
+<body class="bg-gray-50 watermark">
+
+<!-- HEADER -->
+<header class="bg-orange-500 text-white fixed top-0 left-0 w-full z-50 shadow-md">
+  <div class="max-w-6xl mx-auto px-4 h-16 flex items-center justify-between">
+
+    <h1 class="text-base sm:text-lg font-bold truncate">
+      Solar Services
+    </h1>
+
+    <a href="index.html"
+       class="bg-white text-orange-600 px-4 py-2 rounded-full text-sm font-semibold hover:bg-gray-100 transition">
+      Back Home
+    </a>
+
+  </div>
+</header>
+
+<div class="pt-20"></div>
+
+<!-- HERO -->
+<section class="text-center px-4 py-10">
+  <h2 class="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-800">
+    Complete Solar Solutions
+  </h2>
+
+  <p class="mt-3 text-gray-600 max-w-2xl mx-auto">
+    From installation to maintenance, we provide complete solar energy solutions for your home and business.
+  </p>
+</section>
+
+<!-- SERVICES GRID -->
+<section class="max-w-6xl mx-auto px-4 pb-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+
+  <!-- SERVICE 1 -->
+  <div class="bg-white rounded-xl shadow hover:shadow-lg transition overflow-hidden">
+    <img src="si.png" class="w-full h-44 object-cover" alt="Installation">
+
+    <div class="p-5 text-center">
+      <h3 class="text-lg font-bold">Solar Installation</h3>
+      <p class="text-gray-600 text-sm mt-2">
+        Professional installation of on-grid, off-grid & hybrid systems.
+      </p>
+    </div>
+  </div>
+
+  <!-- SERVICE 2 -->
+  <div class="bg-white rounded-xl shadow hover:shadow-lg transition overflow-hidden">
+    <img src="bat.jpeg" class="w-full h-44 object-cover" alt="Battery">
+
+    <div class="p-5 text-center">
+      <h3 class="text-lg font-bold">Battery Solutions</h3>
+      <p class="text-gray-600 text-sm mt-2">
+        Reliable lithium and tubular battery backup systems.
+      </p>
+    </div>
+  </div>
+
+  <!-- SERVICE 3 -->
+  <div class="bg-white rounded-xl shadow hover:shadow-lg transition overflow-hidden">
+    <img src="in.jpeg" class="w-full h-44 object-cover" alt="Inverter">
+
+    <div class="p-5 text-center">
+      <h3 class="text-lg font-bold">Inverter Setup</h3>
+      <p class="text-gray-600 text-sm mt-2">
+        Installation of Inverex hybrid inverter systems with warranty.
+      </p>
+    </div>
+  </div>
+
+  <!-- SERVICE 4 -->
+  <div class="bg-white rounded-xl shadow hover:shadow-lg transition overflow-hidden">
+    <img src="sm.jpg" class="w-full h-44 object-cover" alt="Maintenance">
+
+    <div class="p-5 text-center">
+      <h3 class="text-lg font-bold">Maintenance</h3>
+      <p class="text-gray-600 text-sm mt-2">
+        Regular cleaning and performance optimization services.
+      </p>
+    </div>
+  </div>
+
+  <!-- SERVICE 5 -->
+  <div class="bg-white rounded-xl shadow hover:shadow-lg transition overflow-hidden">
+    <img src="ea.jpeg" class="w-full h-44 object-cover" alt="Audit">
+
+    <div class="p-5 text-center">
+      <h3 class="text-lg font-bold">Energy Audit</h3>
+      <p class="text-gray-600 text-sm mt-2">
+        Analyze your usage and recommend the best solar system.
+      </p>
+    </div>
+  </div>
+
+  <!-- SERVICE 6 -->
+  <div class="bg-white rounded-xl shadow hover:shadow-lg transition overflow-hidden">
+    <img src="cc.png" class="w-full h-44 object-cover" alt="Consultation">
+
+    <div class="p-5 text-center">
+      <h3 class="text-lg font-bold">Free Consultation</h3>
+      <p class="text-gray-600 text-sm mt-2">
+        Get expert advice before investing in solar energy.
+      </p>
+    </div>
+  </div>
+
+</section>
+
+<!-- CTA -->
+<section class="bg-orange-500 text-white text-center py-12 px-4">
+  <h2 class="text-2xl sm:text-3xl font-bold">
+    Ready to Switch to Solar?
+  </h2>
+
+  <p class="mt-3 text-sm sm:text-base">
+    Contact us today for a free consultation.
+  </p>
+
+  <a href="contact.html"
+     class="mt-5 inline-block bg-white text-orange-600 px-6 py-3 rounded-full font-semibold hover:bg-gray-100 transition">
+    Contact Us
+  </a>
+</section>
+
+</body>
+</html>

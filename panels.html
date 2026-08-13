@@ -1,0 +1,498 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Universal Solar and Traders - Premium Products</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Outfit', sans-serif;
+            background:
+                linear-gradient(rgba(255,255,255,0.85), rgba(255,255,255,0.85)),
+                url("logoo.jpeg");
+            background-repeat: no-repeat;
+            background-position: center;
+            background-size: 600px;
+            background-attachment: fixed;
+            min-height: 100vh;
+        }
+
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        /* ---------- Gentle ambient float on the whole card ---------- */
+        .card-odd  { animation: floatUp 4.5s ease-in-out infinite alternate; }
+        .card-even { animation: floatDown 4.5s ease-in-out infinite alternate; }
+        @keyframes floatUp   { 0% { transform: translateY(8px);  } 100% { transform: translateY(-8px); } }
+        @keyframes floatDown { 0% { transform: translateY(-8px); } 100% { transform: translateY(8px);  } }
+
+        @media (max-width: 640px) {
+            .flip-outer { width: 280px !important; height: 430px !important; }
+            .card-odd  { animation: floatUpMobile 5s ease-in-out infinite alternate; }
+            .card-even { animation: floatDownMobile 5s ease-in-out infinite alternate; }
+        }
+        @keyframes floatUpMobile   { 0% { transform: translateY(6px);  } 100% { transform: translateY(-6px); } }
+        @keyframes floatDownMobile { 0% { transform: translateY(-6px); } 100% { transform: translateY(6px);  } }
+
+        /* ---------- 3D flip mechanics ---------- */
+        .flip-outer {
+            width: 230px;
+            height: 450px;
+            perspective: 1600px;
+        }
+
+        .flip-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transform-style: preserve-3d;
+            transition: transform 0.85s cubic-bezier(0.22, 1, 0.36, 1);
+        }
+
+        .flip-outer:hover .flip-inner,
+        .flip-outer.is-flipped .flip-inner {
+            transform: rotateY(180deg);
+        }
+
+        .flip-face {
+            position: absolute;
+            inset: 0;
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+            border-radius: 1rem;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* FRONT — product photo */
+        .flip-front {
+            background: rgba(255,255,255,0.75);
+            backdrop-filter: blur(6px);
+            border: 1px solid rgba(203,213,225,0.5);
+            box-shadow: 0 4px 18px rgba(15,23,42,0.08);
+            padding: 1.5rem;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        /* BACK — holographic spec screen */
+        .flip-back {
+            transform: rotateY(180deg);
+            background: radial-gradient(circle at 30% 20%, #0f2e22 0%, #06120d 70%);
+            border: 1px solid rgba(16,185,129,0.35);
+            box-shadow: 0 0 30px rgba(16,185,129,0.25), inset 0 0 40px rgba(16,185,129,0.08);
+            padding: 1.4rem;
+            color: #d1fae5;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            gap: 0.65rem;
+        }
+
+        /* scanline shimmer sweeping across the back screen */
+        .flip-back::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: repeating-linear-gradient(
+                to bottom,
+                rgba(16,185,129,0.05) 0px,
+                rgba(16,185,129,0.05) 1px,
+                transparent 1px,
+                transparent 3px
+            );
+            pointer-events: none;
+        }
+
+        .flip-back::after {
+            content: "";
+            position: absolute;
+            left: 0; right: 0;
+            height: 40%;
+            background: linear-gradient(to bottom, rgba(16,185,129,0.18), transparent);
+            top: -100%;
+            animation: sweep 3.2s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        @keyframes sweep {
+            0%   { top: -60%; }
+            100% { top: 120%; }
+        }
+
+        .spec-mono { font-family: 'JetBrains Mono', monospace; letter-spacing: 0.03em; }
+
+        .glow-dot {
+            width: 6px; height: 6px; border-radius: 999px;
+            background: #34d399;
+            box-shadow: 0 0 8px 2px rgba(52,211,153,0.9);
+            display: inline-block;
+        }
+
+        /* ---------- Entrance animation ---------- */
+        .reveal-card {
+            opacity: 0;
+            transform: translateY(40px) scale(0.94);
+            animation: revealIn 0.7s cubic-bezier(.2,.7,.3,1) forwards;
+        }
+        @keyframes revealIn { to { opacity: 1; transform: translateY(0) scale(1); } }
+
+        .desktop-animation { display: block; }
+        .mobile-animation { display: none; }
+        @media (max-width: 1023px) {
+            .desktop-animation { display: none; }
+            .mobile-animation { display: block; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .card-odd, .card-even, .reveal-card, .flip-inner, .flip-back::after { animation: none !important; transition: none !important; }
+            .flip-outer:hover .flip-inner { transform: none !important; }
+        }
+
+        body.watermark { position: relative; min-height: 100vh; overflow-x: hidden; }
+        body.watermark::before {
+            content: "";
+            position: fixed;
+            inset: 0;
+            background: url("logo.png") no-repeat center center;
+            background-size: 45%;
+            opacity: 0.08;
+            z-index: -1;
+            pointer-events: none;
+        }
+    </style>
+</head>
+
+<body class="watermark overflow-x-hidden py-8 px-4 flex flex-col justify-between">
+
+    <header class="bg-orange-500 text-white fixed top-0 left-0 w-full z-50 shadow-md">
+        <div class="max-w-6xl mx-auto px-4 py-3 flex flex-col sm:flex-row justify-between items-center gap-3">
+            <h1 class="text-lg sm:text-xl md:text-2xl font-bold text-center sm:text-left">
+                Inverex Solar Batteries
+            </h1>
+            <a href="all-pro.html"
+               class="bg-white text-orange-600 px-5 py-2 rounded-full text-sm sm:text-base font-semibold
+                      hover:bg-gray-100 transition">
+                Back Home
+            </a>
+        </div>
+    </header>
+
+    <main class="w-full flex-grow flex items-center justify-center py-4 sm:py-8 mt-16">
+        <div class="w-full max-w-7xl sm:overflow-x-auto no-scrollbar py-8 sm:py-12 px-4 sm:px-6">
+            <div class="flex flex-col sm:flex-row gap-8 items-center justify-center sm:min-w-max px-4" id="main-div">
+                <!-- CARD TEMPLATE (repeated 9x with data swapped) -->
+                <!-- Card 1 -->
+                <div class="reveal-card card-odd" style="animation-delay:0.05s">
+                <div class="flip-outer" tabindex="0">
+                    <div class="flip-inner">
+                        <div class="flip-face flip-front">
+                            <span class="text-[10px] font-extrabold uppercase tracking-wider text-emerald-700 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-100/50">Inverex</span>
+                            <div class="h-[180px] w-full flex items-center justify-center my-3">
+                                <img src="ppp.jpeg" class="max-h-full max-w-full object-contain filter drop-shadow-md" alt="Inverex Mustang Solar Panel" />
+                            </div>
+                            <div class="w-full text-center">
+                                <h3 class="text-base font-bold text-slate-800">MUSTANG</h3>
+                                <p class="text-[10px] font-semibold text-slate-500 mt-0.5 tracking-wider">BI-FACIAL</p>
+                                <div class="mt-3 text-sm font-extrabold text-emerald-600 bg-emerald-50/50 py-1.5 rounded-xl border border-emerald-100/30">585 WATT</div>
+                                <p class="mt-2 text-[9px] text-slate-400 tracking-wide">hover for specs</p>
+                            </div>
+                        </div>
+                        <div class="flip-face flip-back">
+                            <span class="glow-dot"></span>
+                            <h3 class="spec-mono text-lg font-bold text-emerald-300">MUSTANG</h3>
+                            <p class="spec-mono text-[11px] text-emerald-400/80">BI-FACIAL PANEL</p>
+                            <div class="spec-mono text-2xl font-bold text-emerald-200 my-1">585W</div>
+                            <p class="spec-mono text-[10px] text-emerald-400/70 leading-relaxed">HIGH-YIELD DUAL-SIDE<br/>SOLAR CAPTURE</p>
+                            <a href="https://wa.me/923103293033?text=Hi%20I%20want%20Power%20Wall%202.6%20quote" target="_blank"
+                               class="mt-3 inline-block spec-mono text-xs px-4 py-2 bg-emerald-500 hover:bg-emerald-400 text-black font-bold rounded transition">
+                                GET QUOTE →
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                </div>
+
+                <!-- Card 2 -->
+                <div class="reveal-card card-even" style="animation-delay:0.1s">
+                <div class="flip-outer" tabindex="0">
+                    <div class="flip-inner">
+                        <div class="flip-face flip-front">
+                            <span class="text-[10px] font-extrabold uppercase tracking-wider text-emerald-700 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-100/50">Inverex</span>
+                            <div class="h-[180px] w-full flex items-center justify-center my-3">
+                                <img src="ppp.jpeg" class="max-h-full max-w-full object-contain filter drop-shadow-md" alt="Inverex Mustang Solar Panel" />
+                            </div>
+                            <div class="w-full text-center">
+                                <h3 class="text-base font-bold text-slate-800">MUSTANG</h3>
+                                <p class="text-[10px] font-semibold text-slate-500 mt-0.5 tracking-wider">BI-FACIAL</p>
+                                <div class="mt-3 text-sm font-extrabold text-emerald-600 bg-emerald-50/50 py-1.5 rounded-xl border border-emerald-100/30">610 WATT</div>
+                                <p class="mt-2 text-[9px] text-slate-400 tracking-wide">hover for specs</p>
+                            </div>
+                        </div>
+                        <div class="flip-face flip-back">
+                            <span class="glow-dot"></span>
+                            <h3 class="spec-mono text-lg font-bold text-emerald-300">MUSTANG</h3>
+                            <p class="spec-mono text-[11px] text-emerald-400/80">BI-FACIAL PANEL</p>
+                            <div class="spec-mono text-2xl font-bold text-emerald-200 my-1">610W</div>
+                            <p class="spec-mono text-[10px] text-emerald-400/70 leading-relaxed">HIGH-YIELD DUAL-SIDE<br/>SOLAR CAPTURE</p>
+                            <a href="https://wa.me/923103293033?text=Hi%20I%20want%20Power%20Wall%202.6%20quote" target="_blank"
+                               class="mt-3 inline-block spec-mono text-xs px-4 py-2 bg-emerald-500 hover:bg-emerald-400 text-black font-bold rounded transition">
+                                GET QUOTE →
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                </div>
+
+                <!-- Card 3 -->
+                <div class="reveal-card card-odd" style="animation-delay:0.15s">
+                <div class="flip-outer" tabindex="0">
+                    <div class="flip-inner">
+                        <div class="flip-face flip-front">
+                            <span class="text-[10px] font-extrabold uppercase tracking-wider text-emerald-700 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-100/50">Inverex</span>
+                            <div class="h-[180px] w-full flex items-center justify-center my-3">
+                                <img src="ppp.jpeg" class="max-h-full max-w-full object-contain filter drop-shadow-md" alt="Inverex Mustang Solar Panel" />
+                            </div>
+                            <div class="w-full text-center">
+                                <h3 class="text-base font-bold text-slate-800">MUSTANG</h3>
+                                <p class="text-[10px] font-semibold text-slate-500 mt-0.5 tracking-wider">BI-FACIAL</p>
+                                <div class="mt-3 text-sm font-extrabold text-emerald-600 bg-emerald-50/50 py-1.5 rounded-xl border border-emerald-100/30">620 WATT</div>
+                                <p class="mt-2 text-[9px] text-slate-400 tracking-wide">hover for specs</p>
+                            </div>
+                        </div>
+                        <div class="flip-face flip-back">
+                            <span class="glow-dot"></span>
+                            <h3 class="spec-mono text-lg font-bold text-emerald-300">MUSTANG</h3>
+                            <p class="spec-mono text-[11px] text-emerald-400/80">BI-FACIAL PANEL</p>
+                            <div class="spec-mono text-2xl font-bold text-emerald-200 my-1">620W</div>
+                            <p class="spec-mono text-[10px] text-emerald-400/70 leading-relaxed">HIGH-YIELD DUAL-SIDE<br/>SOLAR CAPTURE</p>
+                            <a href="https://wa.me/923103293033?text=Hi%20I%20want%20Power%20Wall%202.6%20quote" target="_blank"
+                               class="mt-3 inline-block spec-mono text-xs px-4 py-2 bg-emerald-500 hover:bg-emerald-400 text-black font-bold rounded transition">
+                                GET QUOTE →
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                </div>
+
+                <!-- Card 4 -->
+                <div class="reveal-card card-even" style="animation-delay:0.2s">
+                <div class="flip-outer" tabindex="0">
+                    <div class="flip-inner">
+                        <div class="flip-face flip-front">
+                            <span class="text-[10px] font-extrabold uppercase tracking-wider text-emerald-700 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-100/50">Inverex</span>
+                            <div class="h-[180px] w-full flex items-center justify-center my-3">
+                                <img src="ppp.jpeg" class="max-h-full max-w-full object-contain filter drop-shadow-md" alt="Inverex Mustang Solar Panel" />
+                            </div>
+                            <div class="w-full text-center">
+                                <h3 class="text-base font-bold text-slate-800">MUSTANG</h3>
+                                <p class="text-[10px] font-semibold text-slate-500 mt-0.5 tracking-wider">BI-FACIAL</p>
+                                <div class="mt-3 text-sm font-extrabold text-emerald-600 bg-emerald-50/50 py-1.5 rounded-xl border border-emerald-100/30">720 WATT</div>
+                                <p class="mt-2 text-[9px] text-slate-400 tracking-wide">hover for specs</p>
+                            </div>
+                        </div>
+                        <div class="flip-face flip-back">
+                            <span class="glow-dot"></span>
+                            <h3 class="spec-mono text-lg font-bold text-emerald-300">MUSTANG</h3>
+                            <p class="spec-mono text-[11px] text-emerald-400/80">BI-FACIAL PANEL</p>
+                            <div class="spec-mono text-2xl font-bold text-emerald-200 my-1">720W</div>
+                            <p class="spec-mono text-[10px] text-emerald-400/70 leading-relaxed">HIGH-YIELD DUAL-SIDE<br/>SOLAR CAPTURE</p>
+                            <a href="https://wa.me/923103293033?text=Hi%20I%20want%20Power%20Wall%202.6%20quote" target="_blank"
+                               class="mt-3 inline-block spec-mono text-xs px-4 py-2 bg-emerald-500 hover:bg-emerald-400 text-black font-bold rounded transition">
+                                GET QUOTE →
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                </div>
+
+                <!-- Card 5 -->
+                <div class="reveal-card card-odd" style="animation-delay:0.25s">
+                <div class="flip-outer" tabindex="0">
+                    <div class="flip-inner">
+                        <div class="flip-face flip-front">
+                            <span class="text-[10px] font-extrabold uppercase tracking-wider text-emerald-700 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-100/50">Inverex</span>
+                            <div class="h-[180px] w-full flex items-center justify-center my-3">
+                                <img src="ppp.jpeg" class="max-h-full max-w-full object-contain filter drop-shadow-md" alt="Inverex Jollywood Solar Panel" />
+                            </div>
+                            <div class="w-full text-center">
+                                <h3 class="text-base font-bold text-slate-800">JOLLYWOOD</h3>
+                                <p class="text-[10px] font-semibold text-slate-500 mt-0.5 tracking-wider">BI-FACIAL</p>
+                                <div class="mt-3 text-sm font-extrabold text-emerald-600 bg-emerald-50/50 py-1.5 rounded-xl border border-emerald-100/30">595 WATT</div>
+                                <p class="mt-2 text-[9px] text-slate-400 tracking-wide">hover for specs</p>
+                            </div>
+                        </div>
+                        <div class="flip-face flip-back">
+                            <span class="glow-dot"></span>
+                            <h3 class="spec-mono text-lg font-bold text-emerald-300">JOLLYWOOD</h3>
+                            <p class="spec-mono text-[11px] text-emerald-400/80">BI-FACIAL PANEL</p>
+                            <div class="spec-mono text-2xl font-bold text-emerald-200 my-1">595W</div>
+                            <p class="spec-mono text-[10px] text-emerald-400/70 leading-relaxed">HIGH-YIELD DUAL-SIDE<br/>SOLAR CAPTURE</p>
+                            <a href="https://wa.me/923103293033?text=Hi%20I%20want%20Power%20Wall%202.6%20quote" target="_blank"
+                               class="mt-3 inline-block spec-mono text-xs px-4 py-2 bg-emerald-500 hover:bg-emerald-400 text-black font-bold rounded transition">
+                                GET QUOTE →
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                </div>
+
+                <!-- Card 6 -->
+                <div class="reveal-card card-even" style="animation-delay:0.3s">
+                <div class="flip-outer" tabindex="0">
+                    <div class="flip-inner">
+                        <div class="flip-face flip-front">
+                            <span class="text-[10px] font-extrabold uppercase tracking-wider text-emerald-700 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-100/50">Inverex</span>
+                            <div class="h-[180px] w-full flex items-center justify-center my-3">
+                                <img src="ppp.jpeg" class="max-h-full max-w-full object-contain filter drop-shadow-md" alt="Inverex Jollywood Solar Panel" />
+                            </div>
+                            <div class="w-full text-center">
+                                <h3 class="text-base font-bold text-slate-800">JOLLYWOOD</h3>
+                                <p class="text-[10px] font-semibold text-slate-500 mt-0.5 tracking-wider">BI-FACIAL</p>
+                                <div class="mt-3 text-sm font-extrabold text-emerald-600 bg-emerald-50/50 py-1.5 rounded-xl border border-emerald-100/30">620 WATT</div>
+                                <p class="mt-2 text-[9px] text-slate-400 tracking-wide">hover for specs</p>
+                            </div>
+                        </div>
+                        <div class="flip-face flip-back">
+                            <span class="glow-dot"></span>
+                            <h3 class="spec-mono text-lg font-bold text-emerald-300">JOLLYWOOD</h3>
+                            <p class="spec-mono text-[11px] text-emerald-400/80">BI-FACIAL PANEL</p>
+                            <div class="spec-mono text-2xl font-bold text-emerald-200 my-1">620W</div>
+                            <p class="spec-mono text-[10px] text-emerald-400/70 leading-relaxed">HIGH-YIELD DUAL-SIDE<br/>SOLAR CAPTURE</p>
+                            <a href="https://wa.me/923103293033?text=Hi%20I%20want%20Power%20Wall%202.6%20quote" target="_blank"
+                               class="mt-3 inline-block spec-mono text-xs px-4 py-2 bg-emerald-500 hover:bg-emerald-400 text-black font-bold rounded transition">
+                                GET QUOTE →
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                </div>
+
+                <!-- Card 7 -->
+                <div class="reveal-card card-odd" style="animation-delay:0.35s">
+                <div class="flip-outer" tabindex="0">
+                    <div class="flip-inner">
+                        <div class="flip-face flip-front">
+                            <span class="text-[10px] font-extrabold uppercase tracking-wider text-emerald-700 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-100/50">Inverex</span>
+                            <div class="h-[180px] w-full flex items-center justify-center my-3">
+                                <img src="ppp.jpeg" class="max-h-full max-w-full object-contain filter drop-shadow-md" alt="Inverex Jollywood Solar Panel" />
+                            </div>
+                            <div class="w-full text-center">
+                                <h3 class="text-base font-bold text-slate-800">JOLLYWOOD</h3>
+                                <p class="text-[10px] font-semibold text-slate-500 mt-0.5 tracking-wider">BI-FACIAL</p>
+                                <div class="mt-3 text-sm font-extrabold text-emerald-600 bg-emerald-50/50 py-1.5 rounded-xl border border-emerald-100/30">625 WATT</div>
+                                <p class="mt-2 text-[9px] text-slate-400 tracking-wide">hover for specs</p>
+                            </div>
+                        </div>
+                        <div class="flip-face flip-back">
+                            <span class="glow-dot"></span>
+                            <h3 class="spec-mono text-lg font-bold text-emerald-300">JOLLYWOOD</h3>
+                            <p class="spec-mono text-[11px] text-emerald-400/80">BI-FACIAL PANEL</p>
+                            <div class="spec-mono text-2xl font-bold text-emerald-200 my-1">625W</div>
+                            <p class="spec-mono text-[10px] text-emerald-400/70 leading-relaxed">HIGH-YIELD DUAL-SIDE<br/>SOLAR CAPTURE</p>
+                            <a href="https://wa.me/923103293033?text=Hi%20I%20want%20Power%20Wall%202.6%20quote" target="_blank"
+                               class="mt-3 inline-block spec-mono text-xs px-4 py-2 bg-emerald-500 hover:bg-emerald-400 text-black font-bold rounded transition">
+                                GET QUOTE →
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                </div>
+
+                <!-- Card 8 -->
+                <div class="reveal-card card-even" style="animation-delay:0.4s">
+                <div class="flip-outer" tabindex="0">
+                    <div class="flip-inner">
+                        <div class="flip-face flip-front">
+                            <span class="text-[10px] font-extrabold uppercase tracking-wider text-emerald-700 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-100/50">Inverex</span>
+                            <div class="h-[180px] w-full flex items-center justify-center my-3">
+                                <img src="ppp.jpeg" class="max-h-full max-w-full object-contain filter drop-shadow-md" alt="Inverex Jollywood Solar Panel" />
+                            </div>
+                            <div class="w-full text-center">
+                                <h3 class="text-base font-bold text-slate-800">JOLLYWOOD</h3>
+                                <p class="text-[10px] font-semibold text-slate-500 mt-0.5 tracking-wider">BI-FACIAL</p>
+                                <div class="mt-3 text-sm font-extrabold text-emerald-600 bg-emerald-50/50 py-1.5 rounded-xl border border-emerald-100/30">630 WATT</div>
+                                <p class="mt-2 text-[9px] text-slate-400 tracking-wide">hover for specs</p>
+                            </div>
+                        </div>
+                        <div class="flip-face flip-back">
+                            <span class="glow-dot"></span>
+                            <h3 class="spec-mono text-lg font-bold text-emerald-300">JOLLYWOOD</h3>
+                            <p class="spec-mono text-[11px] text-emerald-400/80">BI-FACIAL PANEL</p>
+                            <div class="spec-mono text-2xl font-bold text-emerald-200 my-1">630W</div>
+                            <p class="spec-mono text-[10px] text-emerald-400/70 leading-relaxed">HIGH-YIELD DUAL-SIDE<br/>SOLAR CAPTURE</p>
+                            <a href="https://wa.me/923103293033?text=Hi%20I%20want%20Power%20Wall%202.6%20quote" target="_blank"
+                               class="mt-3 inline-block spec-mono text-xs px-4 py-2 bg-emerald-500 hover:bg-emerald-400 text-black font-bold rounded transition">
+                                GET QUOTE →
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                </div>
+
+                <!-- Card 9 -->
+                <div class="reveal-card card-odd" style="animation-delay:0.45s">
+                <div class="flip-outer" tabindex="0">
+                    <div class="flip-inner">
+                        <div class="flip-face flip-front">
+                            <span class="text-[10px] font-extrabold uppercase tracking-wider text-emerald-700 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-100/50">Inverex</span>
+                            <div class="h-[180px] w-full flex items-center justify-center my-3">
+                                <img src="ppp.jpeg" class="max-h-full max-w-full object-contain filter drop-shadow-md" alt="Inverex Jollywood Solar Panel" />
+                            </div>
+                            <div class="w-full text-center">
+                                <h3 class="text-base font-bold text-slate-800">JOLLYWOOD</h3>
+                                <p class="text-[10px] font-semibold text-slate-500 mt-0.5 tracking-wider">MONO-FACIAL</p>
+                                <p class="text-[9px] font-bold text-slate-400 -mt-0.5 tracking-wider">HAIL-FRAME</p>
+                                <div class="mt-2 text-sm font-extrabold text-emerald-600 bg-emerald-50/50 py-1.5 rounded-xl border border-emerald-100/30">620 WATT</div>
+                                <p class="mt-2 text-[9px] text-slate-400 tracking-wide">hover for specs</p>
+                            </div>
+                        </div>
+                        <div class="flip-face flip-back">
+                            <span class="glow-dot"></span>
+                            <h3 class="spec-mono text-lg font-bold text-emerald-300">JOLLYWOOD</h3>
+                            <p class="spec-mono text-[11px] text-emerald-400/80">MONO-FACIAL · HAIL-FRAME</p>
+                            <div class="spec-mono text-2xl font-bold text-emerald-200 my-1">620W</div>
+                            <p class="spec-mono text-[10px] text-emerald-400/70 leading-relaxed">REINFORCED IMPACT<br/>RESISTANT DESIGN</p>
+                            <a href="https://wa.me/923103293033?text=Hi%20I%20want%20Power%20Wall%202.6%20quote" target="_blank"
+                               class="mt-3 inline-block spec-mono text-xs px-4 py-2 bg-emerald-500 hover:bg-emerald-400 text-black font-bold rounded transition">
+                                GET QUOTE →
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <footer class="text-center py-4 w-full">
+        <p class="text-xs text-slate-500 font-medium">
+            &copy; 2026 New Universal Solar and Traders. All rights reserved.
+        </p>
+    </footer>
+
+    <script>
+        // Touch devices: tap to flip instead of relying on :hover
+        const isTouch = window.matchMedia('(hover: none)').matches;
+        if (isTouch) {
+            document.querySelectorAll('.flip-outer').forEach(card => {
+                card.addEventListener('click', () => {
+                    document.querySelectorAll('.flip-outer').forEach(c => {
+                        if (c !== card) c.classList.remove('is-flipped');
+                    });
+                    card.classList.toggle('is-flipped');
+                });
+            });
+        }
+    </script>
+
+</body>
+</html>
